@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🇸🇬 SG Science Explorer - Complete Edition</title>
+  <title>🇸🇬 SG Science Explorer - Single Topic View</title>
   <style>
     /* 🎨 SINGAPORE-THEMED CSS */
     :root {
@@ -121,6 +121,7 @@
       margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 15px; border-left: 5px solid var(--sg-red);
+      position: sticky; top: 0; z-index: 100;
     }
     .header-title h1 { color: var(--secondary); font-size: 1.6em; }
     .header-title p { color: #64748b; font-size: 0.9em; }
@@ -149,6 +150,8 @@
     }
 
     .container { max-width: 1000px; margin: 0 auto; }
+    
+    /* Tab Navigation */
     .tab-nav {
       display: flex; gap: 10px; justify-content: center;
       margin-bottom: 25px; flex-wrap: wrap;
@@ -161,6 +164,8 @@
     .tab-btn.active, .tab-btn:hover {
       background: var(--primary); color: white;
     }
+
+    /* Theme Filter */
     .theme-filter {
       display: flex; gap: 10px; justify-content: center;
       margin-bottom: 20px; flex-wrap: wrap;
@@ -173,27 +178,39 @@
     .theme-filter-btn.active, .theme-filter-btn:hover {
       background: var(--primary); color: white;
     }
+
+    /* Topic Navigation - Single Select Style */
     .topic-nav {
       display: flex; flex-wrap: wrap; gap: 10px;
       justify-content: center; margin-bottom: 25px;
+      background: white;
+      padding: 15px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     .topic-btn {
-      background: white; border: 2px solid var(--primary);
+      background: white; border: 2px solid #e2e8f0;
       padding: 10px 20px; font-size: 0.95em;
       border-radius: 50px; cursor: pointer;
-      transition: all 0.2s; font-weight: 600; color: var(--primary);
+      transition: all 0.2s; font-weight: 600; color: #64748b;
       display: inline-flex; align-items: center; gap: 8px;
     }
-    .topic-btn:hover, .topic-btn.active {
-      background: var(--primary); color: white;
+    .topic-btn:hover {
+      border-color: var(--primary); color: var(--primary);
       transform: translateY(-2px);
+    }
+    /* Active State for Single Topic Selection */
+    .topic-btn.active {
+      background: var(--primary); 
+      color: white;
+      border-color: var(--primary);
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      transform: scale(1.05);
     }
     .topic-btn.recommended {
       border-color: var(--success);
-      box-shadow: 0 0 0 2px var(--success);
-      background: #f0fdf4;
       color: #166534;
+      background: #f0fdf4;
     }
     .topic-btn.recommended.active {
       background: var(--success);
@@ -201,15 +218,21 @@
       border-color: var(--success);
     }
 
+    /* Content Card - Only One Visible */
     .card {
       background: var(--card); border-radius: 20px;
       padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-      display: none; animation: slideUp 0.4s ease;
+      display: none; /* Hidden by default */
+      animation: slideUp 0.4s ease;
       border-top: 5px solid var(--accent);
     }
-    .card.visible { display: block; }
+    .card.visible { 
+      display: block; /* Only visible when active */
+    }
+    
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
     .card h2 {
       color: var(--secondary); margin-bottom: 10px;
       padding-bottom: 10px; border-bottom: 2px dashed #cbd5e1;
@@ -385,7 +408,7 @@
   <section id="home-view">
     <span class="moe-badge">🇸🇬 Aligned with MOE 2023 Syllabus</span>
     <h1 class="hero-title">🔬 SG Science Explorer</h1>
-    <p class="hero-subtitle">Complete Primary Science with Practice Zone — Explore ALL topics freely!</p>
+    <p class="hero-subtitle">Complete Primary Science — Select ONE topic to focus on!</p>
     
     <div class="level-section">
       <h3>🎓 Select Your Primary Level (Recommended)</h3>
@@ -462,6 +485,7 @@
           <button class="theme-filter-btn" onclick="filterTopics('interactions')">🤝 Interactions</button>
         </div>
 
+        <!-- Topic Navigation: Click one to see ONLY that topic -->
         <div class="topic-nav">
           <button class="topic-btn active" data-theme="diversity interactions" data-level="P3" onclick="showTopic('magnets')">🧲 Magnets <span class="lvl-badge">P3</span></button>
           <button class="topic-btn" data-theme="systems" data-level="P3" onclick="showTopic('digestive')">🫀 Digestive <span class="lvl-badge">P3</span></button>
@@ -1484,18 +1508,16 @@
       startBtn.innerHTML = `<span>🚀</span> Start Learning ${level}`;
     }
 
-    // ✅ UPDATED: Go to App - Show ALL topics, highlight recommended ones
+    // ✅ UPDATED: Go to App - Show ALL buttons, but ONLY ONE topic card visible
     function goToApp() {
       if (!selectedLevel) { alert("🎓 Please select your Primary level first!"); return; }
       
       document.getElementById('display-level').textContent = `Level: ${selectedLevel}`;
       
-      // Show ALL topic buttons, but add visual hint for recommended ones
+      // Show ALL topic buttons, highlight recommended ones
       document.querySelectorAll('.topic-btn').forEach(btn => {
-        btn.style.display = 'inline-flex'; // Always show
+        btn.style.display = 'inline-flex'; 
         const topicLevel = btn.getAttribute('data-level');
-        
-        // Add visual indicator for recommended level
         if (topicLevel === selectedLevel) {
           btn.classList.add('recommended');
         } else {
@@ -1503,10 +1525,15 @@
         }
       });
       
-      // Show first topic (or previously viewed)
+      // Ensure ONLY the active topic card is visible
       const firstTopic = document.querySelector('.topic-btn.active')?.getAttribute('onclick').match(/'([^']+)'/)?.[1] || 'magnets';
-      document.querySelectorAll('.card').forEach(card => card.classList.remove('visible'));
-      document.getElementById(firstTopic).classList.add('visible');
+      document.querySelectorAll('.card').forEach(card => {
+        if (card.id === firstTopic) {
+          card.classList.add('visible');
+        } else {
+          card.classList.remove('visible');
+        }
+      });
       
       document.getElementById('home-view').style.display = 'none';
       document.getElementById('app-view').style.display = 'block';
@@ -1550,7 +1577,6 @@
       } else {
         btn.classList.remove('active');
         btn.innerHTML = "🏆 Challenge Mode OFF";
-        // Only lock if user level is not P6
         if (selectedLevel !== 'P6') {
           advCard.classList.add('locked');
         }
@@ -1562,19 +1588,46 @@
     function filterTopics(theme) {
       document.querySelectorAll('.theme-filter-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
-      document.querySelectorAll('.card').forEach(card => {
-        card.style.display = (theme === 'all' || card.dataset.theme?.includes(theme)) ? 'block' : 'none';
+      
+      // Hide/Show Buttons based on theme
+      document.querySelectorAll('.topic-btn').forEach(btn => {
+        if (theme === 'all' || btn.dataset.theme?.includes(theme)) {
+          btn.style.display = 'inline-flex';
+        } else {
+          btn.style.display = 'none';
+        }
       });
+
+      // If the currently visible card is hidden by filter, show the first visible one
+      const currentCard = document.getElementById(currentTopic);
+      if (currentCard && (theme !== 'all' && !currentCard.dataset.theme.includes(theme))) {
+        const firstVisibleBtn = document.querySelector('.topic-btn[style*="inline-flex"]');
+        if (firstVisibleBtn) {
+          const newTopic = firstVisibleBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+          showTopic(newTopic);
+        }
+      }
     }
 
-    // ✅ UPDATED: Show Topic - Remove level restrictions
+    // ✅ UPDATED: Show Topic - STRICTLY ONE AT A TIME
     function showTopic(topicId) {
-      document.querySelectorAll('.card').forEach(card => card.classList.remove('visible'));
-      document.querySelectorAll('.topic-btn').forEach(btn => btn.classList.remove('active'));
+      // 1. Hide ALL cards
+      document.querySelectorAll('.card').forEach(card => {
+        card.classList.remove('visible');
+      });
       
+      // 2. Remove ACTIVE class from ALL buttons
+      document.querySelectorAll('.topic-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // 3. Show ONLY the selected card
       document.getElementById(topicId).classList.add('visible');
+      
+      // 4. Set the clicked button to ACTIVE
       event.target.classList.add('active');
       
+      // 5. Clear feedback
       document.querySelectorAll('.feedback').forEach(fb => { 
         fb.className = 'feedback'; 
         fb.textContent = ''; 
@@ -1584,6 +1637,8 @@
       if (document.getElementById('practice-tab')?.style.display === 'block') {
         updateProgressDisplay();
       }
+      // Scroll to top of content smoothly
+      document.getElementById(topicId).scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // Check Quiz Answers (Learn Tab)
@@ -1627,7 +1682,6 @@
 
     // Start Practice Quiz
     function startPractice(topic, skill) {
-      // Check if advanced is locked
       if (skill === 'advanced' && !challengeMode && selectedLevel !== 'P6') {
         alert("🔒 Advanced mode is locked. Select P6 or turn on Challenge Mode!");
         return;
@@ -1718,7 +1772,6 @@
     // Initialize
     document.addEventListener('DOMContentLoaded', () => { 
       updateProgressDisplay();
-      // Set initial advanced lock state
       if (selectedLevel !== 'P6') {
         document.getElementById('adv-card').classList.add('locked');
       }
