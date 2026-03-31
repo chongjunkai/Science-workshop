@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🇸🇬 SG Science Explorer - Single Topic View</title>
+  <title>🇸🇬 SG Science Explorer - Clean View</title>
   <style>
     /* 🎨 SINGAPORE-THEMED CSS */
     :root {
@@ -162,20 +162,6 @@
       cursor: pointer; font-weight: 600; transition: all 0.2s;
     }
     .tab-btn.active, .tab-btn:hover {
-      background: var(--primary); color: white;
-    }
-
-    /* Theme Filter */
-    .theme-filter {
-      display: flex; gap: 10px; justify-content: center;
-      margin-bottom: 20px; flex-wrap: wrap;
-    }
-    .theme-filter-btn {
-      padding: 8px 16px; background: white;
-      border: 2px solid var(--primary); border-radius: 30px;
-      cursor: pointer; font-size: 0.9em; transition: all 0.2s;
-    }
-    .theme-filter-btn.active, .theme-filter-btn:hover {
       background: var(--primary); color: white;
     }
 
@@ -476,14 +462,7 @@
 
       <!-- LEARN TAB -->
       <div id="learn-tab">
-        <div class="theme-filter">
-          <button class="theme-filter-btn active" onclick="filterTopics('all')">All Topics</button>
-          <button class="theme-filter-btn" onclick="filterTopics('diversity')">🌿 Diversity</button>
-          <button class="theme-filter-btn" onclick="filterTopics('cycles')">🔄 Cycles</button>
-          <button class="theme-filter-btn" onclick="filterTopics('systems')">⚙️ Systems</button>
-          <button class="theme-filter-btn" onclick="filterTopics('energy')">⚡ Energy</button>
-          <button class="theme-filter-btn" onclick="filterTopics('interactions')">🤝 Interactions</button>
-        </div>
+        <!-- REMOVED THEME FILTER HERE -->
 
         <!-- Topic Navigation: Click one to see ONLY that topic -->
         <div class="topic-nav">
@@ -1584,30 +1563,7 @@
       }
     }
 
-    // Filter Topics by Theme
-    function filterTopics(theme) {
-      document.querySelectorAll('.theme-filter-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      
-      // Hide/Show Buttons based on theme
-      document.querySelectorAll('.topic-btn').forEach(btn => {
-        if (theme === 'all' || btn.dataset.theme?.includes(theme)) {
-          btn.style.display = 'inline-flex';
-        } else {
-          btn.style.display = 'none';
-        }
-      });
-
-      // If the currently visible card is hidden by filter, show the first visible one
-      const currentCard = document.getElementById(currentTopic);
-      if (currentCard && (theme !== 'all' && !currentCard.dataset.theme.includes(theme))) {
-        const firstVisibleBtn = document.querySelector('.topic-btn[style*="inline-flex"]');
-        if (firstVisibleBtn) {
-          const newTopic = firstVisibleBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
-          showTopic(newTopic);
-        }
-      }
-    }
+    // REMOVED filterTopics FUNCTION
 
     // ✅ UPDATED: Show Topic - STRICTLY ONE AT A TIME
     function showTopic(topicId) {
