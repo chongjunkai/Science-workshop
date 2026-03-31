@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🇸🇬 SG Science Explorer - MOE Aligned</title>
+  <style>
+    /* 🎨 SINGAPORE-THEMED CSS */
+    :root {
+      --sg-red: #ED2939;
+      --sg-white: #FFFFFF;
+      --primary: #2563eb;
+      --secondary: #1e40af;
+      --accent: #06b6d4;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- HOME PAGE --- */
+    #home-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      flex-grow: 1;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .hero-title {
+      font-size: 3em;
+      background: linear-gradient(135deg, var(--sg-red), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .moe-badge {
+      background: var(--sg-red);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3em;
+      color: #64748b;
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+
+    /* Level Selection */
+    .level-section {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 650px;
+      border: 3px solid var(--sg-red);
+    }
+
+    .level-section h3 {
+      color: var(--secondary);
+      margin-bottom: 15px;
+      font-size: 1.4em;
+    }
+
+    .level-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .level-btn {
+      background: #f1f5f9;
+      border: 3px solid #cbd5e1;
+      color: #64748b;
+      padding: 15px;
+      font-size: 1.1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .level-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .level-btn.selected {
+      background: var(--primary);
+      border-color: var(--secondary);
+      color: white;
+      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+      transform: scale(1.05);
+    }
+
+    .level-desc {
+      font-size: 0.9em;
+      color: #64748b;
+      margin-top: 5px;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--sg-red), #c41e3a);
+      color: white;
+      border: none;
+      padding: 18px 45px;
+      font-size: 1.4em;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(237, 41, 57, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(237, 41, 57, 0.6);
+    }
+
+    .start-btn.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: grayscale(0.3);
+    }
+
+    /* Curriculum Themes */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 40px;
+      max-width: 700px;
+    }
+
+    .theme-card {
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-top: 4px solid var(--accent);
+    }
+
+    .theme-icon { font-size: 2em; margin-bottom: 8px; display: block; }
+    .theme-name { font-weight: 600; color: var(--secondary); }
+
+    /* --- APP VIEW --- */
+    #app-view { display: none; padding: 20px; flex-grow: 1; }
+
+    header {
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-left: 5px solid var(--sg-red);
+    }
+
+    .header-title h1 { color: var(--secondary); font-size: 1.6em; }
+    .header-title p { color: #64748b; font-size: 0.9em; }
+    
+    .user-level-badge {
+      background: var(--warning);
+      color: #333;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.95em;
+    }
+
+    .home-link {
+      background: #e2e8f0;
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 1em;
+      transition: background 0.2s;
+    }
+    .home-link:hover { background: #cbd5e1; }
+
+    .container { max-width: 950px; margin: 0 auto; }
+
+    /* Theme Filter */
+    .theme-filter {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .theme-filter-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.2s;
+    }
+    .theme-filter-btn.active, .theme-filter-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Topic Navigation */
+    .topic-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .topic-btn {
+      background: white;
+      border: 2px solid var(--primary);
+      padding: 10px 20px;
+      font-size: 0.95em;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .topic-btn:hover, .topic-btn.active {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Content Card */
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      display: none;
+      animation: slideUp 0.4s ease;
+      border-top: 5px solid var(--accent);
+    }
+
+    .card.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card h2 {
+      color: var(--secondary);
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .syllabus-tag {
+      background: var(--warning);
+      color: #333;
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .theme-tag {
+      background: #dbeafe;
+      color: var(--primary);
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.85em;
+      margin-left: 5px;
+    }
+
+    .topic-image {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin: 15px 0;
+      background: #e2e8f0;
+    }
+
+    .learning-objectives {
+      background: #f0f9ff;
+      border-left: 4px solid var(--accent);
+      padding: 15px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .learning-objectives h4 { color: var(--secondary); margin-bottom: 8px; }
+    .learning-objectives ul { padding-left: 20px; }
+    .learning-objectives li { margin: 5px 0; }
+
+    .fact-box {
+      background: #fef3c7;
+      border-left: 4px solid var(--warning);
+      padding: 15px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .singapore-context {
+      background: #dcfce7;
+      border-left: 4px solid var(--success);
+      padding: 15px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    /* Quiz - CER Framework */
+    .quiz-section {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px dashed #cbd5e1;
+    }
+
+    .cer-badge {
+      background: var(--primary);
+      color: white;
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .question {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 12px;
+      margin: 12px 0;
+      text-align: left;
+      border: 2px solid #e2e8f0;
+    }
+
+    .question.mcq p { font-weight: 600; margin-bottom: 10px; }
+    .question.cer p { 
+      font-weight: 600; 
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+    .question.cer .cer-hint {
+      font-size: 0.9em;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .options label {
+      display: block;
+      padding: 8px 12px;
+      margin: 5px 0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .options label:hover { background: #f1f5f9; }
+    .options input { margin-right: 8px; }
+
+    .cer-answer {
+      width: 100%;
+      min-height: 80px;
+      padding: 12px;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1.1em;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    .submit-btn:hover { transform: scale(1.05); }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+      text-align: left;
+    }
+    .feedback.correct {
+      background: #dcfce7;
+      color: #166534;
+      display: block;
+      border: 2px solid #22c55e;
+    }
+    .feedback.wrong {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+      border: 2px solid #f87171;
+    }
+
+    .emoji { font-size: 1.3em; margin-right: 5px; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-size: 0.95em;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.2em; }
+      .level-buttons { grid-template-columns: 1fr; }
+      .start-btn { width: 100%; justify-content: center; }
+      header { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🏠 HOME PAGE -->
+  <section id="home-view">
+    <span class="moe-badge">🇸🇬 Aligned with MOE 2023 Syllabus</span>
+    <h1 class="hero-title">🔬 SG Science Explorer</h1>
+    <p class="hero-subtitle">Primary Science made fun & curriculum-aligned for Singapore students</p>
+    
+    <!-- Level Selection with Descriptions -->
+    <div class="level-section">
+      <h3>🎓 Select Your Primary Level</h3>
+      <div class="level-buttons">
+        <button class="level-btn" onclick="selectLevel('P3')">
+          Primary 3
+          <div class="level-desc">Diversity, Magnets, Digestive System</div>
+        </button>
+        <button class="level-btn" onclick="selectLevel('P4')">
+          Primary 4
+          <div class="level-desc">Life Cycles, Matter, Heat & Light</div>
+        </button>
+        <button class="level-btn" onclick="selectLevel('P5')">
+          Primary 5
+          <div class="level-desc">Water Cycle, Electricity, Human Systems</div>
+        </button>
+        <button class="level-btn" onclick="selectLevel('P6')">
+          Primary 6
+          <div class="level-desc">Forces, Energy, Food Webs, PSLE Prep</div>
+        </button>
+      </div>
+    </div>
+
+    <button id="start-btn" class="start-btn disabled" onclick="goToApp()">
+      <span>🚀</span> Start Learning
+    </button>
+
+    <!-- MOE Curriculum Themes -->
+    <h4 style="margin: 35px 0 15px; color: var(--secondary);">📚 Based on MOE's 5 Science Themes</h4>
+    <div class="themes-grid">
+      <div class="theme-card">
+        <span class="theme-icon">🌿</span>
+        <div class="theme-name">Diversity</div>
+        <div style="font-size:0.85em;color:#64748b">Living things & materials</div>
+      </div>
+      <div class="theme-card">
+        <span class="theme-icon">🔄</span>
+        <div class="theme-name">Cycles</div>
+        <div style="font-size:0.85em;color:#64748b">Life cycles, water cycle</div>
+      </div>
+      <div class="theme-card">
+        <span class="theme-icon">⚙️</span>
+        <div class="theme-name">Systems</div>
+        <div style="font-size:0.85em;color:#64748b">Body systems, circuits</div>
+      </div>
+      <div class="theme-card">
+        <span class="theme-icon">⚡</span>
+        <div class="theme-name">Energy</div>
+        <div style="font-size:0.85em;color:#64748b">Light, heat, electricity</div>
+      </div>
+      <div class="theme-card">
+        <span class="theme-icon">🤝</span>
+        <div class="theme-name">Interactions</div>
+        <div style="font-size:0.85em;color:#64748b">Forces, ecosystems</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📚 LEARNING VIEW -->
+  <section id="app-view">
+    <header>
+      <div class="header-title">
+        <h1>🇸🇬 SG Science Lab</h1>
+        <p>MOE Primary Science | 2023 Syllabus</p>
+        <div id="display-level" class="user-level-badge">Level: Not Selected</div>
+      </div>
+      <button class="home-link" onclick="goHome()">🏠 Home</button>
+    </header>
+
+    <div class="container">
+      <!-- Theme Filter -->
+      <div class="theme-filter">
+        <button class="theme-filter-btn active" onclick="filterTopics('all')">All Topics</button>
+        <button class="theme-filter-btn" onclick="filterTopics('diversity')">🌿 Diversity</button>
+        <button class="theme-filter-btn" onclick="filterTopics('cycles')">🔄 Cycles</button>
+        <button class="theme-filter-btn" onclick="filterTopics('systems')">⚙️ Systems</button>
+        <button class="theme-filter-btn" onclick="filterTopics('energy')">⚡ Energy</button>
+        <button class="theme-filter-btn" onclick="filterTopics('interactions')">🤝 Interactions</button>
+      </div>
+
+      <!-- Topic Navigation -->
+      <div class="topic-nav">
+        <button class="topic-btn active" data-theme="diversity" onclick="showTopic('magnets')">🧲 Magnets (P3)</button>
+        <button class="topic-btn" data-theme="systems" onclick="showTopic('digestive')">🫀 Digestive System (P3)</button>
+        <button class="topic-btn" data-theme="cycles" onclick="showTopic('lifecycle')">🦋 Life Cycles (P4)</button>
+        <button class="topic-btn" data-theme="diversity" onclick="showTopic('matter')">🧊 States of Matter (P4)</button>
+        <button class="topic-btn" data-theme="cycles" onclick="showTopic('watercycle')">💧 Water Cycle (P5)</button>
+        <button class="topic-btn" data-theme="systems" onclick="showTopic('electricity')">⚡ Electrical Systems (P5)</button>
+        <button class="topic-btn" data-theme="interactions" onclick="showTopic('forces')">🎯 Forces (P6)</button>
+        <button class="topic-btn" data-theme="interactions" onclick="showTopic('foodweb')">🕸️ Food Webs (P6)</button>
+      </div>
+
+      <!-- MAGNETS (P3 - Diversity/Interactions) -->
+      <div id="magnets" class="card visible" data-theme="diversity interactions">
+        <h2>
+          🧲 Magnets 
+          <span class="syllabus-tag">P3</span>
+          <span class="theme-tag">Diversity</span>
+          <span class="theme-tag">Interactions</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Magnet_bar.svg/800px-Magnet_bar.svg.png" alt="Magnets">
+        <p><strong>MOE Learning Objective:</strong> Identify magnetic and non-magnetic materials; understand that magnets have two poles (North and South) that attract or repel.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Test objects to see if they are magnetic</li>
+            <li>Identify the North and South poles of a magnet</li>
+            <li>Predict whether magnets will attract or repel</li>
+            <li>Give examples of how magnets are used in daily life</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> Magnets are used in MRT train doors, refrigerator seals in HDB kitchens, and in the compasses used for orienteering at parks like MacRitchie Reservoir!
+        </div>
+
+        <div class="fact-box">
+          <span class="emoji">💡</span>
+          <strong>Fun Fact:</strong> The Earth itself is a giant magnet! That's why a compass needle always points North.
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question mcq">
+            <p>1. Which of these objects will a magnet attract? <span class="cer-badge">MCQ</span></p>
+            <div class="options">
+              <label><input type="radio" name="mag1" value="a"> Plastic ruler</label>
+              <label><input type="radio" name="mag1" value="b"> Iron nail ✅</label>
+              <label><input type="radio" name="mag1" value="c"> Wooden pencil</label>
+              <label><input type="radio" name="mag1" value="d"> Aluminium foil</label>
+            </div>
+          </div>
+
+          <div class="question cer">
+            <p>2. Jamie has two bar magnets. When she brings the North pole of one magnet close to the North pole of another magnet, they push away from each other. Explain why. <span class="cer-badge">CER</span></p>
+            <div class="cer-hint">
+              <strong>CER Tip:</strong> 
+              <br>• <strong>C</strong>laim: State your answer clearly
+              <br>• <strong>E</strong>vidence: Use scientific facts from the lesson
+              <br>• <strong>R</strong>easoning: Explain how the evidence supports your claim
+            </div>
+            <textarea class="cer-answer" placeholder="Type your CER answer here..."></textarea>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('magnets')">Check Answers 🎯</button>
+          <p id="feedback-magnets" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- DIGESTIVE SYSTEM (P3 - Systems) -->
+      <div id="digestive" class="card" data-theme="systems">
+        <h2>
+          🫀 Human Digestive System 
+          <span class="syllabus-tag">P3</span>
+          <span class="theme-tag">Systems</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Digestive_system_diagram.svg/800px-Digestive_system_diagram.svg.png" alt="Digestive System">
+        <p><strong>MOE Learning Objective:</strong> Identify the parts of the digestive system and describe their functions in breaking down food.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Label the main parts: mouth, oesophagus, stomach, small intestine, large intestine</li>
+            <li>Describe the function of each part</li>
+            <li>Explain the path food takes through the body</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> When you eat chicken rice at a hawker centre, your digestive system breaks down the rice (carbohydrates), chicken (protein), and sauce (fats) into nutrients your body can use for energy!
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question mcq">
+            <p>1. Where does most digestion and absorption of nutrients happen? <span class="cer-badge">MCQ</span></p>
+            <div class="options">
+              <label><input type="radio" name="dig1" value="a"> Stomach</label>
+              <label><input type="radio" name="dig1" value="b"> Small intestine ✅</label>
+              <label><input type="radio" name="dig1" value="c"> Large intestine</label>
+              <label><input type="radio" name="dig1" value="d"> Mouth</label>
+            </div>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('digestive')">Check Answers 🎯</button>
+          <p id="feedback-digestive" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- LIFE CYCLES (P4 - Cycles) -->
+      <div id="lifecycle" class="card" data-theme="cycles">
+        <h2>
+          🦋 Life Cycles of Animals 
+          <span class="syllabus-tag">P4</span>
+          <span class="theme-tag">Cycles</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Butterfly_lifecycle.svg/800px-Butterfly_lifecycle.svg.png" alt="Butterfly Life Cycle">
+        <p><strong>MOE Learning Objective:</strong> Compare the life cycles of animals with 3 stages (e.g., grasshopper) and 4 stages (e.g., butterfly).</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Describe the 4 stages of a butterfly: Egg → Larva (caterpillar) → Pupa → Adult</li>
+            <li>Describe the 3 stages of a grasshopper: Egg → Nymph → Adult</li>
+            <li>Explain why young animals may look different from adults</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> Visit the Butterfly Park at Sentosa or Gardens by the Bay to observe real butterfly life cycles! You can also find grasshoppers in park connectors like the Park Connector Network (PCN).
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question mcq">
+            <p>1. Which stage is found in a butterfly's life cycle but NOT in a grasshopper's? <span class="cer-badge">MCQ</span></p>
+            <div class="options">
+              <label><input type="radio" name="lc1" value="a"> Egg</label>
+              <label><input type="radio" name="lc1" value="b"> Nymph</label>
+              <label><input type="radio" name="lc1" value="c"> Pupa ✅</label>
+              <label><input type="radio" name="lc1" value="d"> Adult</label>
+            </div>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('lifecycle')">Check Answers 🎯</button>
+          <p id="feedback-lifecycle" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- STATES OF MATTER (P4 - Diversity) -->
+      <div id="matter" class="card" data-theme="diversity">
+        <h2>
+          🧊 States of Matter 
+          <span class="syllabus-tag">P4</span>
+          <span class="theme-tag">Diversity</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/States_of_matter.svg/800px-States_of_matter.svg.png" alt="States of Matter">
+        <p><strong>MOE Learning Objective:</strong> Compare the properties of solids, liquids and gases; understand that matter can change state when heated or cooled.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Describe properties: solids (fixed shape/volume), liquids (fixed volume, no fixed shape), gases (no fixed shape/volume)</li>
+            <li>Explain melting, freezing, evaporation and condensation</li>
+            <li>Give examples of matter changing state in daily life</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> In our hot, humid climate, you often see condensation on cold drinks (like teh tarik!) and evaporation from puddles after rain. Ice from the freezer melts quickly at room temperature!
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question mcq">
+            <p>1. Which statement about gases is TRUE? <span class="cer-badge">MCQ</span></p>
+            <div class="options">
+              <label><input type="radio" name="mat1" value="a"> Gases have a fixed shape</label>
+              <label><input type="radio" name="mat1" value="b"> Gases have a fixed volume</label>
+              <label><input type="radio" name="mat1" value="c"> Gases can be compressed ✅</label>
+              <label><input type="radio" name="mat1" value="d"> Gases cannot flow</label>
+            </div>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('matter')">Check Answers 🎯</button>
+          <p id="feedback-matter" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- WATER CYCLE (P5 - Cycles) -->
+      <div id="watercycle" class="card" data-theme="cycles">
+        <h2>
+          💧 The Water Cycle 
+          <span class="syllabus-tag">P5</span>
+          <span class="theme-tag">Cycles</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Water_cycle.svg/800px-Water_cycle.svg.png" alt="Water Cycle">
+        <p><strong>MOE Learning Objective:</strong> Describe the processes of evaporation, condensation and precipitation in the water cycle.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Explain how the Sun's heat causes evaporation</li>
+            <li>Describe how water vapour condenses to form clouds</li>
+            <li>Understand how precipitation returns water to Earth</li>
+            <li>Relate the water cycle to Singapore's water management</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> Singapore collects rainwater in reservoirs like Marina Reservoir. Through NEWATER, we also recycle used water! Understanding the water cycle helps us appreciate why water conservation is important in our land-scarce nation.
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question cer">
+            <p>1. Explain why puddles on the ground disappear on a hot sunny day in Singapore. Use the terms <strong>evaporation</strong> and <strong>heat</strong> in your answer. <span class="cer-badge">CER</span></p>
+            <div class="cer-hint">
+              <strong>CER Structure:</strong>
+              <br>• Claim: The puddles disappear because...
+              <br>• Evidence: Heat from the Sun causes...
+              <br>• Reasoning: This shows that...
+            </div>
+            <textarea class="cer-answer" placeholder="Type your CER answer here..."></textarea>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('watercycle')">Check Answers 🎯</button>
+          <p id="feedback-watercycle" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- ELECTRICAL SYSTEMS (P5 - Systems/Energy) -->
+      <div id="electricity" class="card" data-theme="systems energy">
+        <h2>
+          ⚡ Electrical Systems 
+          <span class="syllabus-tag">P5</span>
+          <span class="theme-tag">Systems</span>
+          <span class="theme-tag">Energy</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electric Circuit">
+        <p><strong>MOE Learning Objective:</strong> Draw and interpret circuit diagrams; identify conductors and insulators; understand that a complete circuit is needed for current to flow.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Draw simple circuit diagrams using standard symbols</li>
+            <li>Explain why a circuit must be complete for the bulb to light up</li>
+            <li>Test materials to classify them as conductors or insulators</li>
+            <li>Describe safe use of electricity at home</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> Singapore uses a 230V electrical system. Always use 3-pin plugs with the earth wire for safety! SP Group manages our electricity supply, and we can save energy by switching off lights and fans when not in use.
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question mcq">
+            <p>1. Which material is a GOOD conductor of electricity? <span class="cer-badge">MCQ</span></p>
+            <div class="options">
+              <label><input type="radio" name="elec1" value="a"> Rubber</label>
+              <label><input type="radio" name="elec1" value="b"> Plastic</label>
+              <label><input type="radio" name="elec1" value="c"> Copper ✅</label>
+              <label><input type="radio" name="elec1" value="d"> Wood</label>
+            </div>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('electricity')">Check Answers 🎯</button>
+          <p id="feedback-electricity" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- FORCES (P6 - Interactions) -->
+      <div id="forces" class="card" data-theme="interactions">
+        <h2>
+          🎯 Forces 
+          <span class="syllabus-tag">P6</span>
+          <span class="theme-tag">Interactions</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Forces.svg/800px-Forces.svg.png" alt="Forces">
+        <p><strong>MOE Learning Objective:</strong> Identify different types of forces (friction, gravity, elastic); explain how forces affect motion; apply concepts to real-world situations.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Define force as a push or pull</li>
+            <li>Compare friction, gravity and elastic forces</li>
+            <li>Explain how friction can be useful or a disadvantage</li>
+            <li>Predict how changing forces affects motion</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> Friction helps your shoes grip the floor so you don't slip! At Universal Studios Singapore, roller coasters use gravity to create thrilling drops. Elastic forces are used in the bungee jump at AJ Hackett Sentosa.
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question cer">
+            <p>1. A cyclist is riding on a smooth road. Explain why it is harder to cycle on a rough, sandy road. Use the term <strong>friction</strong> in your answer. <span class="cer-badge">CER</span></p>
+            <div class="cer-hint">
+              <strong>CER Structure:</strong>
+              <br>• Claim: It is harder because...
+              <br>• Evidence: Friction is a force that...
+              <br>• Reasoning: On a sandy road, friction is...
+            </div>
+            <textarea class="cer-answer" placeholder="Type your CER answer here..."></textarea>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('forces')">Check Answers 🎯</button>
+          <p id="feedback-forces" class="feedback"></p>
+        </div>
+      </div>
+
+      <!-- FOOD WEBS (P6 - Interactions) -->
+      <div id="foodweb" class="card" data-theme="interactions">
+        <h2>
+          🕸️ Food Webs & Interactions 
+          <span class="syllabus-tag">P6</span>
+          <span class="theme-tag">Interactions</span>
+        </h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FoodWeb.svg/800px-FoodWeb.svg.png" alt="Food Web">
+        <p><strong>MOE Learning Objective:</strong> Construct and interpret food chains and food webs; identify producers, consumers and decomposers; explain how changes in one population affect others.</p>
+        
+        <div class="learning-objectives">
+          <h4>🎯 By the end of this lesson, you will be able to:</h4>
+          <ul>
+            <li>Draw food chains using arrows to show energy flow</li>
+            <li>Identify producers (plants), consumers (animals), decomposers</li>
+            <li>Predict effects of removing one organism from a food web</li>
+            <li>Relate to conservation efforts in Singapore</li>
+          </ul>
+        </div>
+
+        <div class="singapore-context">
+          <span class="emoji">🇸🇬</span>
+          <strong>Singapore Context:</strong> In Singapore's nature reserves like Bukit Timah, food webs connect plants, insects, birds, and mammals. NParks works to protect habitats so these interactions remain balanced. Even in our urban environment, we can support biodiversity!
+        </div>
+
+        <div class="quiz-section">
+          <h3>🧠 Check Your Understanding</h3>
+          
+          <div class="question mcq">
+            <p>1. In a food chain, what do the arrows represent? <span class="cer-badge">MCQ</span></p>
+            <div class="options">
+              <label><input type="radio" name="fw1" value="a"> Who eats whom</label>
+              <label><input type="radio" name="fw1" value="b"> The flow of energy ✅</label>
+              <label><input type="radio" name="fw1" value="c"> The size of animals</label>
+              <label><input type="radio" name="fw1" value="d"> The number of organisms</label>
+            </div>
+          </div>
+
+          <button class="submit-btn" onclick="checkQuiz('foodweb')">Check Answers 🎯</button>
+          <p id="feedback-foodweb" class="feedback"></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>🇸🇬 Aligned with Singapore MOE Primary Science Syllabus (2023) | For educational use</p>
+    <p style="font-size:0.9em;margin-top:5px">Process Skills: Observing • Classifying • Comparing • Inferring • Predicting • Communicating • Analyzing</p>
+  </footer>
+
+  <script>
+    // 🧠 SINGAPORE MOE-ALIGNED JAVASCRIPT
+
+    let selectedLevel = null;
+    const levelTopics = {
+      'P3': ['magnets', 'digestive'],
+      'P4': ['lifecycle', 'matter'],
+      'P5': ['watercycle', 'electricity'],
+      'P6': ['forces', 'foodweb']
+    };
+
+    // Select Level
+    function selectLevel(level) {
+      selectedLevel = level;
+      
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.textContent.includes(level)) {
+          btn.classList.add('selected');
+        }
+      });
+
+      const startBtn = document.getElementById('start-btn');
+      startBtn.classList.remove('disabled');
+      startBtn.innerHTML = `<span>🚀</span> Start Learning ${level}`;
+    }
+
+    // Go to App
+    function goToApp() {
+      if (!selectedLevel) {
+        alert("🎓 Please select your Primary level first!");
+        return;
+      }
+      
+      document.getElementById('display-level').textContent = `Level: ${selectedLevel}`;
+      
+      // Filter topics by level
+      document.querySelectorAll('.topic-btn').forEach(btn => {
+        const topicId = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+        if (levelTopics[selectedLevel].includes(topicId)) {
+          btn.style.display = 'inline-block';
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+      
+      // Show first available topic
+      const firstTopic = levelTopics[selectedLevel][0];
+      document.querySelectorAll('.card').forEach(card => card.classList.remove('visible'));
+      document.getElementById(firstTopic).classList.add('visible');
+      document.querySelector(`.topic-btn[onclick*="${firstTopic}"]`).classList.add('active');
+      
+      document.getElementById('home-view').style.display = 'none';
+      document.getElementById('app-view').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    // Go Home
+    function goHome() {
+      document.getElementById('app-view').style.display = 'none';
+      document.getElementById('home-view').style.display = 'flex';
+      // Reset topic buttons visibility
+      document.querySelectorAll('.topic-btn').forEach(btn => btn.style.display = 'inline-block');
+      window.scrollTo(0, 0);
+    }
+
+    // Filter by Theme
+    function filterTopics(theme) {
+      document.querySelectorAll('.theme-filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      document.querySelectorAll('.card').forEach(card => {
+        if (theme === 'all' || card.dataset.theme.includes(theme)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Show Topic
+    function showTopic(topicId) {
+      document.querySelectorAll('.card').forEach(card => card.classList.remove('visible'));
+      document.querySelectorAll('.topic-btn').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(topicId).classList.add('visible');
+      event.target.classList.add('active');
+      
+      document.querySelectorAll('.feedback').forEach(fb => {
+        fb.className = 'feedback';
+        fb.textContent = '';
+      });
+    }
+
+    // Check Quiz Answers (MOE-aligned feedback)
+    function checkQuiz(topic) {
+      const answers = {
+        magnets: { 
+          mcq: { mag1: 'b' },
+          cer: "like poles repel" // simplified keyword check
+        },
+        digestive: { mcq: { dig1: 'b' } },
+        lifecycle: { mcq: { lc1: 'c' } },
+        matter: { mcq: { mat1: 'c' } },
+        watercycle: { cer: "evaporation" },
+        electricity: { mcq: { elec1: 'c' } },
+        forces: { cer: "friction" },
+        foodweb: { mcq: { fw1: 'b' } }
+      };
+
+      let correctCount = 0;
+      let totalQuestions = 0;
+      let feedbackMsg = "";
+
+      // Check MCQ answers
+      if (answers[topic].mcq) {
+        Object.keys(answers[topic].mcq).forEach(key => {
+          totalQuestions++;
+          const selected = document.querySelector(`input[name="${key}"]:checked`);
+          if (selected && selected.value === answers[topic].mcq[key]) {
+            correctCount++;
+          }
+        });
+      }
+
+      // Check CER answers (keyword-based for demo)
+      if (answers[topic].cer) {
+        totalQuestions++;
+        const cerInput = document.querySelector('.cer-answer');
+        if (cerInput && cerInput.value.toLowerCase().includes(answers[topic].cer)) {
+          correctCount++;
+          feedbackMsg += "✅ CER: Good use of scientific terms! ";
+        } else if (cerInput && cerInput.value.trim().length > 20) {
+          correctCount++; // Partial credit for effort
+          feedbackMsg += "👍 CER: Good attempt! Remember to include key terms like '" + answers[topic].cer + "'. ";
+        } else {
+          feedbackMsg += "📝 CER: Try to include the keyword '" + answers[topic].cer + "' and use Claim-Evidence-Reasoning structure. ";
+        }
+      }
+
+      // Display feedback
+      const feedbackEl = document.getElementById(`feedback-${topic}`);
+      
+      if (correctCount === totalQuestions) {
+        feedbackEl.className = 'feedback correct';
+        feedbackEl.textContent = `🎉 Excellent! ${correctCount}/${totalQuestions} correct! You're ready for your Science assessment! ⭐`;
+      } else if (correctCount > 0) {
+        feedbackEl.className = 'feedback wrong';
+        feedbackEl.textContent = `${feedbackMsg}👍 ${correctCount}/${totalQuestions} correct. Review the learning objectives and try again! 💪`;
+      } else {
+        feedbackEl.className = 'feedback wrong';
+        feedbackEl.textContent = `🤔 Let's review! Read the learning objectives and Singapore context again, then try the questions. 🌱`;
+      }
+
+      feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Initialize: Show magnets topic by default on load if needed
+    document.addEventListener('DOMContentLoaded', () => {
+      // Could add analytics or save progress here
+    });
+  </script>
+</body>
+</html>
