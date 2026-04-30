@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🇸🇬 SG Science Explorer (Responsive)</title>
+  <title>🇸🇬 SG Science Explorer (Fixed Chat)</title>
   <style>
     /* 🎨 RESPONSIVE CSS VARIABLES */
     :root {
@@ -89,7 +89,7 @@
     /* --- APP SCREEN --- */
     #app-view { display: none; flex-grow: 1; padding: 20px; max-width: var(--container-width); margin: 0 auto; width: 100%; }
     
-    /* Topic Navigation (Responsive) */
+    /* Topic Navigation */
     .topic-nav-container {
       margin-bottom: 25px;
       background: white;
@@ -129,7 +129,7 @@
       background: #f0fdf4;
     }
 
-    /* Content Grid (Responsive) */
+    /* Content Grid */
     .content-grid {
       display: grid;
       gap: 20px;
@@ -179,8 +179,7 @@
       margin-top: 10px; cursor: pointer;
     }
 
-    /* --- NAVIGATION (Responsive) --- */
-    /* Mobile Bottom Nav */
+    /* --- NAVIGATION --- */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; width: 100%;
       height: var(--nav-height);
@@ -198,7 +197,6 @@
     .nav-item.active { color: var(--primary); }
     .nav-icon { font-size: 1.4em; margin-bottom: 4px; }
 
-    /* PC Top Nav (Hidden on Mobile) */
     .top-nav {
       display: none;
       background: white;
@@ -216,7 +214,7 @@
       font-weight: bold; font-size: 0.9em;
     }
 
-    /* --- CHATBOT (Responsive) --- */
+    /* --- FIXED CHATBOT STYLES --- */
     .chatbot-toggler {
       position: fixed;
       bottom: 90px; right: 20px;
@@ -240,15 +238,22 @@
       transform: scale(0.9); transform-origin: bottom right;
       transition: all 0.3s; z-index: 998;
       overflow: hidden;
+      /* Ensure it has a defined size */
+      width: 350px; 
+      height: 500px;
     }
     .show-chat .chatbot { opacity: 1; pointer-events: auto; transform: scale(1); }
     
     .chatbot header {
       background: var(--primary); padding: 15px;
+      flex-shrink: 0; /* Prevent header from shrinking */
     }
     .chatbot header h2 { color: white; font-size: 1.1em; margin: 0; }
+    
     .chatbox {
-      flex: 1; overflow-y: auto; padding: 15px;
+      flex: 1; /* Takes remaining space */
+      overflow-y: auto; 
+      padding: 15px;
       background: #f8fafc;
     }
     .chat { display: flex; margin-bottom: 15px; }
@@ -263,97 +268,86 @@
       padding: 10px 14px; border-radius: 14px 14px 0 14px;
       max-width: 80%; font-size: 0.9em;
     }
+    
+    /* FIXED INPUT AREA */
     .chat-input {
-      padding: 12px; border-top: 1px solid #eee;
-      display: flex; gap: 10px; background: white;
+      padding: 15px; 
+      border-top: 1px solid #eee;
+      display: flex; 
+      gap: 10px; 
+      background: white;
       align-items: center;
+      flex-shrink: 0; /* Prevent input from shrinking */
     }
     .chat-input textarea {
-      flex: 1; border: 1px solid #ddd; background: #f1f5f9;
-      border-radius: 20px; padding: 10px 15px;
-      font-family: inherit; resize: none; height: 44px;
+      flex: 1; 
+      border: 1px solid #ddd; 
+      background: #f1f5f9;
+      border-radius: 20px; 
+      padding: 10px 15px;
+      font-family: inherit; 
+      resize: none; 
+      height: 44px;
       font-size: 16px;
+      outline: none;
     }
+    .chat-input textarea:focus { border-color: var(--primary); }
+    
+    /* BIG VISIBLE SEND BUTTON */
     .send-btn {
-      background: var(--primary); color: white;
-      width: 44px; height: 44px;
+      background: var(--primary); 
+      color: white;
+      width: 44px; 
+      height: 44px;
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2em; font-weight: bold;
-      cursor: pointer; flex-shrink: 0;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      font-size: 1.2em; 
+      font-weight: bold;
+      cursor: pointer; 
+      flex-shrink: 0; /* CRITICAL: Keeps button visible */
+      transition: transform 0.1s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
+    .send-btn:active { transform: scale(0.9); }
 
-    /* --- MEDIA QUERIES (The Magic Switch) --- */
+    /* --- MEDIA QUERIES --- */
     @media (min-width: 768px) {
-      /* PC Styles Override */
-      .bottom-nav { display: none; } /* Hide bottom nav */
-      
-      .top-nav { display: flex; } /* Show top nav */
-      
+      .bottom-nav { display: none; }
+      .top-nav { display: flex; }
       #home-view { padding-top: 80px; }
       .level-grid { grid-template-columns: repeat(4, 1fr); }
       .hero-title { font-size: 4em; }
       
       .topic-nav-container { padding: 20px; }
-      .topic-list {
-        flex-wrap: wrap;
-        justify-content: center;
-        overflow: visible;
-      }
-      .topic-chip {
-        margin: 5px;
-        flex-shrink: 0;
-      }
+      .topic-list { flex-wrap: wrap; justify-content: center; overflow: visible; }
       
-      .content-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 Columns on PC */
-      }
-      .content-card {
-        display: none; /* Hide all by default */
-      }
-      .content-card.visible {
-        display: block; /* Show only active */
-        grid-column: span 2; /* Active card takes full width */
-      }
+      .content-grid { grid-template-columns: repeat(2, 1fr); }
+      .content-card { display: none; }
+      .content-card.visible { display: block; grid-column: span 2; }
       
-      /* PC Chatbot Position & Size */
       .chatbot {
-        bottom: 100px;
-        right: 40px;
-        width: 400px;
-        height: 550px;
+        bottom: 100px; right: 40px;
+        width: 400px; height: 550px;
       }
-      .chatbot-toggler {
-        bottom: 40px;
-        right: 40px;
-      }
+      .chatbot-toggler { bottom: 40px; right: 40px; }
     }
 
     @media (max-width: 767px) {
-      /* Mobile Styles Override */
       .top-nav { display: none; }
       .level-grid { grid-template-columns: 1fr 1fr; }
       .content-grid { grid-template-columns: 1fr; }
+      .content-card { display: none; }
+      .content-card.visible { display: block; }
       
-      .content-card {
-        display: none;
-      }
-      .content-card.visible {
-        display: block;
-      }
-      
-      /* Mobile Chatbot Full Screen Overlay */
+      /* Mobile Chatbot Full Width */
       .chatbot {
-        bottom: 80px;
-        right: 15px;
-        left: 15px;
+        bottom: 80px; right: 15px; left: 15px;
+        width: auto; /* Fill width between margins */
         height: 65vh;
-        max-height: 500px;
       }
-      .chatbot-toggler {
-        bottom: 90px;
-        right: 20px;
-      }
+      .chatbot-toggler { bottom: 90px; right: 20px; }
     }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -379,20 +373,16 @@
     
     <div class="level-grid">
       <div class="level-card" onclick="selectLevel('P3', this)">
-        <span class="level-icon">🧸</span>
-        <strong>Primary 3</strong>
+        <span class="level-icon">🧸</span><strong>Primary 3</strong>
       </div>
       <div class="level-card" onclick="selectLevel('P4', this)">
-        <span class="level-icon">🚲</span>
-        <strong>Primary 4</strong>
+        <span class="level-icon">🚲</span><strong>Primary 4</strong>
       </div>
       <div class="level-card" onclick="selectLevel('P5', this)">
-        <span class="level-icon">🔋</span>
-        <strong>Primary 5</strong>
+        <span class="level-icon">🔋</span><strong>Primary 5</strong>
       </div>
       <div class="level-card" onclick="selectLevel('P6', this)">
-        <span class="level-icon">🎓</span>
-        <strong>Primary 6</strong>
+        <span class="level-icon">🎓</span><strong>Primary 6</strong>
       </div>
     </div>
 
@@ -401,8 +391,6 @@
 
   <!-- 📚 APP VIEW -->
   <section id="app-view">
-    <!-- Mobile Badge (Only visible on mobile via CSS logic if needed, but we use Top Nav for PC) -->
-    
     <div class="topic-nav-container">
       <h3 style="margin-bottom:15px; color:var(--secondary);">Choose a Topic:</h3>
       <div class="topic-list">
@@ -498,7 +486,7 @@
         <h2 style="color:var(--primary); margin-bottom:10px;">⚡ Electricity</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electricity">
         <p>Needs battery, wires, load. Copper is a <span class="key-term">conductor</span>.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Always use 3-pin plugs for safety!</div>
+        <div class="sg-context">🇸 <strong>SG Fact:</strong> Always use 3-pin plugs for safety!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: Which is a conductor?</p>
           <label class="option-label"><input type="radio" name="q6" value="a"> Copper</label>
@@ -528,7 +516,7 @@
         <h2 style="color:var(--primary); margin-bottom:10px;">🕸️ Food Webs</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FoodWeb.svg/800px-FoodWeb.svg.png" alt="FoodWeb">
         <p>Producers → Consumers → Decomposers.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Bukit Timah Nature Reserve has complex food webs!</div>
+        <div class="sg-context">🇸 <strong>SG Fact:</strong> Bukit Timah Nature Reserve has complex food webs!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: What do arrows show?</p>
           <label class="option-label"><input type="radio" name="q8" value="a"> Energy Flow</label>
@@ -549,6 +537,7 @@
     </ul>
     <div class="chat-input">
       <textarea id="chat-input" placeholder="Type message..."></textarea>
+      <!-- FIXED SEND BUTTON -->
       <div class="send-btn" onclick="handleChat()">➤</div>
     </div>
   </div>
@@ -583,10 +572,8 @@
       document.getElementById('home-view').style.display = 'none';
       document.getElementById('app-view').style.display = 'block';
       
-      // Update Badges
       document.getElementById('pc-user-badge').innerText = selectedLevel;
       
-      // Highlight recommended topics
       document.querySelectorAll('.topic-chip').forEach(chip => {
         if(chip.dataset.level === selectedLevel) chip.classList.add('recommended');
         else chip.classList.remove('recommended');
@@ -600,16 +587,12 @@
     }
 
     function showTopic(id, el) {
-      // Hide all cards
       document.querySelectorAll('.content-card').forEach(c => c.classList.remove('visible'));
-      // Remove active state from chips
       document.querySelectorAll('.topic-chip').forEach(c => c.classList.remove('active'));
       
-      // Show selected
       document.getElementById(id).classList.add('visible');
       el.classList.add('active');
       
-      // Scroll to content smoothly
       document.getElementById('app-view').scrollIntoView({behavior: 'smooth'});
     }
 
