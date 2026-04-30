@@ -3,15 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🇸 SG Science Explorer (Smart Bot)</title>
+  <title>🇸 SG Science (Master Bot)</title>
   <style>
-    /* 🎨 RESPONSIVE CSS */
-    :root {
-      --sg-red: #ED2939; --primary: #2563eb; --secondary: #1e40af;
-      --accent: #06b6d4; --success: #22c55e; --warning: #f59e0b;
-      --bg: #f8fafc; --card: #ffffff; --text: #1e293b;
-      --nav-height: 70px; --container-width: 1200px;
-    }
+    /* 🎨 CSS STYLES */
+    :root { --sg-red: #ED2939; --primary: #2563eb; --secondary: #1e40af; --accent: #06b6d4; --success: #22c55e; --warning: #f59e0b; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --nav-height: 70px; --container-width: 1200px; }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
     
@@ -61,7 +56,7 @@
     .top-nav-actions { display: flex; gap: 15px; align-items: center; }
     .user-badge { background: var(--warning); color: #333; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9em; }
 
-    /* --- SMART CHATBOT STYLES --- */
+    /* --- MASTER BOT STYLES --- */
     .chatbot-toggler { position: fixed; bottom: 90px; right: 20px; height: 60px; width: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4); z-index: 999; cursor: pointer; transition: transform 0.3s; }
     .chatbot-toggler:hover { transform: scale(1.1); }
     .chatbot-toggler span { color: white; font-size: 30px; }
@@ -72,7 +67,7 @@
     .chatbot header h2 { color: white; font-size: 1.1em; margin: 0; }
     .chatbox { flex: 1; overflow-y: auto; padding: 15px; background: #f8fafc; }
     .chat { display: flex; margin-bottom: 15px; }
-    .chat.incoming span { background: var(--primary); color: white; padding: 10px 14px; border-radius: 14px 14px 14px 0; max-width: 80%; font-size: 0.9em; }
+    .chat.incoming span { background: var(--primary); color: white; padding: 10px 14px; border-radius: 14px 14px 14px 0; max-width: 90%; font-size: 0.9em; white-space: pre-line; } /* pre-line allows line breaks */
     .chat.outgoing { justify-content: flex-end; }
     .chat.outgoing span { background: var(--success); color: white; padding: 10px 14px; border-radius: 14px 14px 0 14px; max-width: 80%; font-size: 0.9em; }
     
@@ -87,7 +82,7 @@
       #home-view { padding-top: 80px; } .level-grid { grid-template-columns: repeat(4, 1fr); } .hero-title { font-size: 4em; }
       .topic-nav-container { padding: 20px; } .topic-list { flex-wrap: wrap; justify-content: center; overflow: visible; }
       .content-grid { grid-template-columns: repeat(2, 1fr); } .content-card { display: none; } .content-card.visible { display: block; grid-column: span 2; }
-      .chatbot { bottom: 100px; right: 40px; width: 400px; height: 550px; } .chatbot-toggler { bottom: 40px; right: 40px; }
+      .chatbot { bottom: 100px; right: 40px; width: 450px; height: 600px; } .chatbot-toggler { bottom: 40px; right: 40px; }
     }
     @media (max-width: 767px) {
       .top-nav { display: none; } .level-grid { grid-template-columns: 1fr 1fr; } .content-grid { grid-template-columns: 1fr; } .content-card { display: none; } .content-card.visible { display: block; }
@@ -132,82 +127,27 @@
       </div>
     </div>
     <div class="content-grid">
-      <!-- Magnets -->
-      <div id="magnets" class="content-card visible">
-        <h2 style="color:var(--primary); margin-bottom:10px;">🧲 Magnets</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Magnet_bar.svg/800px-Magnet_bar.svg.png" alt="Magnets">
-        <p>Magnets attract <span class="key-term">magnetic materials</span> like iron and steel.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> MRT train doors use magnetic sensors!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: What happens when North meets North?</p><label class="option-label"><input type="radio" name="q1" value="a"> They Attract</label><label class="option-label"><input type="radio" name="q1" value="b"> They Repel</label><button class="check-btn" onclick="checkQuiz('magnets', 'q1', 'b')">Check Answer</button><div id="fb-magnets" class="feedback"></div></div>
-      </div>
-      <!-- Digestive -->
-      <div id="digestive" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">🫀 Digestive System</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Digestive_system_diagram.svg/800px-Digestive_system_diagram.svg.png" alt="Digestive">
-        <p>Food path: Mouth → Oesophagus → Stomach → <span class="key-term">Small Intestine</span>.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Eating Chicken Rice? Your body breaks it down!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Where are nutrients absorbed?</p><label class="option-label"><input type="radio" name="q2" value="a"> Stomach</label><label class="option-label"><input type="radio" name="q2" value="b"> Small Intestine</label><button class="check-btn" onclick="checkQuiz('digestive', 'q2', 'b')">Check Answer</button><div id="fb-digestive" class="feedback"></div></div>
-      </div>
-      <!-- Life Cycles -->
-      <div id="lifecycle" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">🦋 Life Cycles</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Butterfly_lifecycle.svg/800px-Butterfly_lifecycle.svg.png" alt="Lifecycle">
-        <p>Butterfly: Egg → Larva → <span class="key-term">Pupa</span> → Adult.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> Visit Butterfly Park at Sentosa!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Which stage is unique to butterflies?</p><label class="option-label"><input type="radio" name="q3" value="a"> Pupa</label><label class="option-label"><input type="radio" name="q3" value="b"> Nymph</label><button class="check-btn" onclick="checkQuiz('lifecycle', 'q3', 'a')">Check Answer</button><div id="fb-lifecycle" class="feedback"></div></div>
-      </div>
-      <!-- Matter -->
-      <div id="matter" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">🧊 States of Matter</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/States_of_matter.svg/800px-States_of_matter.svg.png" alt="Matter">
-        <p>Solid (fixed shape), Liquid, Gas (fills space).</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Ice cream melts fast in our hot weather!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Can gases be compressed?</p><label class="option-label"><input type="radio" name="q4" value="a"> Yes</label><label class="option-label"><input type="radio" name="q4" value="b"> No</label><button class="check-btn" onclick="checkQuiz('matter', 'q4', 'a')">Check Answer</button><div id="fb-matter" class="feedback"></div></div>
-      </div>
-      <!-- Water Cycle -->
-      <div id="watercycle" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">💧 Water Cycle</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Water_cycle.svg/800px-Water_cycle.svg.png" alt="Water">
-        <p>Evaporation → Condensation → <span class="key-term">Precipitation</span>.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> Marina Barrage collects rainwater!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: What turns water to vapor?</p><label class="option-label"><input type="radio" name="q5" value="a"> Evaporation</label><label class="option-label"><input type="radio" name="q5" value="b"> Condensation</label><button class="check-btn" onclick="checkQuiz('watercycle', 'q5', 'a')">Check Answer</button><div id="fb-watercycle" class="feedback"></div></div>
-      </div>
-      <!-- Electricity -->
-      <div id="electricity" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">⚡ Electricity</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electricity">
-        <p>Needs battery, wires, load. Copper is a <span class="key-term">conductor</span>.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> Always use 3-pin plugs for safety!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Which is a conductor?</p><label class="option-label"><input type="radio" name="q6" value="a"> Copper</label><label class="option-label"><input type="radio" name="q6" value="b"> Plastic</label><button class="check-btn" onclick="checkQuiz('electricity', 'q6', 'a')">Check Answer</button><div id="fb-electricity" class="feedback"></div></div>
-      </div>
-      <!-- Forces -->
-      <div id="forces" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">🎯 Forces</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Forces.svg/800px-Forces.svg.png" alt="Forces">
-        <p>Push or Pull. Gravity, Friction, Magnetic.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Friction helps you walk without slipping!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: What pulls us down?</p><label class="option-label"><input type="radio" name="q7" value="a"> Gravity</label><label class="option-label"><input type="radio" name="q7" value="b"> Friction</label><button class="check-btn" onclick="checkQuiz('forces', 'q7', 'a')">Check Answer</button><div id="fb-forces" class="feedback"></div></div>
-      </div>
-      <!-- Food Web -->
-      <div id="foodweb" class="content-card">
-        <h2 style="color:var(--primary); margin-bottom:10px;">🕸️ Food Webs</h2>
-        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FoodWeb.svg/800px-FoodWeb.svg.png" alt="FoodWeb">
-        <p>Producers → Consumers → Decomposers.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> Bukit Timah Nature Reserve has complex food webs!</div>
-        <div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: What do arrows show?</p><label class="option-label"><input type="radio" name="q8" value="a"> Energy Flow</label><label class="option-label"><input type="radio" name="q8" value="b"> Who is bigger</label><button class="check-btn" onclick="checkQuiz('foodweb', 'q8', 'a')">Check Answer</button><div id="fb-foodweb" class="feedback"></div></div>
-      </div>
+      <!-- Content Cards (Same as before for brevity) -->
+      <div id="magnets" class="content-card visible"><h2 style="color:var(--primary); margin-bottom:10px;">🧲 Magnets</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Magnet_bar.svg/800px-Magnet_bar.svg.png" alt="Magnets"><p>Magnets attract <span class="key-term">magnetic materials</span> like iron and steel.</p><div class="sg-context">🇸 <strong>SG Fact:</strong> MRT doors use magnetic sensors!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: North meets North?</p><label class="option-label"><input type="radio" name="q1" value="a"> Attract</label><label class="option-label"><input type="radio" name="q1" value="b"> Repel</label><button class="check-btn" onclick="checkQuiz('magnets', 'q1', 'b')">Check</button><div id="fb-magnets" class="feedback"></div></div></div>
+      <div id="digestive" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">🫀 Digestive</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Digestive_system_diagram.svg/800px-Digestive_system_diagram.svg.png" alt="Digestive"><p>Mouth → Stomach → <span class="key-term">Small Intestine</span>.</p><div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Chicken Rice breakdown!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Nutrients absorbed where?</p><label class="option-label"><input type="radio" name="q2" value="a"> Stomach</label><label class="option-label"><input type="radio" name="q2" value="b"> Small Intestine</label><button class="check-btn" onclick="checkQuiz('digestive', 'q2', 'b')">Check</button><div id="fb-digestive" class="feedback"></div></div></div>
+      <div id="lifecycle" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">🦋 Life Cycles</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Butterfly_lifecycle.svg/800px-Butterfly_lifecycle.svg.png" alt="Lifecycle"><p>Egg → Larva → <span class="key-term">Pupa</span> → Adult.</p><div class="sg-context">🇸 <strong>SG Fact:</strong> Butterfly Park Sentosa!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Unique stage?</p><label class="option-label"><input type="radio" name="q3" value="a"> Pupa</label><label class="option-label"><input type="radio" name="q3" value="b"> Nymph</label><button class="check-btn" onclick="checkQuiz('lifecycle', 'q3', 'a')">Check</button><div id="fb-lifecycle" class="feedback"></div></div></div>
+      <div id="matter" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">🧊 Matter</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/States_of_matter.svg/800px-States_of_matter.svg.png" alt="Matter"><p>Solid, Liquid, Gas.</p><div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Ice cream melts fast!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Gases compressed?</p><label class="option-label"><input type="radio" name="q4" value="a"> Yes</label><label class="option-label"><input type="radio" name="q4" value="b"> No</label><button class="check-btn" onclick="checkQuiz('matter', 'q4', 'a')">Check</button><div id="fb-matter" class="feedback"></div></div></div>
+      <div id="watercycle" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">💧 Water Cycle</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Water_cycle.svg/800px-Water_cycle.svg.png" alt="Water"><p>Evaporation → Condensation → Rain.</p><div class="sg-context">🇸 <strong>SG Fact:</strong> Marina Barrage!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Water to vapor?</p><label class="option-label"><input type="radio" name="q5" value="a"> Evaporation</label><label class="option-label"><input type="radio" name="q5" value="b"> Condensation</label><button class="check-btn" onclick="checkQuiz('watercycle', 'q5', 'a')">Check</button><div id="fb-watercycle" class="feedback"></div></div></div>
+      <div id="electricity" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">⚡ Electricity</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electricity"><p>Battery + Wires + Bulb.</p><div class="sg-context">🇸 <strong>SG Fact:</strong> Use 3-pin plugs!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Conductor?</p><label class="option-label"><input type="radio" name="q6" value="a"> Copper</label><label class="option-label"><input type="radio" name="q6" value="b"> Plastic</label><button class="check-btn" onclick="checkQuiz('electricity', 'q6', 'a')">Check</button><div id="fb-electricity" class="feedback"></div></div></div>
+      <div id="forces" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">🎯 Forces</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Forces.svg/800px-Forces.svg.png" alt="Forces"><p>Push, Pull, Gravity, Friction.</p><div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Friction prevents slipping!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Pulls down?</p><label class="option-label"><input type="radio" name="q7" value="a"> Gravity</label><label class="option-label"><input type="radio" name="q7" value="b"> Friction</label><button class="check-btn" onclick="checkQuiz('forces', 'q7', 'a')">Check</button><div id="fb-forces" class="feedback"></div></div></div>
+      <div id="foodweb" class="content-card"><h2 style="color:var(--primary); margin-bottom:10px;">🕸️ Food Webs</h2><img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FoodWeb.svg/800px-FoodWeb.svg.png" alt="FoodWeb"><p>Producers → Consumers.</p><div class="sg-context">🇸 <strong>SG Fact:</strong> Bukit Timah Reserve!</div><div class="quiz-box"><p style="font-weight:600; margin-bottom:10px;">Q: Arrows show?</p><label class="option-label"><input type="radio" name="q8" value="a"> Energy Flow</label><label class="option-label"><input type="radio" name="q8" value="b"> Size</label><button class="check-btn" onclick="checkQuiz('foodweb', 'q8', 'a')">Check</button><div id="fb-foodweb" class="feedback"></div></div></div>
     </div>
   </section>
 
-  <!-- 🤖 SMART CHATBOT -->
+  <!-- 🤖 MASTER CHATBOT -->
   <button class="chatbot-toggler" onclick="toggleChat()">🤖</button>
   <div class="chatbot">
-    <header><h2>Sci-Bot 🇸🇬</h2></header>
+    <header><h2>Sci-Bot Master 🇸🇬</h2></header>
     <ul class="chatbox" id="chatbox">
-      <li class="chat incoming"><span>Hi! I'm Sci-Bot. Ask me about Energy, Light, Magnets, or Forces! 💡</span></li>
+      <li class="chat incoming"><span>Hi! I'm Sci-Bot Master. Ask me detailed questions about Energy, Light, Heat, Plants, or any topic! 💡🔥🌱</span></li>
     </ul>
     <div class="chat-input">
-      <textarea id="chat-input" placeholder="Ask a question..."></textarea>
+      <textarea id="chat-input" placeholder="Ask a detailed question..."></textarea>
       <div class="send-btn" onclick="handleChat()">➤</div>
     </div>
   </div>
@@ -228,30 +168,43 @@
     function checkQuiz(topic, qName, ans) { const sel = document.querySelector(`input[name="${qName}"]:checked`); const fb = document.getElementById(`fb-${topic}`); if(!sel) return alert("Choose an option!"); if(sel.value === ans) { fb.className = "feedback correct"; fb.innerText = "✅ Correct! Great job!"; } else { fb.className = "feedback wrong"; fb.innerText = "❌ Try again!"; } }
     function switchTab(tab, el) { document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); el.classList.add('active'); if(tab === 'practice') alert("Practice Zone coming soon!"); }
 
-    // --- SMART BOT LOGIC ---
+    // --- MASTER BOT LOGIC ---
     function toggleChat() { const body = document.body; body.classList.toggle('show-chat'); if(body.classList.contains('show-chat')) { setTimeout(() => { const input = document.getElementById('chat-input'); input.focus(); }, 300); } }
 
     const botData = [
-      { keys: ["magnet", "north", "south", "pole"], ans: "Magnets have North & South poles. Like poles repel, unlike poles attract! In Singapore, MRT doors use magnetic sensors." },
-      { keys: ["food", "digest", "stomach", "intestine"], ans: "Digestion breaks food down! Path: Mouth → Stomach → Small Intestine (absorbs nutrients) → Large Intestine." },
-      { keys: ["butterfly", "cycle", "egg", "pupa", "larva"], ans: "Butterflies have 4 stages: Egg, Larva (caterpillar), Pupa, Adult. Grasshoppers only have 3!" },
-      { keys: ["solid", "liquid", "gas", "matter", "particle"], ans: "Solids keep shape. Liquids flow. Gases fill space. Ice cream melts fast in SG heat (Melting)!" },
-      { keys: ["water", "rain", "cycle", "evaporation", "condensation"], ans: "Water cycle: Evaporation (Sun heats) → Condensation (Clouds) → Precipitation (Rain). Marina Barrage helps store this rain!" },
-      { keys: ["electric", "circuit", "bulb", "wire", "battery"], ans: "A circuit needs a battery, wires, and a bulb. Copper is a conductor; plastic is an insulator. Always use 3-pin plugs in SG!" },
-      { keys: ["force", "push", "pull", "gravity", "friction"], ans: "Forces are pushes or pulls. Gravity pulls us down. Friction stops things sliding. Essential for walking safely!" },
-      { keys: ["plant", "photosynthesis", "leaf", "sunlight"], ans: "Plants make food using sunlight, water, and CO2 (Photosynthesis). They release Oxygen for us to breathe!" },
+      { keys: ["magnet", "north", "south", "pole"], ans: "🧲 **Magnets & Poles**\n\n• Magnets have two poles: **North (N)** and **South (S)**.\n• **Law of Magnetism:** Like poles repel (push away), unlike poles attract (pull together).\n• **Magnetic Materials:** Iron, steel, nickel, cobalt.\n• **Non-Magnetic:** Plastic, wood, glass, copper.\n\n🇸🇬 **SG Context:** MRT train doors use magnetic sensors to ensure they close safely without trapping passengers!" },
       
-      // NEW ENERGY & LIGHT TOPICS
-      { keys: ["energy", "solar", "sun", "power"], ans: "Energy comes from the Sun (Solar), batteries (Chemical), or mains electricity. In Singapore, we put solar panels on HDB rooftops!" },
-      { keys: ["light", "shadow", "dark", "see"], ans: "We see things because light enters our eyes. Shadows form when light is blocked by an opaque object. Longer shadows happen in the morning/evening!" },
-      { keys: ["heat", "hot", "warm", "temperature"], ans: "Heat flows from hot to cold objects. Conductors (like metal) transfer heat quickly. That's why metal slides feel hot in SG sun!" },
-      { keys: ["renewable", "solar panel", "wind"], ans: "Renewable energy won't run out! Singapore uses Solar energy widely. Wind energy is less common here due to low wind speeds." },
+      { keys: ["food", "digest", "stomach", "intestine", "organ"], ans: "🫀 **Human Digestive System**\n\n• **Path:** Mouth → Oesophagus → Stomach → Small Intestine → Large Intestine → Anus.\n• **Mouth:** Chews food; saliva starts digestion.\n• **Stomach:** Churns food; acid kills bacteria.\n• **Small Intestine:** **Main site** for digestion and absorption of nutrients into blood.\n• **Large Intestine:** Absorbs water; forms waste.\n\n🇸 **SG Context:** When you eat Chicken Rice, your small intestine absorbs the nutrients from the rice (carbs) and chicken (protein)!" },
       
-      // GENERAL CHIT-CHAT
-      { keys: ["hi", "hello", "hey", "sup"], ans: "Hello young scientist! 👋 Ready to learn something new today?" },
-      { keys: ["how are you", "who are you"], ans: "I'm Sci-Bot, your AI science helper! I know all about the Singapore Primary Science syllabus. 🤖" },
-      { keys: ["help", "stuck", "confused"], ans: "Try asking about: Magnets, Energy, Light, Forces, or Life Cycles! I can explain concepts or give examples." },
-      { keys: ["bye", "goodbye"], ans: "Goodbye! Keep exploring science! 🚀" }
+      { keys: ["butterfly", "cycle", "egg", "pupa", "larva", "grasshopper"], ans: "🦋 **Life Cycles**\n\n• **Butterfly (4 Stages):** Egg → Larva (Caterpillar) → Pupa (Chrysalis) → Adult. This is **Complete Metamorphosis**.\n• **Grasshopper/Cockroach (3 Stages):** Egg → Nymph → Adult. This is **Incomplete Metamorphosis**.\n• **Difference:** Nymphs look like small adults; larvae do not.\n\n🇸 **SG Context:** Visit the **Butterfly Park at Sentosa** to see all 4 stages live!" },
+      
+      { keys: ["solid", "liquid", "gas", "matter", "particle"], ans: "🧊 **States of Matter**\n\n• **Solid:** Fixed shape, fixed volume. Particles tightly packed.\n• **Liquid:** No fixed shape (takes container's shape), fixed volume. Particles slide past each other.\n• **Gas:** No fixed shape, no fixed volume. Particles far apart, moving fast.\n• **Changes:** Melting (S→L), Freezing (L→S), Evaporation (L→G), Condensation (G→L).\n\n🇸🇬 **SG Context:** Ice cream melts quickly in our hot weather (Melting). Water droplets form on cold drinks (Condensation)." },
+      
+      { keys: ["water", "rain", "cycle", "evaporation", "condensation", "precipitation"], ans: "💧 **The Water Cycle**\n\n1. **Evaporation:** Sun heats water → turns to vapor.\n2. **Condensation:** Vapor cools → forms clouds.\n3. **Precipitation:** Clouds get heavy → rain/snow falls.\n4. **Collection:** Water flows to rivers/reservoirs.\n\n🇸 **SG Context:** **Marina Barrage** collects rainwater to prevent floods and provide fresh water. We also use **NEWATER** (recycled water)!" },
+      
+      { keys: ["electric", "circuit", "bulb", "wire", "battery", "conductor"], ans: "⚡ **Electrical Systems**\n\n• **Complete Circuit:** Needs Power Source (Battery), Wires, Load (Bulb), and Switch.\n• **Conductors:** Allow electricity to flow (Copper, Iron, Salt water).\n• **Insulators:** Do not allow flow (Plastic, Rubber, Glass).\n• **Safety:** Never touch switches with wet hands!\n\n🇸🇬 **SG Context:** Singapore uses **230V** mains electricity. Always use 3-pin plugs with an earth wire for safety!" },
+      
+      { keys: ["force", "push", "pull", "gravity", "friction", "elastic"], ans: "🎯 **Forces**\n\n• **Definition:** A push or a pull.\n• **Gravity:** Pulls objects towards Earth's center.\n• **Friction:** Opposes motion. Useful (walking) or disadvantage (wear and tear).\n• **Magnetic Force:** Attract/Repel without contact.\n• **Elastic Force:** Restoring force in stretched/compressed objects.\n\n🇸🇬 **SG Context:** Friction helps you walk without slipping on wet HDB corridors. Grooves on pedestrian crossings increase friction!" },
+      
+      { keys: ["plant", "photosynthesis", "leaf", "sunlight", "root", "stem"], ans: "🌱 **Plants & Photosynthesis**\n\n• **Photosynthesis:** Plants make food using **Sunlight + Water + Carbon Dioxide** → produces **Food + Oxygen**.\n• **Roots:** Absorb water/minerals; anchor plant.\n• **Stem:** Transports water/food; supports leaves.\n• **Leaves:** Make food (photosynthesis).\n\n🇸🇬 **SG Context:** Gardens by the Bay uses artificial lights to help plants photosynthesize indoors!" },
+
+      // --- NEW ENERGY & LIGHT TOPICS ---
+      { keys: ["energy", "solar", "kinetic", "potential", "chemical", "power"], ans: "⚡ **Forms of Energy**\n\n• **Kinetic:** Energy of motion (moving car).\n• **Potential:** Stored energy (stretched rubber band, object high up).\n• **Chemical:** Stored in food/batteries.\n• **Solar:** From the Sun.\n• **Conversion:** Energy changes from one form to another (e.g., Battery → Electrical → Light + Heat).\n\n🇸🇬 **SG Context:** Singapore installs **Solar Panels** on HDB rooftops to convert Solar Energy → Electrical Energy!" },
+      
+      { keys: ["light", "shadow", "dark", "see", "transparent", "opaque", "reflection"], ans: "💡 **Light & Shadows**\n\n• **Seeing:** We see objects when light enters our eyes.\n• **Shadow:** Formed when light is blocked by an **opaque** object.\n• **Transparent:** Allows all light through (glass).\n• **Translucent:** Allows some light (tracing paper).\n• **Opaque:** Blocks all light (wood).\n• **Reflection:** Light bounces off surfaces (mirrors).\n\n🇸🇬 **SG Context:** Shadows are longer in the morning/evening when the sun is low. Shortest at noon!" },
+      
+      { keys: ["heat", "hot", "warm", "temperature", "conductor", "insulator", "expand"], ans: "🔥 **Heat & Temperature**\n\n• **Heat Flow:** Always moves from **Hot → Cold**.\n• **Conductors:** Transfer heat quickly (Metals like copper, iron).\n• **Insulators:** Transfer heat slowly (Wood, plastic, air).\n• **Expansion:** Objects expand when heated, contract when cooled.\n\n🇸🇬 **SG Context:** Metal slides in playgrounds get very hot in the sun (Conductor). We use plastic handles on pots (Insulator)!" },
+      
+      { keys: ["renewable", "solar panel", "wind", "fuel", "non-renewable"], ans: "🌍 **Renewable vs Non-Renewable**\n\n• **Renewable:** Won't run out (Solar, Wind, Hydro). Clean!\n• **Non-Renewable:** Will run out (Coal, Oil, Natural Gas). Polluting!\n• **Singapore:** Uses mostly Natural Gas. Increasing Solar energy usage.\n\n🇸🇬 **SG Context:** Since Singapore has little wind, we focus on **Solar Energy** and importing electricity from neighbors!" },
+      
+      // --- GENERAL ---
+      { keys: ["hi", "hello", "hey", "sup", "greetings"], ans: "👋 **Hello Young Scientist!**\n\nI am Sci-Bot Master. I can teach you about:\n• Energy & Light 💡\n• Heat & Temperature 🔥\n• Plants & Photosynthesis 🌱\n• And all your P3-P6 topics!\n\nWhat do you want to learn today?" },
+      
+      { keys: ["how are you", "who are you", "name"], ans: "🤖 **About Me**\n\nI am **Sci-Bot Master**, your AI science tutor aligned with the **Singapore MOE Syllabus**.\n\nI don't just give answers; I explain concepts with examples and local Singapore context to help you score well in your exams!" },
+      
+      { keys: ["help", "stuck", "confused", "explain"], ans: "🆘 **How I Can Help**\n\nTry asking me specific questions like:\n• \"Explain photosynthesis\"\n• \"What is kinetic energy?\"\n• \"How do shadows form?\"\n• \"Why does ice melt?\"\n\nI will give you a detailed lesson with keywords for your exams!" },
+      
+      { keys: ["bye", "goodbye", "see you"], ans: "👋 **Goodbye!**\n\nKeep exploring science! Remember to revise your keywords and practice CER (Claim-Evidence-Reasoning) for open-ended questions. See you next time! 🚀" }
     ];
 
     function handleChat() {
@@ -264,8 +217,10 @@
       box.scrollTop = box.scrollHeight;
 
       setTimeout(() => {
-        let reply = "I'm not sure about that yet. Try asking about 'Energy', 'Light', or 'Magnets'! 🤔";
+        let reply = "🤔 I'm not sure about that yet. Try asking about **Energy**, **Light**, **Heat**, or **Plants**!";
         const lowerMsg = msg.toLowerCase();
+        
+        // Find best match
         for(let item of botData) {
           if(item.keys.some(k => lowerMsg.includes(k))) {
             reply = item.ans;
@@ -274,7 +229,7 @@
         }
         box.innerHTML += `<li class="chat incoming"><span>${reply}</span></li>`;
         box.scrollTop = box.scrollHeight;
-      }, 600);
+      }, 800); // Slightly longer delay for "thinking" effect
     }
     document.getElementById('chat-input').addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); handleChat(); } });
   </script>
