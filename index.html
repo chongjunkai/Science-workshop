@@ -18,196 +18,115 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg); color: var(--text);
       line-height: 1.6;
-      padding-bottom: var(--nav-height); /* Space for bottom nav */
+      padding-bottom: var(--nav-height);
     }
 
     /* --- HOME SCREEN --- */
-    #home-view {
-      padding: 20px;
-      text-align: center;
-      animation: fadeIn 0.5s ease;
-    }
+    #home-view { padding: 20px; text-align: center; animation: fadeIn 0.5s ease; }
     .hero-title {
-      font-size: 2.2em;
-      background: linear-gradient(135deg, var(--sg-red), var(--primary));
+      font-size: 2.2em; background: linear-gradient(135deg, var(--sg-red), var(--primary));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin: 10px 0;
-      font-weight: 800;
+      margin: 10px 0; font-weight: 800;
     }
     .moe-badge {
-      background: var(--sg-red); color: white;
-      padding: 6px 12px; border-radius: 20px;
-      font-size: 0.8em; font-weight: bold;
-      display: inline-block;
+      background: var(--sg-red); color: white; padding: 6px 12px;
+      border-radius: 20px; font-size: 0.8em; font-weight: bold; display: inline-block;
     }
-    .level-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 15px; margin: 25px 0;
-    }
+    .level-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
     .level-card {
-      background: white; padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      border: 2px solid transparent;
-      transition: all 0.2s;
-      cursor: pointer;
+      background: white; padding: 20px; border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 2px solid transparent;
+      transition: all 0.2s; cursor: pointer;
     }
-    .level-card.selected {
-      border-color: var(--primary);
-      background: #eff6ff;
-      transform: scale(1.02);
-    }
+    .level-card.selected { border-color: var(--primary); background: #eff6ff; transform: scale(1.02); }
     .level-icon { font-size: 2em; display: block; margin-bottom: 5px; }
     .start-btn {
-      background: linear-gradient(135deg, var(--sg-red), #c41e3a);
-      color: white; border: none;
-      width: 100%; padding: 18px;
-      font-size: 1.2em; border-radius: 50px;
-      font-weight: bold;
-      box-shadow: 0 10px 20px rgba(237, 41, 57, 0.3);
-      cursor: pointer;
+      background: linear-gradient(135deg, var(--sg-red), #c41e3a); color: white;
+      border: none; width: 100%; padding: 18px; font-size: 1.2em;
+      border-radius: 50px; font-weight: bold;
+      box-shadow: 0 10px 20px rgba(237, 41, 57, 0.3); cursor: pointer;
     }
     .start-btn.disabled { opacity: 0.6; filter: grayscale(1); }
 
     /* --- APP SCREEN --- */
     #app-view { display: none; padding: 15px; }
-    
-    /* Topic Slider (Horizontal Scroll) */
     .topic-slider {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 10px 5px 20px 5px;
-      scrollbar-width: none; /* Firefox */
+      display: flex; overflow-x: auto; gap: 10px;
+      padding: 10px 5px 20px 5px; scrollbar-width: none;
     }
-    .topic-slider::-webkit-scrollbar { display: none; } /* Chrome/Safari */
-    
+    .topic-slider::-webkit-scrollbar { display: none; }
     .topic-chip {
-      background: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      white-space: nowrap;
-      font-weight: 600;
-      font-size: 0.95em;
-      border: 2px solid #e2e8f0;
-      flex-shrink: 0;
-      transition: all 0.2s;
+      background: white; padding: 10px 20px; border-radius: 30px;
+      white-space: nowrap; font-weight: 600; font-size: 0.95em;
+      border: 2px solid #e2e8f0; flex-shrink: 0; transition: all 0.2s;
     }
     .topic-chip.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+      background: var(--primary); color: white;
+      border-color: var(--primary); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
     }
-    .topic-chip.recommended {
-      border-color: var(--success);
-      color: #166534;
-      background: #f0fdf4;
-    }
+    .topic-chip.recommended { border-color: var(--success); color: #166534; background: #f0fdf4; }
 
-    /* Content Card */
     .content-card {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      margin-top: 10px;
-      animation: slideUp 0.4s ease;
-      border-top: 5px solid var(--accent);
+      background: white; border-radius: 20px; padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 10px;
+      animation: slideUp 0.4s ease; border-top: 5px solid var(--accent);
     }
     .topic-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 15px;
-      margin: 15px 0;
-      background: #e2e8f0;
+      width: 100%; height: 200px; object-fit: cover;
+      border-radius: 15px; margin: 15px 0; background: #e2e8f0;
     }
-    .key-term {
-      background: #fef3c7; padding: 2px 6px;
-      border-radius: 4px; font-weight: 700; color: #92400e;
-    }
+    .key-term { background: #fef3c7; padding: 2px 6px; border-radius: 4px; font-weight: 700; color: #92400e; }
     .sg-context {
-      background: #dcfce7;
-      border-left: 4px solid var(--success);
-      padding: 12px;
-      border-radius: 0 8px 8px 0;
-      margin: 15px 0;
-      font-size: 0.95em;
+      background: #dcfce7; border-left: 4px solid var(--success);
+      padding: 12px; border-radius: 0 8px 8px 0; margin: 15px 0; font-size: 0.95em;
     }
     
-    /* Quiz */
     .quiz-box {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 12px;
-      margin: 15px 0;
-      border: 2px solid #e2e8f0;
+      background: #f8fafc; padding: 15px; border-radius: 12px;
+      margin: 15px 0; border: 2px solid #e2e8f0;
     }
     .option-label {
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      background: white;
-      border-radius: 10px;
-      margin: 8px 0;
-      border: 2px solid #e2e8f0;
-      cursor: pointer;
+      display: flex; align-items: center; padding: 12px;
+      background: white; border-radius: 10px; margin: 8px 0;
+      border: 2px solid #e2e8f0; cursor: pointer;
     }
     .option-label input { margin-right: 12px; transform: scale(1.3); }
     .check-btn {
-      background: var(--success); color: white;
-      width: 100%; padding: 15px;
-      border: none; border-radius: 50px;
-      font-size: 1.1em; font-weight: bold;
-      margin-top: 10px;
+      background: var(--success); color: white; width: 100%;
+      padding: 15px; border: none; border-radius: 50px;
+      font-size: 1.1em; font-weight: bold; margin-top: 10px;
     }
-    .feedback {
-      padding: 15px; border-radius: 12px;
-      margin-top: 15px; font-weight: 600;
-      display: none;
-    }
+    .feedback { padding: 15px; border-radius: 12px; margin-top: 15px; font-weight: 600; display: none; }
     .feedback.correct { background: #dcfce7; color: #166534; display: block; }
     .feedback.wrong { background: #fee2e2; color: #991b1b; display: block; }
 
     /* --- BOTTOM NAVIGATION --- */
     .bottom-nav {
-      position: fixed;
-      bottom: 0; left: 0; width: 100%;
-      height: var(--nav-height);
-      background: white;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      border-top: 1px solid #e2e8f0;
-      z-index: 100;
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      height: var(--nav-height); background: white;
+      display: flex; justify-content: space-around; align-items: center;
+      border-top: 1px solid #e2e8f0; z-index: 100;
       padding-bottom: env(safe-area-inset-bottom);
     }
     .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #94a3b8;
-      font-size: 0.75em;
-      font-weight: 600;
-      cursor: pointer;
-      width: 60px;
+      display: flex; flex-direction: column; align-items: center;
+      color: #94a3b8; font-size: 0.75em; font-weight: 600;
+      cursor: pointer; width: 60px;
     }
     .nav-item.active { color: var(--primary); }
     .nav-icon { font-size: 1.4em; margin-bottom: 4px; }
 
-    /* --- CHATBOT (Mobile Optimized) --- */
+    /* --- FIXED CHATBOT --- */
     .chatbot-toggler {
       position: fixed; bottom: 85px; right: 20px;
       height: 55px; width: 55px;
       background: var(--primary); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
-      z-index: 999;
+      z-index: 999; cursor: pointer;
     }
     .chatbot {
-      position: fixed;
-      bottom: 85px; right: 20px; left: 20px;
+      position: fixed; bottom: 85px; right: 20px; left: 20px;
       height: 60vh; max-height: 500px;
       background: white; border-radius: 20px;
       box-shadow: 0 0 30px rgba(0,0,0,0.2);
@@ -222,10 +141,7 @@
       border-radius: 20px 20px 0 0;
     }
     .chatbot header h2 { color: white; font-size: 1.1em; margin: 0; }
-    .chatbox {
-      flex: 1; overflow-y: auto; padding: 15px;
-      background: #f8fafc;
-    }
+    .chatbox { flex: 1; overflow-y: auto; padding: 15px; background: #f8fafc; }
     .chat { display: flex; margin-bottom: 15px; }
     .chat.incoming span {
       background: var(--primary); color: white;
@@ -238,16 +154,33 @@
       padding: 10px 14px; border-radius: 14px 14px 0 14px;
       max-width: 80%; font-size: 0.9em;
     }
+    
+    /* Fixed Input Area */
     .chat-input {
-      padding: 10px; border-top: 1px solid #eee;
+      padding: 12px; border-top: 1px solid #eee;
       display: flex; gap: 10px; background: white;
-      border-radius: 0 0 20px 20px;
+      border-radius: 0 0 20px 20px; align-items: center;
     }
     .chat-input textarea {
-      flex: 1; border: none; background: #f1f5f9;
+      flex: 1; border: 1px solid #ddd; background: #f1f5f9;
       border-radius: 20px; padding: 10px 15px;
-      font-family: inherit; resize: none; height: 40px;
+      font-family: inherit; resize: none; height: 44px;
+      font-size: 16px; /* Prevents zoom on iPhone */
     }
+    .chat-input textarea:focus { outline: 2px solid var(--primary); border-color: transparent; }
+    
+    /* Big Send Button */
+    .send-btn {
+      background: var(--primary); color: white;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2em; font-weight: bold;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.1s;
+    }
+    .send-btn:active { transform: scale(0.9); }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -263,26 +196,20 @@
     
     <div class="level-grid">
       <div class="level-card" onclick="selectLevel('P3', this)">
-        <span class="level-icon">🧸</span>
-        <strong>Primary 3</strong>
+        <span class="level-icon">🧸</span><strong>Primary 3</strong>
       </div>
       <div class="level-card" onclick="selectLevel('P4', this)">
-        <span class="level-icon">🚲</span>
-        <strong>Primary 4</strong>
+        <span class="level-icon">🚲</span><strong>Primary 4</strong>
       </div>
       <div class="level-card" onclick="selectLevel('P5', this)">
-        <span class="level-icon">🔋</span>
-        <strong>Primary 5</strong>
+        <span class="level-icon">🔋</span><strong>Primary 5</strong>
       </div>
       <div class="level-card" onclick="selectLevel('P6', this)">
-        <span class="level-icon">🎓</span>
-        <strong>Primary 6</strong>
+        <span class="level-icon">🎓</span><strong>Primary 6</strong>
       </div>
     </div>
 
-    <button id="start-btn" class="start-btn disabled" onclick="goToApp()">
-      🚀 Start Learning
-    </button>
+    <button id="start-btn" class="start-btn disabled" onclick="goToApp()">🚀 Start Learning</button>
   </section>
 
   <!-- 📚 APP VIEW -->
@@ -292,7 +219,6 @@
       <span id="user-badge" style="background:var(--warning); padding:4px 10px; border-radius:15px; font-size:0.8em; font-weight:bold;">P3</span>
     </div>
 
-    <!-- Horizontal Topic Slider -->
     <div class="topic-slider">
       <div class="topic-chip active recommended" data-level="P3" onclick="showTopic('magnets', this)">🧲 Magnets</div>
       <div class="topic-chip" data-level="P3" onclick="showTopic('digestive', this)">🫀 Digestive</div>
@@ -304,15 +230,13 @@
       <div class="topic-chip" data-level="P6" onclick="showTopic('foodweb', this)">🕸️ Food Web</div>
     </div>
 
-    <!-- Content Area -->
     <div id="content-area">
       <!-- Magnets -->
       <div id="magnets" class="content-card">
         <h2 style="color:var(--primary);">🧲 Magnets</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Magnet_bar.svg/800px-Magnet_bar.svg.png" alt="Magnets">
         <p>Magnets attract <span class="key-term">magnetic materials</span> like iron and steel.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> MRT train doors use magnetic sensors to stay safe!</div>
-        
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> MRT train doors use magnetic sensors!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: What happens when North meets North?</p>
           <label class="option-label"><input type="radio" name="q1" value="a"> They Attract</label>
@@ -327,7 +251,7 @@
         <h2 style="color:var(--primary);">🫀 Digestive System</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Digestive_system_diagram.svg/800px-Digestive_system_diagram.svg.png" alt="Digestive">
         <p>Food path: Mouth → Oesophagus → Stomach → <span class="key-term">Small Intestine</span>.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Eating Chicken Rice? Your body breaks it down into nutrients!</div>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Eating Chicken Rice? Your body breaks it down!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: Where are nutrients absorbed?</p>
           <label class="option-label"><input type="radio" name="q2" value="a"> Stomach</label>
@@ -342,7 +266,7 @@
         <h2 style="color:var(--primary);">🦋 Life Cycles</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Butterfly_lifecycle.svg/800px-Butterfly_lifecycle.svg.png" alt="Lifecycle">
         <p>Butterfly: Egg → Larva → <span class="key-term">Pupa</span> → Adult.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Visit Butterfly Park at Sentosa to see this!</div>
+        <div class="sg-context">🇸 <strong>SG Fact:</strong> Visit Butterfly Park at Sentosa!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: Which stage is unique to butterflies?</p>
           <label class="option-label"><input type="radio" name="q3" value="a"> Pupa</label>
@@ -372,7 +296,7 @@
         <h2 style="color:var(--primary);">💧 Water Cycle</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Water_cycle.svg/800px-Water_cycle.svg.png" alt="Water">
         <p>Evaporation → Condensation → <span class="key-term">Precipitation</span>.</p>
-        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Marina Barrage collects rainwater to prevent floods!</div>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Marina Barrage collects rainwater!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: What turns water to vapor?</p>
           <label class="option-label"><input type="radio" name="q5" value="a"> Evaporation</label>
@@ -387,7 +311,7 @@
         <h2 style="color:var(--primary);">⚡ Electricity</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electricity">
         <p>Needs battery, wires, load. Copper is a <span class="key-term">conductor</span>.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> Always use 3-pin plugs for safety!</div>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Always use 3-pin plugs for safety!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: Which is a conductor?</p>
           <label class="option-label"><input type="radio" name="q6" value="a"> Copper</label>
@@ -402,7 +326,7 @@
         <h2 style="color:var(--primary);">🎯 Forces</h2>
         <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Forces.svg/800px-Forces.svg.png" alt="Forces">
         <p>Push or Pull. Gravity, Friction, Magnetic.</p>
-        <div class="sg-context">🇸 <strong>SG Fact:</strong> Friction helps you walk without slipping on wet floors!</div>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Friction helps you walk without slipping!</div>
         <div class="quiz-box">
           <p style="font-weight:600; margin-bottom:10px;">Q: What pulls us down?</p>
           <label class="option-label"><input type="radio" name="q7" value="a"> Gravity</label>
@@ -437,24 +361,22 @@
       <li class="chat incoming"><span>Hi! Ask me about magnets, forces, or plants! 🧪</span></li>
     </ul>
     <div class="chat-input">
-      <textarea placeholder="Type..." id="chat-input"></textarea>
-      <span onclick="handleChat()" style="color:var(--primary); font-weight:bold; font-size:1.2em; display:flex; align-items:center;">➤</span>
+      <textarea id="chat-input" placeholder="Type message..."></textarea>
+      <!-- Fixed Large Send Button -->
+      <div class="send-btn" onclick="handleChat()">➤</div>
     </div>
   </div>
 
   <!-- 📱 BOTTOM NAVIGATION -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('learn', this)">
-      <span class="nav-icon">📚</span>
-      <span>Learn</span>
+      <span class="nav-icon">📚</span><span>Learn</span>
     </div>
     <div class="nav-item" onclick="switchTab('practice', this)">
-      <span class="nav-icon">🎯</span>
-      <span>Practice</span>
+      <span class="nav-icon">🎯</span><span>Practice</span>
     </div>
     <div class="nav-item" onclick="goHome()">
-      <span class="nav-icon">🏠</span>
-      <span>Home</span>
+      <span class="nav-icon">🏠</span><span>Home</span>
     </div>
   </nav>
 
@@ -476,7 +398,6 @@
       document.getElementById('app-view').style.display = 'block';
       document.getElementById('user-badge').innerText = selectedLevel;
       
-      // Highlight recommended topics
       document.querySelectorAll('.topic-chip').forEach(chip => {
         if(chip.dataset.level === selectedLevel) chip.classList.add('recommended');
         else chip.classList.remove('recommended');
@@ -496,8 +417,6 @@
       
       document.getElementById(id).style.display = 'block';
       el.classList.add('active');
-      
-      // Smooth scroll to content
       document.getElementById('content-area').scrollIntoView({behavior: 'smooth'});
     }
 
@@ -518,12 +437,21 @@
     function switchTab(tab, el) {
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
       el.classList.add('active');
-      if(tab === 'practice') alert("Practice Zone coming soon! For now, use the quizzes in the Learn tab.");
+      if(tab === 'practice') alert("Practice Zone coming soon! Use the quizzes in Learn tab.");
     }
 
-    // --- CHATBOT LOGIC ---
+    // --- FIXED CHATBOT LOGIC ---
     function toggleChat() {
-      document.body.classList.toggle('show-chat');
+      const body = document.body;
+      body.classList.toggle('show-chat');
+      
+      // Force focus on input when opening on mobile
+      if(body.classList.contains('show-chat')) {
+        setTimeout(() => {
+          const input = document.getElementById('chat-input');
+          input.focus();
+        }, 300);
+      }
     }
 
     const botData = [
@@ -534,31 +462,46 @@
       { keys: ["water", "rain", "cycle"], ans: "Water cycle: Evaporation → Condensation → Rain!" },
       { keys: ["electric", "circuit", "bulb"], ans: "Circuits need a battery and complete path. Copper conducts electricity." },
       { keys: ["force", "push", "pull", "gravity"], ans: "Forces are pushes or pulls. Gravity pulls us down." },
-      { keys: ["hi", "hello"], ans: "Hello young scientist! 👋 What do you want to learn?" }
+      { keys: ["hi", "hello", "hey"], ans: "Hello young scientist! 👋 What do you want to learn?" }
     ];
 
     function handleChat() {
       const input = document.getElementById('chat-input');
-      const msg = input.value.trim().toLowerCase();
+      const msg = input.value.trim();
+      
       if(!msg) return;
 
       const box = document.getElementById('chatbox');
-      box.innerHTML += `<li class="chat outgoing"><span>${input.value}</span></li>`;
+      
+      // Add User Message
+      box.innerHTML += `<li class="chat outgoing"><span>${msg}</span></li>`;
       input.value = "";
       box.scrollTop = box.scrollHeight;
 
+      // Bot Response
       setTimeout(() => {
         let reply = "I'm not sure. Try asking about 'magnets' or 'forces'! 🤔";
+        const lowerMsg = msg.toLowerCase();
+        
         for(let item of botData) {
-          if(item.keys.some(k => msg.includes(k))) {
+          if(item.keys.some(k => lowerMsg.includes(k))) {
             reply = item.ans;
             break;
           }
         }
+        
         box.innerHTML += `<li class="chat incoming"><span>${reply}</span></li>`;
         box.scrollTop = box.scrollHeight;
       }, 600);
     }
+
+    // Allow "Enter" key to send (optional helper)
+    document.getElementById('chat-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleChat();
+      }
+    });
   </script>
 </body>
 </html>
