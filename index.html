@@ -2,1736 +2,563 @@
 <html lang="en-SG">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🇸🇬 SG Science Explorer - Clean View</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>🇸🇬 SG Science Mobile</title>
   <style>
-    /* 🎨 SINGAPORE-THEMED CSS */
+    /* 🎨 MOBILE-FIRST CSS */
     :root {
-      --sg-red: #ED2939; --sg-white: #FFFFFF;
-      --primary: #2563eb; --secondary: #1e40af;
-      --accent: #06b6d4; --success: #22c55e;
-      --warning: #f59e0b; --danger: #ef4444;
+      --sg-red: #ED2939; --primary: #2563eb; --secondary: #1e40af;
+      --accent: #06b6d4; --success: #22c55e; --warning: #f59e0b;
       --bg: #f8fafc; --card: #ffffff; --text: #1e293b;
+      --nav-height: 70px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    
     body {
-      font-family: 'Segoe UI', 'Arial', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg); color: var(--text);
-      line-height: 1.6; min-height: 100vh;
-      display: flex; flex-direction: column;
+      line-height: 1.6;
+      padding-bottom: var(--nav-height); /* Space for bottom nav */
     }
-    /* --- HOME PAGE --- */
+
+    /* --- HOME SCREEN --- */
     #home-view {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 20px; flex-grow: 1;
-      animation: fadeIn 0.8s ease;
+      padding: 20px;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
     }
     .hero-title {
-      font-size: 3em;
+      font-size: 2.2em;
       background: linear-gradient(135deg, var(--sg-red), var(--primary));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
+      margin: 10px 0;
+      font-weight: 800;
     }
     .moe-badge {
       background: var(--sg-red); color: white;
-      padding: 5px 15px; border-radius: 20px;
-      font-size: 0.9em; font-weight: bold;
-      display: inline-block; margin-bottom: 15px;
+      padding: 6px 12px; border-radius: 20px;
+      font-size: 0.8em; font-weight: bold;
+      display: inline-block;
     }
-    .hero-subtitle {
-      font-size: 1.3em; color: #64748b;
-      margin-bottom: 30px; max-width: 600px;
+    .level-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 15px; margin: 25px 0;
     }
-    .level-section {
-      background: white; padding: 25px;
-      border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      margin-bottom: 30px; width: 100%; max-width: 650px;
-      border: 3px solid var(--sg-red);
+    .level-card {
+      background: white; padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
     }
-    .level-section h3 {
-      color: var(--secondary); margin-bottom: 15px; font-size: 1.4em;
+    .level-card.selected {
+      border-color: var(--primary);
+      background: #eff6ff;
+      transform: scale(1.02);
     }
-    .level-buttons {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px;
-    }
-    .level-btn {
-      background: #f1f5f9; border: 3px solid #cbd5e1;
-      color: #64748b; padding: 15px; font-size: 1.1em;
-      border-radius: 12px; cursor: pointer;
-      transition: all 0.2s; font-weight: 600; text-align: center;
-    }
-    .level-btn:hover {
-      border-color: var(--primary); color: var(--primary);
-      transform: translateY(-2px);
-    }
-    .level-btn.selected {
-      background: var(--primary); border-color: var(--secondary);
-      color: white; box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
-      transform: scale(1.05);
-    }
-    .level-desc { font-size: 0.9em; color: #64748b; margin-top: 5px; }
-    
+    .level-icon { font-size: 2em; display: block; margin-bottom: 5px; }
     .start-btn {
       background: linear-gradient(135deg, var(--sg-red), #c41e3a);
-      color: white; border: none; padding: 18px 45px;
-      font-size: 1.4em; border-radius: 50px; cursor: pointer;
-      box-shadow: 0 10px 25px rgba(237, 41, 57, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-      font-weight: bold; display: flex; align-items: center; gap: 12px;
+      color: white; border: none;
+      width: 100%; padding: 18px;
+      font-size: 1.2em; border-radius: 50px;
+      font-weight: bold;
+      box-shadow: 0 10px 20px rgba(237, 41, 57, 0.3);
+      cursor: pointer;
     }
-    .start-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 15px 35px rgba(237, 41, 57, 0.6);
-    }
-    .start-btn.disabled {
-      opacity: 0.6; cursor: not-allowed; filter: grayscale(0.3);
-    }
+    .start-btn.disabled { opacity: 0.6; filter: grayscale(1); }
 
-    .browse-section {
-      margin-top: 40px; text-align: center; max-width: 700px;
-      animation: fadeIn 1s ease;
-    }
-    .browse-grid {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px;
-    }
-    .browse-item {
-      padding: 8px 16px; background: white;
-      border: 2px solid var(--primary); border-radius: 20px;
-      font-size: 0.9em; font-weight: 600; color: var(--primary);
-      cursor: default;
-    }
-
-    .themes-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px; margin-top: 40px; max-width: 700px;
-    }
-    .theme-card {
-      background: white; padding: 15px; border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      border-top: 4px solid var(--accent);
-    }
-    .theme-icon { font-size: 2em; margin-bottom: 8px; display: block; }
-    .theme-name { font-weight: 600; color: var(--secondary); }
-
-    /* --- APP VIEW --- */
-    #app-view { display: none; padding: 20px; flex-grow: 1; }
-    header {
-      background: white; padding: 20px; border-radius: 20px;
-      margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 15px; border-left: 5px solid var(--sg-red);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .header-title h1 { color: var(--secondary); font-size: 1.6em; }
-    .header-title p { color: #64748b; font-size: 0.9em; }
-    .user-level-badge {
-      background: var(--warning); color: #333;
-      padding: 6px 16px; border-radius: 20px;
-      font-weight: bold; font-size: 0.95em;
-    }
-    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .home-link, .practice-link, .challenge-toggle {
-      padding: 10px 20px; border-radius: 50px;
-      font-weight: 600; cursor: pointer; border: none;
-      font-size: 0.95em; transition: all 0.2s;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .home-link { background: #e2e8f0; color: var(--text); }
-    .home-link:hover { background: #cbd5e1; }
-    .practice-link { background: var(--accent); color: white; }
-    .practice-link:hover { background: #0891b2; }
-    .challenge-toggle {
-      background: white; border: 2px solid var(--danger);
-      color: var(--danger);
-    }
-    .challenge-toggle.active {
-      background: var(--danger); color: white;
-    }
-
-    .container { max-width: 1000px; margin: 0 auto; }
+    /* --- APP SCREEN --- */
+    #app-view { display: none; padding: 15px; }
     
-    /* Tab Navigation */
-    .tab-nav {
-      display: flex; gap: 10px; justify-content: center;
-      margin-bottom: 25px; flex-wrap: wrap;
+    /* Topic Slider (Horizontal Scroll) */
+    .topic-slider {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 10px 5px 20px 5px;
+      scrollbar-width: none; /* Firefox */
     }
-    .tab-btn {
-      padding: 12px 24px; background: white;
-      border: 2px solid var(--primary); border-radius: 50px;
-      cursor: pointer; font-weight: 600; transition: all 0.2s;
-    }
-    .tab-btn.active, .tab-btn:hover {
-      background: var(--primary); color: white;
-    }
-
-    /* Topic Navigation - Single Select Style */
-    .topic-nav {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      justify-content: center; margin-bottom: 25px;
+    .topic-slider::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+    
+    .topic-chip {
       background: white;
-      padding: 15px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      padding: 10px 20px;
+      border-radius: 30px;
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: 0.95em;
+      border: 2px solid #e2e8f0;
+      flex-shrink: 0;
+      transition: all 0.2s;
     }
-    .topic-btn {
-      background: white; border: 2px solid #e2e8f0;
-      padding: 10px 20px; font-size: 0.95em;
-      border-radius: 50px; cursor: pointer;
-      transition: all 0.2s; font-weight: 600; color: #64748b;
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .topic-btn:hover {
-      border-color: var(--primary); color: var(--primary);
-      transform: translateY(-2px);
-    }
-    /* Active State for Single Topic Selection */
-    .topic-btn.active {
-      background: var(--primary); 
+    .topic-chip.active {
+      background: var(--primary);
       color: white;
       border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
     }
-    .topic-btn.recommended {
+    .topic-chip.recommended {
       border-color: var(--success);
       color: #166534;
       background: #f0fdf4;
     }
-    .topic-btn.recommended.active {
-      background: var(--success);
-      color: white;
-      border-color: var(--success);
-    }
 
-    /* Content Card - Only One Visible */
-    .card {
-      background: var(--card); border-radius: 20px;
-      padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-      display: none; /* Hidden by default */
+    /* Content Card */
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      margin-top: 10px;
       animation: slideUp 0.4s ease;
       border-top: 5px solid var(--accent);
     }
-    .card.visible { 
-      display: block; /* Only visible when active */
+    .topic-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin: 15px 0;
+      background: #e2e8f0;
+    }
+    .key-term {
+      background: #fef3c7; padding: 2px 6px;
+      border-radius: 4px; font-weight: 700; color: #92400e;
+    }
+    .sg-context {
+      background: #dcfce7;
+      border-left: 4px solid var(--success);
+      padding: 12px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+      font-size: 0.95em;
     }
     
+    /* Quiz */
+    .quiz-box {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 12px;
+      margin: 15px 0;
+      border: 2px solid #e2e8f0;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: white;
+      border-radius: 10px;
+      margin: 8px 0;
+      border: 2px solid #e2e8f0;
+      cursor: pointer;
+    }
+    .option-label input { margin-right: 12px; transform: scale(1.3); }
+    .check-btn {
+      background: var(--success); color: white;
+      width: 100%; padding: 15px;
+      border: none; border-radius: 50px;
+      font-size: 1.1em; font-weight: bold;
+      margin-top: 10px;
+    }
+    .feedback {
+      padding: 15px; border-radius: 12px;
+      margin-top: 15px; font-weight: 600;
+      display: none;
+    }
+    .feedback.correct { background: #dcfce7; color: #166534; display: block; }
+    .feedback.wrong { background: #fee2e2; color: #991b1b; display: block; }
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; width: 100%;
+      height: var(--nav-height);
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #94a3b8;
+      font-size: 0.75em;
+      font-weight: 600;
+      cursor: pointer;
+      width: 60px;
+    }
+    .nav-item.active { color: var(--primary); }
+    .nav-icon { font-size: 1.4em; margin-bottom: 4px; }
+
+    /* --- CHATBOT (Mobile Optimized) --- */
+    .chatbot-toggler {
+      position: fixed; bottom: 85px; right: 20px;
+      height: 55px; width: 55px;
+      background: var(--primary); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+      z-index: 999;
+    }
+    .chatbot {
+      position: fixed;
+      bottom: 85px; right: 20px; left: 20px;
+      height: 60vh; max-height: 500px;
+      background: white; border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.2);
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transform: scale(0.9); transform-origin: bottom right;
+      transition: all 0.3s; z-index: 998;
+    }
+    .show-chat .chatbot { opacity: 1; pointer-events: auto; transform: scale(1); }
+    .chatbot header {
+      background: var(--primary); padding: 15px;
+      border-radius: 20px 20px 0 0;
+    }
+    .chatbot header h2 { color: white; font-size: 1.1em; margin: 0; }
+    .chatbox {
+      flex: 1; overflow-y: auto; padding: 15px;
+      background: #f8fafc;
+    }
+    .chat { display: flex; margin-bottom: 15px; }
+    .chat.incoming span {
+      background: var(--primary); color: white;
+      padding: 10px 14px; border-radius: 14px 14px 14px 0;
+      max-width: 80%; font-size: 0.9em;
+    }
+    .chat.outgoing { justify-content: flex-end; }
+    .chat.outgoing span {
+      background: var(--success); color: white;
+      padding: 10px 14px; border-radius: 14px 14px 0 14px;
+      max-width: 80%; font-size: 0.9em;
+    }
+    .chat-input {
+      padding: 10px; border-top: 1px solid #eee;
+      display: flex; gap: 10px; background: white;
+      border-radius: 0 0 20px 20px;
+    }
+    .chat-input textarea {
+      flex: 1; border: none; background: #f1f5f9;
+      border-radius: 20px; padding: 10px 15px;
+      font-family: inherit; resize: none; height: 40px;
+    }
+
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .card h2 {
-      color: var(--secondary); margin-bottom: 10px;
-      padding-bottom: 10px; border-bottom: 2px dashed #cbd5e1;
-      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    }
-    .syllabus-tag {
-      background: var(--warning); color: #333;
-      padding: 3px 10px; border-radius: 15px;
-      font-size: 0.85em; font-weight: 600;
-    }
-    .theme-tag {
-      background: #dbeafe; color: var(--primary);
-      padding: 3px 10px; border-radius: 15px;
-      font-size: 0.85em; margin-left: 5px;
-    }
-    .topic-image {
-      width: 100%; max-height: 280px; object-fit: cover;
-      border-radius: 15px; margin: 15px 0; background: #e2e8f0;
-    }
-    .learning-objectives {
-      background: #f0f9ff; border-left: 4px solid var(--accent);
-      padding: 15px; border-radius: 0 10px 10px 0;
-      margin: 20px 0; text-align: left;
-    }
-    .learning-objectives h4 { color: var(--secondary); margin-bottom: 8px; }
-    .learning-objectives ul { padding-left: 20px; }
-    .learning-objectives li { margin: 5px 0; }
-    .content-section { margin: 25px 0; text-align: left; }
-    .content-section h3 {
-      color: var(--secondary); margin: 20px 0 12px;
-      padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
-    }
-    .content-section h4 {
-      color: var(--primary); margin: 15px 0 8px;
-    }
-    .content-section p { margin: 10px 0; }
-    .content-section ul { padding-left: 25px; margin: 10px 0; }
-    .content-section li { margin: 8px 0; }
-    .key-term {
-      background: #fef3c7; padding: 2px 8px;
-      border-radius: 5px; font-weight: 600; color: #92400e;
-    }
-    .example-box {
-      background: #f0fdf4; border-left: 4px solid var(--success);
-      padding: 12px 15px; border-radius: 0 8px 8px 0;
-      margin: 15px 0; font-size: 0.95em;
-    }
-    .fact-box {
-      background: #fef3c7; border-left: 4px solid var(--warning);
-      padding: 15px; border-radius: 0 10px 10px 0;
-      margin: 20px 0; text-align: left;
-    }
-    .singapore-context {
-      background: #dcfce7; border-left: 4px solid var(--success);
-      padding: 15px; border-radius: 0 10px 10px 0;
-      margin: 20px 0; text-align: left;
-    }
-    .singapore-context ul { padding-left: 20px; margin: 10px 0; }
-    .quiz-section {
-      margin-top: 25px; padding-top: 20px;
-      border-top: 2px dashed #cbd5e1;
-    }
-    .cer-badge {
-      background: var(--primary); color: white;
-      padding: 3px 10px; border-radius: 15px;
-      font-size: 0.8em; font-weight: bold; margin-left: 8px;
-    }
-    .question {
-      background: #f8fafc; padding: 15px;
-      border-radius: 12px; margin: 12px 0;
-      text-align: left; border: 2px solid #e2e8f0;
-    }
-    .question.mcq p { font-weight: 600; margin-bottom: 10px; }
-    .question.cer p { 
-      font-weight: 600; margin-bottom: 10px; color: var(--secondary);
-    }
-    .question.cer .cer-hint {
-      font-size: 0.9em; color: #64748b;
-      background: #f1f5f9; padding: 8px 12px;
-      border-radius: 8px; margin: 10px 0;
-    }
-    .options label {
-      display: block; padding: 8px 12px;
-      margin: 5px 0; background: white;
-      border-radius: 8px; cursor: pointer;
-      transition: background 0.2s;
-    }
-    .options label:hover { background: #f1f5f9; }
-    .options input { margin-right: 8px; }
-    .cer-answer {
-      width: 100%; min-height: 80px; padding: 12px;
-      border: 2px solid #cbd5e1; border-radius: 10px;
-      margin-top: 10px; font-family: inherit; resize: vertical;
-    }
-    .submit-btn {
-      background: var(--success); color: white;
-      border: none; padding: 12px 30px; font-size: 1.1em;
-      border-radius: 50px; cursor: pointer; margin-top: 15px;
-      font-weight: bold; transition: transform 0.2s;
-    }
-    .submit-btn:hover { transform: scale(1.05); }
-    .feedback {
-      margin-top: 15px; padding: 12px; border-radius: 10px;
-      font-weight: 600; display: none; text-align: left;
-    }
-    .feedback.correct {
-      background: #dcfce7; color: #166534;
-      display: block; border: 2px solid #22c55e;
-    }
-    .feedback.wrong {
-      background: #fee2e2; color: #991b1b;
-      display: block; border: 2px solid #f87171;
-    }
-    /* Practice Zone */
-    .practice-header {
-      text-align: center; margin-bottom: 25px;
-      padding: 20px; background: linear-gradient(135deg, var(--primary), var(--accent));
-      border-radius: 20px; color: white;
-    }
-    .skill-levels {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px; margin: 25px 0;
-    }
-    .skill-card {
-      background: white; padding: 20px; border-radius: 15px;
-      text-align: center; cursor: pointer;
-      border: 3px solid #e2e8f0; transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .skill-card:hover {
-      border-color: var(--primary); transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
-    }
-    .skill-card.beginner { border-top: 5px solid var(--success); }
-    .skill-card.intermediate { border-top: 5px solid var(--warning); }
-    .skill-card.advanced { border-top: 5px solid var(--danger); }
-    .skill-card.advanced.locked {
-      opacity: 0.6; pointer-events: none; filter: grayscale(0.8);
-    }
-    .skill-icon { font-size: 2.5em; margin-bottom: 10px; display: block; }
-    .skill-name { font-weight: 700; font-size: 1.2em; margin: 10px 0 5px; }
-    .skill-desc { font-size: 0.9em; color: #64748b; }
-    .progress-tracker {
-      background: white; padding: 20px; border-radius: 15px;
-      margin: 25px 0; text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .progress-bar {
-      height: 20px; background: #e2e8f0;
-      border-radius: 10px; margin: 15px 0; overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%; background: linear-gradient(90deg, var(--success), var(--accent));
-      border-radius: 10px; transition: width 0.5s ease; width: 0%;
-    }
-    .emoji { font-size: 1.3em; margin-right: 5px; }
-    footer {
-      text-align: center; padding: 20px;
-      color: #64748b; font-size: 0.95em; margin-top: auto;
-    }
-    @media (max-width: 600px) {
-      .hero-title { font-size: 2.2em; }
-      .level-buttons { grid-template-columns: 1fr; }
-      .start-btn { width: 100%; justify-content: center; }
-      header { flex-direction: column; text-align: center; }
-      .skill-levels { grid-template-columns: 1fr; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- 🏠 HOME PAGE -->
+  <!-- 🏠 HOME VIEW -->
   <section id="home-view">
-    <span class="moe-badge">🇸🇬 Aligned with MOE 2023 Syllabus</span>
-    <h1 class="hero-title">🔬 SG Science Explorer</h1>
-    <p class="hero-subtitle">Complete Primary Science — Select ONE topic to focus on!</p>
+    <span class="moe-badge">🇸🇬 MOE Aligned</span>
+    <h1 class="hero-title">SG Science<br>Explorer</h1>
+    <p style="color:#64748b; margin-top:10px;">Select your level to start!</p>
     
-    <div class="level-section">
-      <h3>🎓 Select Your Primary Level (Recommended)</h3>
-      <div class="level-buttons">
-        <button class="level-btn" onclick="selectLevel('P3')">Primary 3<div class="level-desc">Magnets, Digestive System</div></button>
-        <button class="level-btn" onclick="selectLevel('P4')">Primary 4<div class="level-desc">Life Cycles, States of Matter</div></button>
-        <button class="level-btn" onclick="selectLevel('P5')">Primary 5<div class="level-desc">Water Cycle, Electrical Systems</div></button>
-        <button class="level-btn" onclick="selectLevel('P6')">Primary 6<div class="level-desc">Forces, Food Webs, PSLE Prep</div></button>
+    <div class="level-grid">
+      <div class="level-card" onclick="selectLevel('P3', this)">
+        <span class="level-icon">🧸</span>
+        <strong>Primary 3</strong>
+      </div>
+      <div class="level-card" onclick="selectLevel('P4', this)">
+        <span class="level-icon">🚲</span>
+        <strong>Primary 4</strong>
+      </div>
+      <div class="level-card" onclick="selectLevel('P5', this)">
+        <span class="level-icon">🔋</span>
+        <strong>Primary 5</strong>
+      </div>
+      <div class="level-card" onclick="selectLevel('P6', this)">
+        <span class="level-icon">🎓</span>
+        <strong>Primary 6</strong>
       </div>
     </div>
 
     <button id="start-btn" class="start-btn disabled" onclick="goToApp()">
-      <span>🚀</span> Start Learning
+      🚀 Start Learning
     </button>
-
-    <div class="browse-section">
-      <h4 style="color:var(--secondary);">🔍 Or Browse All Topics</h4>
-      <p style="color:#64748b;margin-bottom:10px;">
-        Curious about other levels? You can explore any topic! Badges show the recommended level.
-      </p>
-      <div class="browse-grid">
-        <div class="browse-item">🧲 P3</div>
-        <div class="browse-item">🫀 P3</div>
-        <div class="browse-item">🦋 P4</div>
-        <div class="browse-item">🧊 P4</div>
-        <div class="browse-item">💧 P5</div>
-        <div class="browse-item">⚡ P5</div>
-        <div class="browse-item">🎯 P6</div>
-        <div class="browse-item">🕸️ P6</div>
-      </div>
-    </div>
-
-    <h4 style="margin: 35px 0 15px; color: var(--secondary);">📚 Based on MOE's 5 Science Themes</h4>
-    <div class="themes-grid">
-      <div class="theme-card"><span class="theme-icon">🌿</span><div class="theme-name">Diversity</div><div style="font-size:0.85em;color:#64748b">Living things & materials</div></div>
-      <div class="theme-card"><span class="theme-icon">🔄</span><div class="theme-name">Cycles</div><div style="font-size:0.85em;color:#64748b">Life cycles, water cycle</div></div>
-      <div class="theme-card"><span class="theme-icon">⚙️</span><div class="theme-name">Systems</div><div style="font-size:0.85em;color:#64748b">Body systems, circuits</div></div>
-      <div class="theme-card"><span class="theme-icon">⚡</span><div class="theme-name">Energy</div><div style="font-size:0.85em;color:#64748b">Light, heat, electricity</div></div>
-      <div class="theme-card"><span class="theme-icon">🤝</span><div class="theme-name">Interactions</div><div style="font-size:0.85em;color:#64748b">Forces, ecosystems</div></div>
-    </div>
   </section>
 
-  <!-- 📚 LEARNING VIEW -->
+  <!-- 📚 APP VIEW -->
   <section id="app-view">
-    <header>
-      <div class="header-title">
-        <h1>🇸🇬 SG Science Lab</h1>
-        <p>MOE Primary Science | 2023 Syllabus</p>
-        <div id="display-level" class="user-level-badge">Level: Not Selected</div>
-      </div>
-      <div class="btn-group">
-        <button id="challenge-btn" class="challenge-toggle" onclick="toggleChallengeMode()">
-          🏆 Challenge Mode OFF
-        </button>
-        <button class="practice-link" onclick="showPracticeZone()">🎯 Practice Zone</button>
-        <button class="home-link" onclick="goHome()">🏠 Home</button>
-      </div>
-    </header>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+      <h2 style="font-size:1.4em; color:var(--secondary);">🇸🇬 Science Lab</h2>
+      <span id="user-badge" style="background:var(--warning); padding:4px 10px; border-radius:15px; font-size:0.8em; font-weight:bold;">P3</span>
+    </div>
 
-    <div class="container">
-      <div class="tab-nav">
-        <button class="tab-btn active" onclick="showTab('learn')">📚 Learn</button>
-        <button class="tab-btn" onclick="showTab('practice')">🎯 Practice</button>
-      </div>
+    <!-- Horizontal Topic Slider -->
+    <div class="topic-slider">
+      <div class="topic-chip active recommended" data-level="P3" onclick="showTopic('magnets', this)">🧲 Magnets</div>
+      <div class="topic-chip" data-level="P3" onclick="showTopic('digestive', this)">🫀 Digestive</div>
+      <div class="topic-chip" data-level="P4" onclick="showTopic('lifecycle', this)">🦋 Life Cycles</div>
+      <div class="topic-chip" data-level="P4" onclick="showTopic('matter', this)">🧊 Matter</div>
+      <div class="topic-chip" data-level="P5" onclick="showTopic('watercycle', this)">💧 Water</div>
+      <div class="topic-chip" data-level="P5" onclick="showTopic('electricity', this)">⚡ Electricity</div>
+      <div class="topic-chip" data-level="P6" onclick="showTopic('forces', this)">🎯 Forces</div>
+      <div class="topic-chip" data-level="P6" onclick="showTopic('foodweb', this)">🕸️ Food Web</div>
+    </div>
 
-      <!-- LEARN TAB -->
-      <div id="learn-tab">
-        <!-- REMOVED THEME FILTER HERE -->
-
-        <!-- Topic Navigation: Click one to see ONLY that topic -->
-        <div class="topic-nav">
-          <button class="topic-btn active" data-theme="diversity interactions" data-level="P3" onclick="showTopic('magnets')">🧲 Magnets <span class="lvl-badge">P3</span></button>
-          <button class="topic-btn" data-theme="systems" data-level="P3" onclick="showTopic('digestive')">🫀 Digestive <span class="lvl-badge">P3</span></button>
-          <button class="topic-btn" data-theme="cycles" data-level="P4" onclick="showTopic('lifecycle')">🦋 Life Cycles <span class="lvl-badge">P4</span></button>
-          <button class="topic-btn" data-theme="diversity" data-level="P4" onclick="showTopic('matter')">🧊 States of Matter <span class="lvl-badge">P4</span></button>
-          <button class="topic-btn" data-theme="cycles" data-level="P5" onclick="showTopic('watercycle')">💧 Water Cycle <span class="lvl-badge">P5</span></button>
-          <button class="topic-btn" data-theme="systems energy" data-level="P5" onclick="showTopic('electricity')">⚡ Electricity <span class="lvl-badge">P5</span></button>
-          <button class="topic-btn" data-theme="interactions" data-level="P6" onclick="showTopic('forces')">🎯 Forces <span class="lvl-badge">P6</span></button>
-          <button class="topic-btn" data-theme="interactions" data-level="P6" onclick="showTopic('foodweb')">🕸️ Food Webs <span class="lvl-badge">P6</span></button>
-        </div>
-
-        <!-- 🧲 MAGNETS (P3) -->
-        <div id="magnets" class="card visible" data-theme="diversity interactions">
-          <h2>🧲 Magnets <span class="syllabus-tag">P3</span><span class="theme-tag">Diversity</span><span class="theme-tag">Interactions</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Magnet_bar.svg/800px-Magnet_bar.svg.png" alt="Magnets">
-          <p><strong>MOE Learning Objective:</strong> Identify magnetic and non-magnetic materials; understand magnetic poles and forces of attraction/repulsion.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Test objects to identify <span class="key-term">magnetic materials</span> (iron, steel, nickel, cobalt)</li>
-              <li>Identify the <span class="key-term">North</span> and <span class="key-term">South poles</span> of a magnet</li>
-              <li>Predict whether magnets will <span class="key-term">attract</span> or <span class="key-term">repel</span></li>
-              <li>Give examples of how magnets are used in daily life in Singapore</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 What is a Magnet?</h3>
-            <p>A <span class="key-term">magnet</span> is an object that produces a <strong>magnetic field</strong> and can attract certain materials.</p>
-            <ul>
-              <li>Magnets have two ends called <span class="key-term">poles</span>: North (N) and South (S)</li>
-              <li>The magnetic force is strongest at the poles</li>
-              <li>Magnets can attract <strong>magnetic materials</strong>: iron, steel, nickel, cobalt</li>
-              <li>Materials like plastic, wood, glass, and aluminium are <strong>non-magnetic</strong></li>
-            </ul>
-            <div class="example-box"><strong>Try This:</strong> Test objects around your HDB home with a magnet. Which ones stick?</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Magnetic Forces: Attract and Repel</h3>
-            <h4>Like Poles Repel</h4>
-            <p>When two <strong>North poles</strong> or two <strong>South poles</strong> face each other, they <span class="key-term">push away</span> (repel).</p>
-            <h4>Unlike Poles Attract</h4>
-            <p>When a <strong>North pole</strong> faces a <strong>South pole</strong>, they <span class="key-term">pull together</span> (attract).</p>
-            <div class="example-box"><strong>Rule:</strong> "Like poles repel, unlike poles attract" — remember this for your Science tests!</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Uses of Magnets in Singapore</h3>
-            <ul>
-              <li><strong>MRT trains:</strong> Magnetic sensors ensure doors close safely</li>
-              <li><strong>HDB kitchens:</strong> Refrigerator doors use magnetic seals to keep food fresh</li>
-              <li><strong>Compasses:</strong> Used for orienteering at MacRitchie Reservoir and Pulau Ubin</li>
-              <li><strong>Electronics:</strong> Speakers in your tablet or headphones contain magnets</li>
-              <li><strong>Recycling:</strong> Magnets separate iron/steel from other waste at recycling centres</li>
-            </ul>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li>At the Science Centre Singapore, you can experiment with giant electromagnets that lift cars!</li>
-              <li>NParks uses magnetic tags to track animals in nature reserves for conservation.</li>
-              <li>Many Singaporean inventions, like magnetic levitation (MagLev) research at NTU, use magnetic principles.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> The Earth is a giant magnet! Its magnetic field protects us from harmful solar radiation and makes compasses work.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. Which material will a magnet attract? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="mag1" value="a"> Plastic ruler</label>
-                <label><input type="radio" name="mag1" value="b"> Iron nail</label>
-                <label><input type="radio" name="mag1" value="c"> Wooden pencil</label>
-                <label><input type="radio" name="mag1" value="d"> Aluminium foil</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. What happens when two North poles face each other? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="mag2" value="a"> They attract</label>
-                <label><input type="radio" name="mag2" value="b"> They repel</label>
-                <label><input type="radio" name="mag2" value="c"> Nothing happens</label>
-                <label><input type="radio" name="mag2" value="d"> They melt</label>
-              </div>
-            </div>
-            <div class="question cer"><p>3. Explain why a compass needle always points North. Use the term <strong>magnetic field</strong>. <span class="cer-badge">CER</span></p>
-              <div class="cer-hint"><strong>CER Tip:</strong> Claim: The needle points North because... Evidence: Earth has... Reasoning: This causes...</div>
-              <textarea class="cer-answer" placeholder="Type your CER answer here..."></textarea>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('magnets')">Check Answers 🎯</button>
-            <p id="feedback-magnets" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- 🫀 DIGESTIVE SYSTEM (P3) -->
-        <div id="digestive" class="card" data-theme="systems">
-          <h2>🫀 Human Digestive System <span class="syllabus-tag">P3</span><span class="theme-tag">Systems</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Digestive_system_diagram.svg/800px-Digestive_system_diagram.svg.png" alt="Digestive System">
-          <p><strong>MOE Learning Objective:</strong> Identify parts of the digestive system and describe their functions in breaking down food.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Label the main parts: <span class="key-term">mouth</span>, <span class="key-term">oesophagus</span>, <span class="key-term">stomach</span>, <span class="key-term">small intestine</span>, <span class="key-term">large intestine</span></li>
-              <li>Describe the function of each part in digestion</li>
-              <li>Explain the path food takes through the body</li>
-              <li>Understand why digestion is important for growth and energy</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 What is Digestion?</h3>
-            <p><span class="key-term">Digestion</span> is the process of breaking down food into small nutrients that your body can absorb and use for energy, growth, and repair.</p>
-            <ul>
-              <li>Food enters through the <strong>mouth</strong> where teeth chew and saliva starts breaking it down</li>
-              <li>Food travels down the <strong>oesophagus</strong> (food pipe) to the stomach</li>
-              <li>In the <strong>stomach</strong>, acids and enzymes break food into a liquid mixture</li>
-              <li>The <strong>small intestine</strong> absorbs nutrients into the bloodstream</li>
-              <li>The <strong>large intestine</strong> absorbs water; waste leaves through the anus</li>
-            </ul>
-            <div class="example-box"><strong>Remember:</strong> Digestion takes about 24-72 hours from mouth to exit!</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Functions of Each Organ</h3>
-            <h4>Mouth</h4>
-            <ul><li>Teeth cut, tear, and grind food</li><li>Saliva contains enzymes that start digesting starch</li><li>Tongue helps mix food and taste</li></ul>
-            <h4>Stomach</h4>
-            <ul><li>Muscular walls churn food</li><li>Gastric juice (acid + enzymes) breaks down proteins</li><li>Kills harmful bacteria in food</li></ul>
-            <h4>Small Intestine</h4>
-            <ul><li>Longest part (~6 meters in adults!)</li><li>Most digestion and nutrient absorption happens here</li><li>Has tiny finger-like projections called villi to increase surface area</li></ul>
-            <h4>Large Intestine</h4>
-            <ul><li>Absorbs water from undigested food</li><li>Forms faeces (waste)</li><li>Stores waste before removal</li></ul>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li>When you eat chicken rice at a hawker centre, your digestive system breaks down rice (carbohydrates), chicken (protein), and sauce (fats) into nutrients.</li>
-              <li>Health Promotion Board (HPB) teaches "My Healthy Plate" to help Singaporeans eat balanced meals that support good digestion.</li>
-              <li>Drinking enough water (recommended: 6-8 glasses/day in our hot climate) helps the large intestine function properly.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> Your small intestine is about 6 meters long — that's taller than a 2-storey HDB block! It's folded up inside your body to fit.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. Where does most nutrient absorption happen? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="dig1" value="a"> Stomach</label>
-                <label><input type="radio" name="dig1" value="b"> Small intestine</label>
-                <label><input type="radio" name="dig1" value="c"> Large intestine</label>
-                <label><input type="radio" name="dig1" value="d"> Mouth</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. What is the function of the oesophagus? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="dig2" value="a"> Absorb nutrients</label>
-                <label><input type="radio" name="dig2" value="b"> Transport food to stomach</label>
-                <label><input type="radio" name="dig2" value="c"> Break down proteins</label>
-                <label><input type="radio" name="dig2" value="d"> Absorb water</label>
-              </div>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('digestive')">Check Answers 🎯</button>
-            <p id="feedback-digestive" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- 🦋 LIFE CYCLES (P4) -->
-        <div id="lifecycle" class="card" data-theme="cycles">
-          <h2>🦋 Life Cycles of Animals <span class="syllabus-tag">P4</span><span class="theme-tag">Cycles</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Butterfly_lifecycle.svg/800px-Butterfly_lifecycle.svg.png" alt="Butterfly Life Cycle">
-          <p><strong>MOE Learning Objective:</strong> Compare life cycles of animals with 3 stages (e.g., grasshopper) and 4 stages (e.g., butterfly).</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Describe the <span class="key-term">4 stages</span> of a butterfly: Egg → Larva → Pupa → Adult</li>
-              <li>Describe the <span class="key-term">3 stages</span> of a grasshopper: Egg → Nymph → Adult</li>
-              <li>Explain why young animals may look different from adults (<span class="key-term">metamorphosis</span>)</li>
-              <li>Identify examples of animals with each type of life cycle in Singapore</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 What is a Life Cycle?</h3>
-            <p>A <span class="key-term">life cycle</span> is the series of changes an animal goes through from birth to adulthood and reproduction.</p>
-            <ul>
-              <li><strong>Complete metamorphosis (4 stages):</strong> Butterfly, beetle, mosquito, bee</li>
-              <li><strong>Incomplete metamorphosis (3 stages):</strong> Grasshopper, cockroach, dragonfly, termite</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Butterfly Life Cycle (4 Stages)</h3>
-            <h4>1. Egg</h4>
-            <ul><li>Laid on host plant (e.g., lime tree for Common Jay butterfly)</li><li>Tiny, often round or oval</li><li>Protects developing embryo</li></ul>
-            <h4>2. Larva (Caterpillar)</h4>
-            <ul><li>Hatches from egg</li><li>Eats leaves constantly to grow</li><li>Moults (sheds skin) several times</li><li>Looks very different from adult</li></ul>
-            <h4>3. Pupa (Chrysalis)</h4>
-            <ul><li>Caterpillar forms protective casing</li><li>Inside, body completely reorganises</li><li>Does not eat or move much</li><li>Takes 1-2 weeks in Singapore's warm climate</li></ul>
-            <h4>4. Adult (Butterfly)</h4>
-            <ul><li>Emerges with wings</li><li>Feeds on nectar from flowers</li><li>Reproduces to start cycle again</li><li>Lives 2-4 weeks typically</li></ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Grasshopper Life Cycle (3 Stages)</h3>
-            <h4>1. Egg</h4>
-            <ul><li>Laid in soil or plant stems</li><li>Can survive dry seasons</li></ul>
-            <h4>2. Nymph</h4>
-            <ul><li>Looks like small adult but no wings</li><li>Eats plants, moults 5-6 times</li><li>Grows larger with each moult</li><li>Wing buds appear in later stages</li></ul>
-            <h4>3. Adult</h4>
-            <ul><li>Has fully developed wings</li><li>Can jump and fly</li><li>Reproduces to lay eggs</li></ul>
-            <div class="example-box"><strong>Key Difference:</strong> Nymphs look like mini-adults; caterpillars look nothing like butterflies!</div>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li>Visit the <strong>Butterfly Park at Sentosa</strong> or <strong>Gardens by the Bay</strong> to observe butterfly life cycles in controlled environments.</li>
-              <li>Grasshoppers and cockroaches (incomplete metamorphosis) are common in Singapore's parks and HDB estates.</li>
-              <li>NParks' <strong>Butterfly Monitoring Programme</strong> tracks species like the Common Rose and Blue Tiger butterflies in nature reserves.</li>
-              <li>Mosquitoes (complete metamorphosis) breed in stagnant water — that's why Singapore's NEA promotes "Stop Dengue" campaigns to remove breeding sites.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> During the pupa stage, a caterpillar's body literally turns to soup before rebuilding into a butterfly! This amazing change is called <em>complete metamorphosis</em>.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. Which stage is found in a butterfly's life cycle but NOT in a grasshopper's? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="lc1" value="a"> Egg</label>
-                <label><input type="radio" name="lc1" value="b"> Nymph</label>
-                <label><input type="radio" name="lc1" value="c"> Pupa</label>
-                <label><input type="radio" name="lc1" value="d"> Adult</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. What is the main function of the larva stage? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="lc2" value="a"> Reproduction</label>
-                <label><input type="radio" name="lc2" value="b"> Eating and growing</label>
-                <label><input type="radio" name="lc2" value="c"> Flying</label>
-                <label><input type="radio" name="lc2" value="d"> Laying eggs</label>
-              </div>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('lifecycle')">Check Answers 🎯</button>
-            <p id="feedback-lifecycle" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- 🧊 STATES OF MATTER (P4) -->
-        <div id="matter" class="card" data-theme="diversity">
-          <h2>🧊 States of Matter <span class="syllabus-tag">P4</span><span class="theme-tag">Diversity</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/States_of_matter.svg/800px-States_of_matter.svg.png" alt="States of Matter">
-          <p><strong>MOE Learning Objective:</strong> Compare properties of solids, liquids and gases; understand changes of state when heated or cooled.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Describe properties: <span class="key-term">solids</span> (fixed shape/volume), <span class="key-term">liquids</span> (fixed volume, no fixed shape), <span class="key-term">gases</span> (no fixed shape/volume)</li>
-              <li>Explain <span class="key-term">melting</span>, <span class="key-term">freezing</span>, <span class="key-term">evaporation</span> and <span class="key-term">condensation</span></li>
-              <li>Give examples of matter changing state in daily life in Singapore</li>
-              <li>Understand that matter is made of tiny particles that move differently in each state</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Properties of the Three States</h3>
-            <h4>Solids</h4>
-            <ul><li>Have a <strong>fixed shape</strong> and <strong>fixed volume</strong></li><li>Particles are tightly packed and vibrate in place</li><li>Examples: ice, book, chair, HDB brick</li></ul>
-            <h4>Liquids</h4>
-            <ul><li>Have a <strong>fixed volume</strong> but <strong>no fixed shape</strong> (takes shape of container)</li><li>Particles are close but can slide past each other</li><li>Examples: water, milk, teh tarik, rain</li></ul>
-            <h4>Gases</h4>
-            <ul><li>Have <strong>no fixed shape</strong> and <strong>no fixed volume</strong> (fills container)</li><li>Particles are far apart and move quickly in all directions</li><li>Examples: air, steam, carbon dioxide from soda</li></ul>
-            <div class="example-box"><strong>Particle Model:</strong> Imagine particles as tiny balls. In solids they're packed tight; in gases they zoom around freely!</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Changes of State</h3>
-            <h4>Heating Changes</h4>
-            <ul>
-              <li><span class="key-term">Melting:</span> Solid → Liquid (e.g., ice cream melting in Singapore heat)</li>
-              <li><span class="key-term">Evaporation:</span> Liquid → Gas (e.g., puddles drying after rain)</li>
-              <li><span class="key-term">Boiling:</span> Rapid evaporation throughout liquid at boiling point (100°C for water)</li>
-            </ul>
-            <h4>Cooling Changes</h4>
-            <ul>
-              <li><span class="key-term">Freezing:</span> Liquid → Solid (e.g., making ice cubes in freezer)</li>
-              <li><span class="key-term">Condensation:</span> Gas → Liquid (e.g., water droplets on cold drink can)</li>
-            </ul>
-            <div class="example-box"><strong>Remember:</strong> Heating gives particles more energy to move; cooling takes energy away.</div>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li><strong>Condensation:</strong> In our humid climate, you see water droplets on cold drinks (like ice lemon tea) or bathroom mirrors after a shower.</li>
-              <li><strong>Evaporation:</strong> Puddles disappear quickly after our afternoon thunderstorms due to high temperatures and humidity.</li>
-              <li><strong>Freezing:</strong> Ice from the freezer melts rapidly at room temperature — that's why we use insulated bags for takeaways!</li>
-              <li><strong>Water conservation:</strong> Understanding evaporation helps us appreciate why covering reservoirs reduces water loss.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> Water is the only common substance that is less dense as a solid (ice) than as a liquid — that's why ice floats! This protects aquatic life in cold climates.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. Which statement about gases is TRUE? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="mat1" value="a"> Gases have a fixed shape</label>
-                <label><input type="radio" name="mat1" value="b"> Gases have a fixed volume</label>
-                <label><input type="radio" name="mat1" value="c"> Gases can be compressed</label>
-                <label><input type="radio" name="mat1" value="d"> Gases cannot flow</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. What happens during condensation? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="mat2" value="a"> Liquid → Solid</label>
-                <label><input type="radio" name="mat2" value="b"> Gas → Liquid</label>
-                <label><input type="radio" name="mat2" value="c"> Solid → Liquid</label>
-                <label><input type="radio" name="mat2" value="d"> Liquid → Gas</label>
-              </div>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('matter')">Check Answers 🎯</button>
-            <p id="feedback-matter" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- 💧 WATER CYCLE (P5) -->
-        <div id="watercycle" class="card" data-theme="cycles">
-          <h2>💧 The Water Cycle <span class="syllabus-tag">P5</span><span class="theme-tag">Cycles</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Water_cycle.svg/800px-Water_cycle.svg.png" alt="Water Cycle">
-          <p><strong>MOE Learning Objective:</strong> Describe evaporation, condensation and precipitation in the water cycle; relate to Singapore's water management.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Explain how the Sun's heat causes <span class="key-term">evaporation</span></li>
-              <li>Describe how water vapour <span class="key-term">condenses</span> to form clouds</li>
-              <li>Understand how <span class="key-term">precipitation</span> returns water to Earth</li>
-              <li>Relate the water cycle to Singapore's "Four National Taps" water strategy</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 The Water Cycle Steps</h3>
-            <h4>1. Evaporation</h4>
-            <ul><li>Sun heats water in oceans, lakes, rivers</li><li>Water changes from liquid to water vapour (gas)</li><li>Also happens from plants (<span class="key-term">transpiration</span>)</li><li>Higher temperature + wind + low humidity = faster evaporation</li></ul>
-            <h4>2. Condensation</h4>
-            <ul><li>Water vapour rises and cools in the atmosphere</li><li>Vapour changes back to tiny liquid droplets</li><li>Droplets gather around dust particles to form <strong>clouds</strong></li><li>In Singapore, clouds often form in the afternoon due to heating</li></ul>
-            <h4>3. Precipitation</h4>
-            <ul><li>Cloud droplets combine and grow heavy</li><li>Fall as rain, hail, or snow (rain in Singapore!)</li><li>Our average annual rainfall: ~2,340 mm</li></ul>
-            <h4>4. Collection</h4>
-            <ul><li>Rainwater flows into rivers, reservoirs, oceans</li><li>Some soaks into ground (<span class="key-term">infiltration</span>)</li><li>Cycle repeats!</li></ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Singapore's Water Management</h3>
-            <p>Singapore uses the water cycle principles in our <strong>"Four National Taps"</strong> strategy:</p>
-            <ul>
-              <li><strong>Local Catchment Water:</strong> Collecting rainwater in 17 reservoirs (e.g., Marina Reservoir, MacRitchie)</li>
-              <li><strong>Imported Water:</strong> From Malaysia (under agreements)</li>
-              <li><strong>NEWATER:</strong> High-grade reclaimed water using advanced treatment (reverse osmosis)</li>
-              <li><strong>Desalinated Water:</strong> Removing salt from seawater at plants like Tuas</li>
-            </ul>
-            <div class="example-box"><strong>Water Conservation:</strong> Every drop counts! Singaporeans use ~150 litres/person/day — the goal is to reduce to 130 by 2030.</div>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li><strong>Marina Barrage:</strong> Creates a freshwater reservoir in the city while preventing floods — a brilliant engineering use of the water cycle!</li>
-              <li><strong>ABC Waters Programme:</strong> Active, Beautiful, Clean waters — transforming drains and reservoirs into community spaces.</li>
-              <li><strong>Afternoon thunderstorms:</strong> Common in Singapore due to intense heating causing rapid evaporation and cloud formation.</li>
-              <li><strong>Water scarcity awareness:</strong> Though we get lots of rain, we have limited land for storage — that's why conservation matters.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> The water you drink today could be the same water a dinosaur drank millions of years ago! Water is constantly recycled through the water cycle.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question cer"><p>1. Explain why puddles on the ground disappear on a hot sunny day in Singapore. Use the terms <strong>evaporation</strong> and <strong>heat</strong>. <span class="cer-badge">CER</span></p>
-              <div class="cer-hint"><strong>CER Structure:</strong> Claim: The puddles disappear because... Evidence: Heat from the Sun causes... Reasoning: This shows that...</div>
-              <textarea class="cer-answer" placeholder="Type your CER answer here..."></textarea>
-            </div>
-            <div class="question mcq"><p>2. What is the main source of energy for the water cycle? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="wc1" value="a"> Wind</label>
-                <label><input type="radio" name="wc1" value="b"> The Sun</label>
-                <label><input type="radio" name="wc1" value="c"> Gravity</label>
-                <label><input type="radio" name="wc1" value="d"> Plants</label>
-              </div>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('watercycle')">Check Answers 🎯</button>
-            <p id="feedback-watercycle" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- ⚡ ELECTRICAL SYSTEMS (P5) -->
-        <div id="electricity" class="card" data-theme="systems energy">
-          <h2>⚡ Electrical Systems <span class="syllabus-tag">P5</span><span class="theme-tag">Systems</span><span class="theme-tag">Energy</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electric Circuit">
-          <p><strong>MOE Learning Objective:</strong> Draw circuit diagrams; identify conductors/insulators; understand complete circuits and electrical safety.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Draw simple circuit diagrams using <span class="key-term">standard symbols</span></li>
-              <li>Explain why a circuit must be <span class="key-term">complete</span> for current to flow</li>
-              <li>Test materials to classify them as <span class="key-term">conductors</span> or <span class="key-term">insulators</span></li>
-              <li>Describe safe use of electricity at home and in Singapore</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 What is an Electric Circuit?</h3>
-            <p>An <span class="key-term">electric circuit</span> is a complete path that allows electric current to flow from a power source, through components, and back.</p>
-            <ul>
-              <li><strong>Power source:</strong> Battery or mains electricity (provides energy)</li>
-              <li><strong>Conducting path:</strong> Wires (usually copper) that carry current</li>
-              <li><strong>Load:</strong> Device that uses electricity (bulb, motor, buzzer)</li>
-              <li><strong>Switch:</strong> Controls whether circuit is open (off) or closed (on)</li>
-            </ul>
-            <div class="example-box"><strong>Key Rule:</strong> Current only flows if the circuit is COMPLETE (no breaks). A switch opens/closes the circuit.</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Conductors and Insulators</h3>
-            <h4>Conductors</h4>
-            <ul><li>Materials that <strong>allow</strong> electric current to flow easily</li><li>Examples: copper, aluminium, iron, steel, graphite (pencil lead), salt water</li><li>Used for wires, plugs, circuit components</li></ul>
-            <h4>Insulators</h4>
-            <ul><li>Materials that <strong>do not allow</strong> electric current to flow easily</li><li>Examples: plastic, rubber, glass, wood, dry air, ceramic</li><li>Used for wire coatings, plug casings, switch covers for safety</li></ul>
-            <div class="example-box"><strong>Safety First:</strong> Never touch electrical appliances with wet hands — water (especially with impurities) can conduct electricity and cause shock!</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Circuit Symbols (MOE Standard)</h3>
-            <ul>
-              <li><strong>Battery:</strong> Long line (+) and short line (-)</li>
-              <li><strong>Bulb:</strong> Circle with X inside</li>
-              <li><strong>Switch (open):</strong> Break in line with angled line</li>
-              <li><strong>Switch (closed):</strong> Continuous line</li>
-              <li><strong>Wire:</strong> Straight line</li>
-            </ul>
-            <div class="example-box"><strong>Practice:</strong> Draw a circuit with 1 battery, 1 bulb, and 1 switch. Label each part!</div>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li><strong>Electrical safety:</strong> Singapore uses 230V AC at 50Hz. Always use 3-pin plugs with earth wire for metal appliances.</li>
-              <li><strong>Energy conservation:</strong> SP Group encourages switching off lights/fans when not in use — every kWh saved helps our sustainability goals.</li>
-              <li><strong>Renewable energy:</strong> Solar panels on HDB rooftops convert sunlight to electricity — a practical application of energy conversion!</li>
-              <li><strong>Smart grids:</strong> Singapore is developing intelligent electricity networks to manage demand efficiently.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> Electricity travels at nearly the speed of light (~300,000 km/s)! When you flip a switch, the bulb lights up almost instantly.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. Which material is a GOOD conductor of electricity? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="elec1" value="a"> Rubber</label>
-                <label><input type="radio" name="elec1" value="b"> Plastic</label>
-                <label><input type="radio" name="elec1" value="c"> Copper</label>
-                <label><input type="radio" name="elec1" value="d"> Wood</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. What happens if a circuit has a break? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="elec2" value="a"> Current flows faster</label>
-                <label><input type="radio" name="elec2" value="b"> Current stops flowing</label>
-                <label><input type="radio" name="elec2" value="c"> The battery explodes</label>
-                <label><input type="radio" name="elec2" value="d"> The bulb gets brighter</label>
-              </div>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('electricity')">Check Answers 🎯</button>
-            <p id="feedback-electricity" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- 🎯 FORCES (P6) -->
-        <div id="forces" class="card" data-theme="interactions">
-          <h2>🎯 Forces <span class="syllabus-tag">P6</span><span class="theme-tag">Interactions</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Forces.svg/800px-Forces.svg.png" alt="Forces">
-          <p><strong>MOE Learning Objective:</strong> Identify types of forces; explain effects on motion; apply to real-world situations.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Define force as a <span class="key-term">push</span> or <span class="key-term">pull</span></li>
-              <li>Identify: gravity, friction, magnetic force, elastic force</li>
-              <li>Explain how forces change motion, speed, direction, or shape</li>
-              <li>Predict effects of balanced vs unbalanced forces</li>
-              <li>Apply concepts to Singapore contexts</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 What is a Force?</h3>
-            <p>A <span class="key-term">force</span> is a push or pull that acts on an object. Forces can:</p>
-            <ul>
-              <li>Make a stationary object start moving</li>
-              <li>Make a moving object stop, speed up, or slow down</li>
-              <li>Change the direction of a moving object</li>
-              <li>Change the shape of an object</li>
-            </ul>
-            <div class="example-box"><strong>Example:</strong> Kicking a football (push) makes it move. Catching it (pull) stops it.</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Types of Forces</h3>
-            <h4>1. Gravitational Force (Gravity)</h4>
-            <ul><li>Pulling force towards Earth's centre</li><li>Gives objects weight; causes falling</li><li>Keeps Moon orbiting Earth</li></ul>
-            <h4>2. Frictional Force (Friction)</h4>
-            <ul><li>Opposes motion between surfaces</li><li>Acts opposite to direction of motion</li><li>Can be useful (walking) or disadvantage (wear)</li></ul>
-            <h4>3. Magnetic Force</h4>
-            <ul><li>Exerted by magnets on magnetic materials</li><li>Like poles repel; unlike poles attract</li><li>Can act without contact</li></ul>
-            <h4>4. Elastic Force</h4>
-            <ul><li>Exerted by stretched/compressed objects</li><li>Objects try to return to original shape</li><li>Used in springs, rubber bands</li></ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Balanced vs Unbalanced Forces</h3>
-            <ul>
-              <li><strong>Balanced:</strong> Equal forces opposite directions → object stays still or moves at constant speed</li>
-              <li><strong>Unbalanced:</strong> Unequal forces → object accelerates, decelerates, or changes direction</li>
-            </ul>
-            <div class="example-box"><strong>Tug-of-war:</strong> Equal pull = rope doesn't move (balanced). One team pulls harder = rope moves (unbalanced).</div>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li><strong>Friction:</strong> Grooved pedestrian crossings increase grip during rain.</li>
-              <li><strong>Gravity:</strong> Water flows downhill through drainage systems.</li>
-              <li><strong>Elastic force:</strong> Springs in school bag straps improve comfort.</li>
-              <li><strong>Magnetic force:</strong> Compasses for orienteering at MacRitchie.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> Without friction, you couldn't walk — your feet would slip! Without gravity, everything would float into space.
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. Which force causes a ball thrown upwards to fall back down? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="f1" value="a"> Friction</label>
-                <label><input type="radio" name="f1" value="b"> Magnetic force</label>
-                <label><input type="radio" name="f1" value="c"> Gravity</label>
-                <label><input type="radio" name="f1" value="d"> Elastic force</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. Why do bicycle tyres have treads? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="f2" value="a"> To look nicer</label>
-                <label><input type="radio" name="f2" value="b"> To increase friction and prevent slipping</label>
-                <label><input type="radio" name="f2" value="c"> To decrease weight</label>
-                <label><input type="radio" name="f2" value="d"> To go faster</label>
-              </div>
-            </div>
-            <div class="question cer"><p>3. Sarah pushes a box. It moves then stops. Explain why. Use <strong>force</strong> and <strong>friction</strong>. <span class="cer-badge">CER</span></p>
-              <div class="cer-hint"><strong>CER:</strong> Claim: The box stopped because... Evidence: Friction is... Reasoning: This causes...</div>
-              <textarea class="cer-answer" placeholder="Type your CER answer here..."></textarea>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('forces')">Check Answers 🎯</button>
-            <p id="feedback-forces" class="feedback"></p>
-          </div>
-        </div>
-
-        <!-- 🕸️ FOOD WEBS (P6) -->
-        <div id="foodweb" class="card" data-theme="interactions">
-          <h2>🕸️ Food Webs & Interactions <span class="syllabus-tag">P6</span><span class="theme-tag">Interactions</span></h2>
-          <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FoodWeb.svg/800px-FoodWeb.svg.png" alt="Food Web">
-          <p><strong>MOE Learning Objective:</strong> Construct food chains/webs; identify producers/consumers/decomposers; explain population interactions.</p>
-          
-          <div class="learning-objectives">
-            <h4>🎯 By the end of this lesson, you will be able to:</h4>
-            <ul>
-              <li>Draw food chains using <span class="key-term">arrows</span> to show energy flow</li>
-              <li>Identify <span class="key-term">producers</span> (plants), <span class="key-term">consumers</span> (animals), <span class="key-term">decomposers</span></li>
-              <li>Construct simple food webs showing multiple feeding relationships</li>
-              <li>Predict effects of removing one organism from a food web</li>
-              <li>Relate to conservation efforts in Singapore</li>
-            </ul>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Energy Flow in Ecosystems</h3>
-            <p>All living things need <strong>energy</strong> to survive. In ecosystems, energy flows from the Sun through living things.</p>
-            <ul>
-              <li><strong>Producers:</strong> Plants/algae that make food via photosynthesis (use Sun's energy)</li>
-              <li><strong>Consumers:</strong> Animals that eat other organisms
-                <ul>
-                  <li>Primary consumers (herbivores): eat plants</li>
-                  <li>Secondary consumers (carnivores): eat herbivores</li>
-                  <li>Tertiary consumers: eat other carnivores</li>
-                </ul>
-              </li>
-              <li><strong>Decomposers:</strong> Bacteria/fungi that break down dead matter, returning nutrients to soil</li>
-            </ul>
-            <div class="example-box"><strong>Arrow Direction:</strong> In food chains, arrows point FROM food TO eater (showing energy flow). Example: Grass → Rabbit → Fox</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Food Chains vs Food Webs</h3>
-            <h4>Food Chain</h4>
-            <ul><li>Single path of energy flow</li><li>Example: Leaves → Caterpillar → Bird → Hawk</li><li>Simple but unrealistic — most animals eat multiple things</li></ul>
-            <h4>Food Web</h4>
-            <ul><li>Multiple interconnected food chains</li><li>Shows complex feeding relationships</li><li>More realistic representation of ecosystems</li><li>If one species declines, others may be affected</li></ul>
-            <div class="example-box"><strong>Stability:</strong> Food webs are more stable than chains — if one food source disappears, animals may switch to another.</div>
-          </div>
-
-          <div class="content-section">
-            <h3>🔹 Population Interactions</h3>
-            <h4>Predator-Prey Relationships</h4>
-            <ul><li>When prey numbers increase, predators have more food → predator numbers increase</li><li>More predators eat more prey → prey numbers decrease</li><li>Fewer prey → predators struggle → predator numbers decrease</li><li>Cycle repeats (population oscillation)</li></ul>
-            <h4>Competition</h4>
-            <ul><li>Organisms compete for limited resources: food, water, space, mates</li><li>Can be within species or between species</li></ul>
-            <h4>Interdependence</h4>
-            <ul><li>All organisms in an ecosystem depend on each other</li><li>Changes to one population can affect many others</li></ul>
-          </div>
-
-          <div class="singapore-context">
-            <span class="emoji">🇸🇬</span><strong>Singapore Context:</strong> 
-            <ul>
-              <li><strong>Bukit Timah Nature Reserve:</strong> Home to food webs connecting plants, insects, birds (e.g., Pink-necked Pigeon), mammals (e.g., Lesser Mousedeer).</li>
-              <li><strong>NParks conservation:</strong> Protecting habitats ensures food web balance — e.g., preserving native plants supports native insects and birds.</li>
-              <li><strong>Urban biodiversity:</strong> Even in HDB estates, food webs exist: grass → grasshopper → mynah → eagle.</li>
-              <li><strong>Invasive species:</strong> Introduced species (e.g., Apple Snail) can disrupt local food webs by outcompeting natives.</li>
-            </ul>
-          </div>
-
-          <div class="fact-box">
-            <span class="emoji">💡</span><strong>Fun Fact:</strong> Only about 10% of energy passes from one level to the next in a food chain — that's why there are fewer top predators than plants!
-          </div>
-
-          <div class="quiz-section">
-            <h3>🧠 Check Your Understanding</h3>
-            <div class="question mcq"><p>1. In a food chain, what do the arrows represent? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="fw1" value="a"> Who eats whom</label>
-                <label><input type="radio" name="fw1" value="b"> The flow of energy</label>
-                <label><input type="radio" name="fw1" value="c"> The size of animals</label>
-                <label><input type="radio" name="fw1" value="d"> The number of organisms</label>
-              </div>
-            </div>
-            <div class="question mcq"><p>2. What is the role of decomposers? <span class="cer-badge">MCQ</span></p>
-              <div class="options">
-                <label><input type="radio" name="fw2" value="a"> Make food from sunlight</label>
-                <label><input type="radio" name="fw2" value="b"> Eat living plants</label>
-                <label><input type="radio" name="fw2" value="c"> Break down dead matter</label>
-                <label><input type="radio" name="fw2" value="d"> Hunt other animals</label>
-              </div>
-            </div>
-            <button class="submit-btn" onclick="checkQuiz('foodweb')">Check Answers 🎯</button>
-            <p id="feedback-foodweb" class="feedback"></p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- PRACTICE TAB -->
-      <div id="practice-tab" style="display:none;">
-        <div class="practice-header">
-          <h2>🎯 Practice Zone</h2>
-          <p>Test your skills! Start from Beginner and work your way up to Advanced.</p>
-        </div>
-        <div class="progress-tracker">
-          <h3>📊 Your Progress: <span id="user-level">Forces</span></h3>
-          <p>Complete quizzes to level up your science skills!</p>
-          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-          <p><strong id="progress-text">0/3 levels completed</strong></p>
-        </div>
-        <h3 style="text-align:center;margin:25px 0 15px;">Choose Your Challenge Level</h3>
-        <div class="skill-levels">
-          <div class="skill-card beginner" onclick="startPractice(currentTopic, 'beginner')">
-            <span class="skill-icon">🌱</span><div class="skill-name">Beginner</div>
-            <div class="skill-desc">Basic concepts & simple MCQs</div>
-            <div style="margin-top:10px;font-weight:600;color:var(--success);">5 Questions</div>
-          </div>
-          <div class="skill-card intermediate" onclick="startPractice(currentTopic, 'intermediate')">
-            <span class="skill-icon">🚀</span><div class="skill-name">Intermediate</div>
-            <div class="skill-desc">Application & scenario-based questions</div>
-            <div style="margin-top:10px;font-weight:600;color:var(--warning);">7 Questions</div>
-          </div>
-          <div class="skill-card advanced" id="adv-card" onclick="startPractice(currentTopic, 'advanced')">
-            <span class="skill-icon">🏆</span><div class="skill-name">Advanced</div>
-            <div class="skill-desc">PSLE-style structured & CER questions</div>
-            <div style="margin-top:10px;font-weight:600;color:var(--danger);">10 Questions</div>
-          </div>
-        </div>
-        <div id="practice-quiz" class="card" style="display:none;">
-          <h3 id="practice-title">Practice Quiz</h3>
-          <p id="practice-instructions" style="margin:10px 0 20px;color:#64748b;"></p>
-          <div id="practice-questions"></div>
-          <button class="submit-btn" onclick="submitPractice()">Submit Answers 🎯</button>
-          <p id="practice-feedback" class="feedback"></p>
-          <button id="retry-btn" class="home-link" style="display:none;margin-top:15px;" onclick="retryPractice()">Try Again 🔄</button>
-        </div>
-        <div style="text-align:center;margin:30px 0;">
-          <h3>🏅 Achievements</h3>
-          <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:15px;">
-            <div id="badge-beginner" style="opacity:0.5;transition:opacity 0.3s;"><span style="font-size:2em;">🌱</span><br><small>Beginner</small></div>
-            <div id="badge-intermediate" style="opacity:0.5;transition:opacity 0.3s;"><span style="font-size:2em;">🚀</span><br><small>Intermediate</small></div>
-            <div id="badge-advanced" style="opacity:0.5;transition:opacity 0.3s;"><span style="font-size:2em;">🏆</span><br><small>Advanced</small></div>
-          </div>
+    <!-- Content Area -->
+    <div id="content-area">
+      <!-- Magnets -->
+      <div id="magnets" class="content-card">
+        <h2 style="color:var(--primary);">🧲 Magnets</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Magnet_bar.svg/800px-Magnet_bar.svg.png" alt="Magnets">
+        <p>Magnets attract <span class="key-term">magnetic materials</span> like iron and steel.</p>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> MRT train doors use magnetic sensors to stay safe!</div>
+        
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: What happens when North meets North?</p>
+          <label class="option-label"><input type="radio" name="q1" value="a"> They Attract</label>
+          <label class="option-label"><input type="radio" name="q1" value="b"> They Repel</label>
+          <button class="check-btn" onclick="checkQuiz('magnets', 'q1', 'b')">Check Answer</button>
+          <div id="fb-magnets" class="feedback"></div>
         </div>
       </div>
 
+      <!-- Digestive -->
+      <div id="digestive" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">🫀 Digestive System</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Digestive_system_diagram.svg/800px-Digestive_system_diagram.svg.png" alt="Digestive">
+        <p>Food path: Mouth → Oesophagus → Stomach → <span class="key-term">Small Intestine</span>.</p>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Eating Chicken Rice? Your body breaks it down into nutrients!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: Where are nutrients absorbed?</p>
+          <label class="option-label"><input type="radio" name="q2" value="a"> Stomach</label>
+          <label class="option-label"><input type="radio" name="q2" value="b"> Small Intestine</label>
+          <button class="check-btn" onclick="checkQuiz('digestive', 'q2', 'b')">Check Answer</button>
+          <div id="fb-digestive" class="feedback"></div>
+        </div>
+      </div>
+
+      <!-- Life Cycles -->
+      <div id="lifecycle" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">🦋 Life Cycles</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Butterfly_lifecycle.svg/800px-Butterfly_lifecycle.svg.png" alt="Lifecycle">
+        <p>Butterfly: Egg → Larva → <span class="key-term">Pupa</span> → Adult.</p>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Visit Butterfly Park at Sentosa to see this!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: Which stage is unique to butterflies?</p>
+          <label class="option-label"><input type="radio" name="q3" value="a"> Pupa</label>
+          <label class="option-label"><input type="radio" name="q3" value="b"> Nymph</label>
+          <button class="check-btn" onclick="checkQuiz('lifecycle', 'q3', 'a')">Check Answer</button>
+          <div id="fb-lifecycle" class="feedback"></div>
+        </div>
+      </div>
+
+      <!-- Matter -->
+      <div id="matter" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">🧊 States of Matter</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/States_of_matter.svg/800px-States_of_matter.svg.png" alt="Matter">
+        <p>Solid (fixed shape), Liquid, Gas (fills space).</p>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Ice cream melts fast in our hot weather!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: Can gases be compressed?</p>
+          <label class="option-label"><input type="radio" name="q4" value="a"> Yes</label>
+          <label class="option-label"><input type="radio" name="q4" value="b"> No</label>
+          <button class="check-btn" onclick="checkQuiz('matter', 'q4', 'a')">Check Answer</button>
+          <div id="fb-matter" class="feedback"></div>
+        </div>
+      </div>
+      
+      <!-- Water Cycle -->
+      <div id="watercycle" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">💧 Water Cycle</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Water_cycle.svg/800px-Water_cycle.svg.png" alt="Water">
+        <p>Evaporation → Condensation → <span class="key-term">Precipitation</span>.</p>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Marina Barrage collects rainwater to prevent floods!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: What turns water to vapor?</p>
+          <label class="option-label"><input type="radio" name="q5" value="a"> Evaporation</label>
+          <label class="option-label"><input type="radio" name="q5" value="b"> Condensation</label>
+          <button class="check-btn" onclick="checkQuiz('watercycle', 'q5', 'a')">Check Answer</button>
+          <div id="fb-watercycle" class="feedback"></div>
+        </div>
+      </div>
+
+      <!-- Electricity -->
+      <div id="electricity" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">⚡ Electricity</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Simple_electric_circuit.svg/800px-Simple_electric_circuit.svg.png" alt="Electricity">
+        <p>Needs battery, wires, load. Copper is a <span class="key-term">conductor</span>.</p>
+        <div class="sg-context">🇸 <strong>SG Fact:</strong> Always use 3-pin plugs for safety!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: Which is a conductor?</p>
+          <label class="option-label"><input type="radio" name="q6" value="a"> Copper</label>
+          <label class="option-label"><input type="radio" name="q6" value="b"> Plastic</label>
+          <button class="check-btn" onclick="checkQuiz('electricity', 'q6', 'a')">Check Answer</button>
+          <div id="fb-electricity" class="feedback"></div>
+        </div>
+      </div>
+
+      <!-- Forces -->
+      <div id="forces" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">🎯 Forces</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Forces.svg/800px-Forces.svg.png" alt="Forces">
+        <p>Push or Pull. Gravity, Friction, Magnetic.</p>
+        <div class="sg-context">🇸 <strong>SG Fact:</strong> Friction helps you walk without slipping on wet floors!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: What pulls us down?</p>
+          <label class="option-label"><input type="radio" name="q7" value="a"> Gravity</label>
+          <label class="option-label"><input type="radio" name="q7" value="b"> Friction</label>
+          <button class="check-btn" onclick="checkQuiz('forces', 'q7', 'a')">Check Answer</button>
+          <div id="fb-forces" class="feedback"></div>
+        </div>
+      </div>
+
+      <!-- Food Web -->
+      <div id="foodweb" class="content-card" style="display:none;">
+        <h2 style="color:var(--primary);">🕸️ Food Webs</h2>
+        <img class="topic-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/FoodWeb.svg/800px-FoodWeb.svg.png" alt="FoodWeb">
+        <p>Producers → Consumers → Decomposers.</p>
+        <div class="sg-context">🇸🇬 <strong>SG Fact:</strong> Bukit Timah Nature Reserve has complex food webs!</div>
+        <div class="quiz-box">
+          <p style="font-weight:600; margin-bottom:10px;">Q: What do arrows show?</p>
+          <label class="option-label"><input type="radio" name="q8" value="a"> Energy Flow</label>
+          <label class="option-label"><input type="radio" name="q8" value="b"> Who is bigger</label>
+          <button class="check-btn" onclick="checkQuiz('foodweb', 'q8', 'a')">Check Answer</button>
+          <div id="fb-foodweb" class="feedback"></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <footer>
-    <p>🇸🇬 Aligned with Singapore MOE Primary Science Syllabus (2023) | For educational use</p>
-    <p style="font-size:0.9em;margin-top:5px">Process Skills: Observing • Classifying • Comparing • Inferring • Predicting • Communicating • Analyzing</p>
-  </footer>
+  <!-- 🤖 CHATBOT -->
+  <button class="chatbot-toggler" onclick="toggleChat()">🤖</button>
+  <div class="chatbot">
+    <header><h2>Sci-Bot 🇸🇬</h2></header>
+    <ul class="chatbox" id="chatbox">
+      <li class="chat incoming"><span>Hi! Ask me about magnets, forces, or plants! 🧪</span></li>
+    </ul>
+    <div class="chat-input">
+      <textarea placeholder="Type..." id="chat-input"></textarea>
+      <span onclick="handleChat()" style="color:var(--primary); font-weight:bold; font-size:1.2em; display:flex; align-items:center;">➤</span>
+    </div>
+  </div>
+
+  <!-- 📱 BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('learn', this)">
+      <span class="nav-icon">📚</span>
+      <span>Learn</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('practice', this)">
+      <span class="nav-icon">🎯</span>
+      <span>Practice</span>
+    </div>
+    <div class="nav-item" onclick="goHome()">
+      <span class="nav-icon">🏠</span>
+      <span>Home</span>
+    </div>
+  </nav>
 
   <script>
-    // 🧠 SINGAPORE MOE-ALIGNED JAVASCRIPT
     let selectedLevel = null;
-    let currentTopic = 'magnets';
-    let currentSkill = null;
-    let challengeMode = false;
-    let progress = JSON.parse(localStorage.getItem('scienceProgress')) || {};
 
-    const levelTopics = {
-      'P3': ['magnets', 'digestive'],
-      'P4': ['lifecycle', 'matter'],
-      'P5': ['watercycle', 'electricity'],
-      'P6': ['forces', 'foodweb']
-    };
-
-    // Practice Questions Database - ALL TOPICS
-    const practiceQuestions = {
-      magnets: {
-        beginner: [
-          {q:"What is a magnet?",options:["A push only","A pull only","An object that attracts iron/steel","A type of energy"],a:"c"},
-          {q:"Which material is magnetic?",options:["Plastic","Wood","Iron","Glass"],a:"c"},
-          {q:"What happens when North meets South pole?",options:["Repel","Attract","Nothing","Melt"],a:"b"},
-          {q:"Magnets are used in:",options:["Refrigerator doors","MRT sensors","Compasses","All of the above"],a:"d"},
-          {q:"The Earth is:",options:["Not a magnet","A giant magnet","Only magnetic at poles","Magnetic only at night"],a:"b"}
-        ],
-        intermediate: [
-          {q:"Why don't magnets attract aluminium?",options:["Aluminium is too heavy","Aluminium is not a magnetic material","Magnets are weak","Aluminium repels magnets"],a:"b"},
-          {q:"If you break a magnet in half, you get:",options:["Two non-magnets","One North and one South piece","Two smaller magnets, each with N and S poles","Two North poles"],a:"c"},
-          {q:"A compass needle points North because:",options:["It's magic","Earth's magnetic field attracts it","Wind pushes it","Gravity pulls it North"],a:"b"},
-          {q:"Which would NOT work with a magnet?",options:["Holding notes on fridge","Separating iron from recycling","Powering a light bulb","Closing a cabinet door"],a:"c"},
-          {q:"Magnetic force can act:",options:["Only when touching","Through some materials","Only in space","Only on Earth"],a:"b"},
-          {q:"To make a temporary magnet, you can:",options:["Heat iron","Stroke iron with a magnet","Freeze iron","Paint iron"],a:"b"},
-          {q:"Electromagnets are useful because:",options:["They're always on","Their strength can be controlled","They don't need electricity","They're cheaper"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why a compass works anywhere on Earth. Use 'magnetic field'. (CER)",type:"cer",keyword:"magnetic field"},
-          {q:"Two identical magnets attract with force F. If you double the distance, the force becomes:",options:["2F","F/2","F/4","4F"],a:"c"},
-          {q:"Why are magnetic materials used in recycling?",options:["They're valuable","Magnets can separate them from non-magnetic waste","They float","They're lighter"],a:"b"},
-          {q:"A magnet loses strength if:",options:["Stored with keepers","Dropped repeatedly","Kept away from electronics","Used in cold weather"],a:"b"},
-          {q:"Describe how MagLev trains use magnetic repulsion. (CER)",type:"cer",keyword:"repel"},
-          {q:"The magnetic field is strongest:",options:["In the middle of magnet","At the poles","Only at North pole","Only at South pole"],a:"b"},
-          {q:"Why can't you magnetise copper?",options:["It's too heavy","Copper isn't a ferromagnetic material","It's too light","Copper repels magnets"],a:"b"},
-          {q:"Earth's magnetic field protects us from:",options:["Rain","Solar radiation","Gravity","Wind"],a:"b"},
-          {q:"Explain why fridge magnets stick but don't fall. Use 'magnetic force' and 'gravity'. (CER)",type:"cer",keyword:"magnetic force"},
-          {q:"In Singapore's humid climate, magnets may rust because:",options:["Water is magnetic","Iron in magnets reacts with moisture","Humidity strengthens magnets","Rain washes magnets"],a:"b"}
-        ]
-      },
-      digestive: {
-        beginner: [
-          {q:"Digestion breaks food into:",options:["Bigger pieces","Nutrients","Air","Water only"],a:"b"},
-          {q:"Where does digestion start?",options:["Stomach","Mouth","Small intestine","Large intestine"],a:"b"},
-          {q:"The oesophagus is the:",options:["Food pipe","Air pipe","Blood vessel","Nerve"],a:"a"},
-          {q:"Most nutrients are absorbed in the:",options:["Stomach","Small intestine","Large intestine","Mouth"],a:"b"},
-          {q:"The large intestine mainly absorbs:",options:["Nutrients","Water","Oxygen","Sugar"],a:"b"}
-        ],
-        intermediate: [
-          {q:"Saliva helps digest:",options:["Proteins","Fats","Starch","Vitamins"],a:"c"},
-          {q:"Stomach acid helps:",options:["Absorb nutrients","Break down proteins and kill bacteria","Make food taste better","Produce vitamins"],a:"b"},
-          {q:"Villi in the small intestine:",options:["Make acid","Increase surface area for absorption","Produce saliva","Store waste"],a:"b"},
-          {q:"If the large intestine doesn't absorb enough water, you may get:",options:["Constipation","Diarrhoea","Indigestion","Heartburn"],a:"b"},
-          {q:"Eating fibre helps digestion by:",options:["Making food taste better","Adding bulk and helping waste move","Absorbing more nutrients","Killing bacteria"],a:"b"},
-          {q:"The liver helps digestion by:",options:["Chewing food","Producing bile to break down fats","Absorbing water","Storing waste"],a:"b"},
-          {q:"After a meal, blood flow increases to the digestive system because:",options:["It needs more oxygen for digestion","It gets colder","Food is heavy","The heart stops"],a:"a"}
-        ],
-        advanced: [
-          {q:"Explain why chewing food thoroughly helps digestion. Use 'surface area'. (CER)",type:"cer",keyword:"surface area"},
-          {q:"Enzymes in digestion are:",options:["Types of food","Biological catalysts that speed up breakdown","Waste products","Types of bacteria"],a:"b"},
-          {q:"If someone has their gall bladder removed, they may struggle to digest:",options:["Carbohydrates","Proteins","Fats","Vitamins"],a:"c"},
-          {q:"The pancreas produces enzymes that digest:",options:["Only starch","Only protein","Starch, protein, and fats","Only fats"],a:"c"},
-          {q:"Describe how the digestive and circulatory systems work together. (CER)",type:"cer",keyword:"nutrients"},
-          {q:"Peristalsis is:",options:["Chewing","Wave-like muscle contractions that move food","Absorption of water","Production of saliva"],a:"b"},
-          {q:"Why is the small intestine so long?",options:["To store more food","To increase time and surface area for absorption","To make digestion slower","To produce more enzymes"],a:"b"},
-          {q:"Bacteria in the large intestine help by:",options:["Digesting proteins","Producing some vitamins and breaking down fibre","Absorbing water","Killing stomach acid"],a:"b"},
-          {q:"Explain why dehydration affects digestion. Use 'large intestine' and 'water'. (CER)",type:"cer",keyword:"water"},
-          {q:"In Singapore's hot climate, drinking enough water helps digestion by:",options:["Cooling the stomach","Helping the large intestine form proper waste","Making food taste better","Killing bacteria"],a:"b"}
-        ]
-      },
-      lifecycle: {
-        beginner: [
-          {q:"A life cycle shows:",options:["What animals eat","Changes from birth to adulthood","Where animals live","How animals move"],a:"b"},
-          {q:"Butterflies have how many life cycle stages?",options:["2","3","4","5"],a:"c"},
-          {q:"The caterpillar is the _____ stage of a butterfly.",options:["Egg","Larva","Pupa","Adult"],a:"b"},
-          {q:"Grasshoppers have:",options:["Complete metamorphosis","Incomplete metamorphosis","No metamorphosis","Four stages"],a:"b"},
-          {q:"During the pupa stage, a butterfly:",options:["Eats leaves","Flies around","Reorganises its body inside a chrysalis","Lays eggs"],a:"c"}
-        ],
-        intermediate: [
-          {q:"Which animal has a 3-stage life cycle?",options:["Butterfly","Mosquito","Grasshopper","Beetle"],a:"c"},
-          {q:"Nymphs differ from adults because they:",options:["Are bigger","Have no wings","Eat different food","Live in water"],a:"b"},
-          {q:"Moulting is when an insect:",options:["Lays eggs","Sheds its skin to grow","Changes colour","Becomes a pupa"],a:"b"},
-          {q:"Butterfly larvae eat:",options:["Nectar","Leaves of host plants","Other insects","Nothing"],a:"b"},
-          {q:"The main purpose of the adult stage is to:",options:["Eat and grow","Reproduce","Moult","Form a pupa"],a:"b"},
-          {q:"In Singapore's warm climate, butterfly development is:",options:["Slower","Faster","The same as cold places","Stopped"],a:"b"},
-          {q:"Mosquitoes breed in:",options:["Dry soil","Stagnant water","Tree bark","Flowers"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why complete metamorphosis may reduce competition between young and adult. (CER)",type:"cer",keyword:"different"},
-          {q:"If a pesticide kills butterfly caterpillars, the adult population will likely:",options:["Increase","Decrease","Stay the same","Become nymphs"],a:"b"},
-          {q:"Which is an advantage of incomplete metamorphosis?",options:["Young look like adults and can use same resources","Young are protected in pupa","Adults don't need to lay eggs","It's faster"],a:"a"},
-          {q:"Dragonfly nymphs live in water, adults fly. This shows:",options:["They have complete metamorphosis","Different life stages can occupy different habitats","They are two different species","They don't need water as adults"],a:"b"},
-          {q:"Describe how removing stagnant water helps control mosquito populations. (CER)",type:"cer",keyword:"breeding"},
-          {q:"The pupa stage is vulnerable because:",options:["It can't move or defend itself","It eats too much","It flies away","It lays eggs"],a:"a"},
-          {q:"In a food web, caterpillars are:",options:["Producers","Primary consumers","Decomposers","Tertiary consumers"],a:"b"},
-          {q:"Butterfly conservation in Singapore focuses on:",options:["Only adults","Protecting host plants for larvae","Removing all caterpillars","Importing butterflies"],a:"b"},
-          {q:"Explain why biodiversity (many species) makes ecosystems more stable. Use 'food web'. (CER)",type:"cer",keyword:"food web"},
-          {q:"Climate change may affect life cycles by:",options:["Making all insects bigger","Changing timing of stages (phenology)","Stopping metamorphosis","Making all eggs hatch at once"],a:"b"}
-        ]
-      },
-      matter: {
-        beginner: [
-          {q:"Solids have:",options:["Fixed shape and volume","Fixed volume only","No fixed shape or volume","Only fixed shape"],a:"a"},
-          {q:"Liquids take the shape of their:",options:["Container","Source","Air","Sun"],a:"a"},
-          {q:"Gases:",options:["Have fixed shape","Have fixed volume","Fill their container","Cannot flow"],a:"c"},
-          {q:"Melting is when:",options:["Liquid → Solid","Solid → Liquid","Liquid → Gas","Gas → Liquid"],a:"b"},
-          {q:"Condensation forms when:",options:["Water heats up","Water vapour cools","Ice melts","Water freezes"],a:"b"}
-        ],
-        intermediate: [
-          {q:"Particles in a solid:",options:["Move freely","Vibrate in place","Are far apart","Have no energy"],a:"b"},
-          {q:"Evaporation happens:",options:["Only at boiling point","At any temperature from liquid surface","Only in sunlight","Only in wind"],a:"b"},
-          {q:"When water boils, bubbles are:",options:["Air","Water vapour","Oxygen","Carbon dioxide"],a:"b"},
-          {q:"Compressing a gas means:",options:["Heating it","Reducing its volume by pressure","Freezing it","Mixing it"],a:"b"},
-          {q:"Dew on grass in the morning is due to:",options:["Evaporation","Condensation","Freezing","Melting"],a:"b"},
-          {q:"In Singapore, puddles dry faster on:",options:["Cool, humid days","Hot, windy days","Rainy days","Cloudy days"],a:"b"},
-          {q:"Ice floats because:",options:["It's colder","Solid water is less dense than liquid water","It has air bubbles","Water is heavy"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why a balloon expands when heated. Use 'particles' and 'energy'. (CER)",type:"cer",keyword:"energy"},
-          {q:"At the particle level, melting occurs when:",options:["Particles stop moving","Particles gain enough energy to overcome attractions","Particles lose energy","Particles change type"],a:"b"},
-          {q:"Why can you compress a gas but not a liquid?",options:["Gas particles are smaller","Gas particles have more space between them","Liquid particles are heavier","Gas particles are lighter"],a:"b"},
-          {q:"The water cycle involves which changes of state?",options:["Only melting and freezing","Evaporation, condensation, precipitation","Only boiling","Only condensation"],a:"b"},
-          {q:"Describe why covering a drink reduces evaporation. (CER)",type:"cer",keyword:"vapour"},
-          {q:"Sublimation is when:",options:["Solid → Liquid","Liquid → Gas","Solid → Gas directly","Gas → Solid"],a:"c"},
-          {q:"In Singapore's NEWATER process, water is purified using:",options:["Only filtering","Multiple processes including reverse osmosis","Only boiling","Only freezing"],a:"b"},
-          {q:"Why does sweat cool you down?",options:["It's cold","Evaporation of sweat removes heat from skin","It blocks sun","It adds water"],a:"b"},
-          {q:"Explain how understanding states of matter helps in cooking. (CER)",type:"cer",keyword:"change"},
-          {q:"Climate change may increase evaporation rates because:",options:["More rain","Higher temperatures give particles more energy","Less wind","More clouds"],a:"b"}
-        ]
-      },
-      watercycle: {
-        beginner: [
-          {q:"The water cycle is powered by:",options:["Wind","The Sun","Gravity","Plants"],a:"b"},
-          {q:"Evaporation changes:",options:["Solid → Liquid","Liquid → Gas","Gas → Liquid","Liquid → Solid"],a:"b"},
-          {q:"Clouds form by:",options:["Evaporation","Condensation","Precipitation","Collection"],a:"b"},
-          {q:"Rain, snow, hail are forms of:",options:["Evaporation","Condensation","Precipitation","Collection"],a:"c"},
-          {q:"Water collects in:",options:["Only oceans","Rivers, lakes, reservoirs, oceans","Only clouds","Only underground"],a:"b"}
-        ],
-        intermediate: [
-          {q:"Transpiration is evaporation from:",options:["Oceans","Soil","Plants","Rocks"],a:"c"},
-          {q:"In Singapore, afternoon thunderstorms often form because:",options:["It's always raining","Heating causes rapid evaporation and cloud formation","Wind stops","The Sun sets"],a:"b"},
-          {q:"Marina Barrage helps Singapore by:",options:["Only preventing floods","Creating a reservoir AND preventing floods","Only storing water","Only generating electricity"],a:"b"},
-          {q:"NEWATER is:",options:["Rainwater","Imported water","High-grade reclaimed water","Desalinated water"],a:"c"},
-          {q:"Desalination removes:",options:["Dirt","Salt","Oxygen","Nutrients"],a:"b"},
-          {q:"Water conservation matters in Singapore because:",options:["We have unlimited water","We have limited land for storage","It never rains","We export water"],a:"b"},
-          {q:"Infiltration is when water:",options:["Evaporates","Soaks into ground","Flows in rivers","Falls as rain"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why covering reservoirs reduces water loss. Use 'evaporation'. (CER)",type:"cer",keyword:"evaporation"},
-          {q:"The Four National Taps strategy ensures water security by:",options:["Relying on one source","Diversifying sources","Only using rainwater","Only importing"],a:"b"},
-          {q:"Climate change may affect Singapore's water cycle by:",options:["Making rain more predictable","Increasing intensity of rainfall and droughts","Stopping evaporation","Making water unlimited"],a:"b"},
-          {q:"ABC Waters Programme aims to:",options:["Only collect water","Make waters Active, Beautiful, Clean while managing floods","Only prevent pollution","Only build reservoirs"],a:"b"},
-          {q:"Describe how the water cycle connects oceans, atmosphere, and land. (CER)",type:"cer",keyword:"cycle"},
-          {q:"Why is rainwater harvesting useful in urban areas?",options:["It's cheaper than taps","It reduces runoff and provides alternative supply","It stops rain","It purifies seawater"],a:"b"},
-          {q:"In the water cycle, energy from the Sun:",options:["Is stored in water","Drives evaporation and weather patterns","Is lost","Only warms oceans"],a:"b"},
-          {q:"Singapore's goal to reduce water use to 130L/person/day by 2030 helps by:",options:["Saving money only","Reducing demand on water sources","Stopping rain","Making water taste better"],a:"b"},
-          {q:"Explain how understanding the water cycle helps in flood management. (CER)",type:"cer",keyword:"rainfall"},
-          {q:"Water scarcity is a global issue because:",options:["Water is disappearing","Freshwater is limited and unevenly distributed","Evaporation stopped","Clouds are gone"],a:"b"}
-        ]
-      },
-      electricity: {
-        beginner: [
-          {q:"A complete circuit needs:",options:["Only a battery","Battery, wires, load, complete path","Only a bulb","Only a switch"],a:"b"},
-          {q:"Conductors:",options:["Block electricity","Allow electricity to flow","Store electricity","Create electricity"],a:"b"},
-          {q:"Insulators are used for:",options:["Wires","Safety covers on plugs","Batteries","Bulbs"],a:"b"},
-          {q:"A switch controls a circuit by:",options:["Adding power","Opening or closing the path","Changing voltage","Creating electricity"],a:"b"},
-          {q:"In Singapore, household electricity is:",options:["110V DC","230V AC","12V DC","5V USB"],a:"b"}
-        ],
-        intermediate: [
-          {q:"Copper is used for wires because it is:",options:["Cheap","A good conductor","Heavy","Colourful"],a:"b"},
-          {q:"If a bulb doesn't light in a circuit, possible reasons include:",options:["Only broken bulb","Broken bulb, dead battery, open switch, loose connection","Only dead battery","Only wrong battery"],a:"b"},
-          {q:"Electrical safety in Singapore includes:",options:["Using 3-pin plugs with earth","Using any plug","Ignoring warnings","Using wet hands"],a:"a"},
-          {q:"Solar panels convert:",options:["Heat to electricity","Sunlight to electricity","Wind to electricity","Water to electricity"],a:"b"},
-          {q:"Energy conservation helps by:",options:["Only saving money","Reducing demand and environmental impact","Stopping electricity","Making bulbs brighter"],a:"b"},
-          {q:"A short circuit happens when:",options:["Circuit is complete","Current takes unintended low-resistance path","Switch is open","Battery is dead"],a:"b"},
-          {q:"Fuses or circuit breakers protect by:",options:["Making more power","Breaking circuit if current too high","Storing electricity","Changing voltage"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why you shouldn't touch electrical appliances with wet hands. Use 'conductor'. (CER)",type:"cer",keyword:"conductor"},
-          {q:"In a series circuit with two bulbs, if one bulb breaks:",options:["The other gets brighter","Both go out","The other stays on","Battery explodes"],a:"b"},
-          {q:"Smart grids help manage electricity by:",options:["Only generating more","Monitoring and adjusting supply/demand in real-time","Stopping usage","Only using solar"],a:"b"},
-          {q:"The earth wire in a 3-pin plug:",options:["Carries normal current","Provides safe path for fault current","Is decorative","Increases voltage"],a:"b"},
-          {q:"Describe how renewable energy reduces environmental impact. (CER)",type:"cer",keyword:"renewable"},
-          {q:"Electrical resistance depends on:",options:["Only material","Material, length, thickness, temperature","Only length","Only temperature"],a:"b"},
-          {q:"In Singapore, promoting LED lights helps because they:",options:["Use more power","Use less power for same light","Are more expensive only","Break easier"],a:"b"},
-          {q:"Static electricity is different from current electricity because:",options:["It flows continuously","It involves buildup of charge, not continuous flow","It's stronger","It's only in batteries"],a:"b"},
-          {q:"Explain how understanding circuits helps in troubleshooting electrical problems. (CER)",type:"cer",keyword:"complete"},
-          {q:"Energy efficiency matters because:",options:["Electricity is free","Resources are limited and efficiency reduces waste","Bulbs last forever","Wires don't heat up"],a:"b"}
-        ]
-      },
-      forces: {
-        beginner: [
-          {q:"A force is a:",options:["Push only","Pull only","Push or pull","Type of energy"],a:"c"},
-          {q:"Gravity pulls objects:",options:["Up","Sideways","Towards Earth's centre","In circles"],a:"c"},
-          {q:"Friction acts:",options:["Same direction as motion","Opposite to motion","Upwards","Downwards"],a:"b"},
-          {q:"Elastic force occurs when:",options:["Objects are still","Objects are stretched or compressed","Objects are magnetic","Objects are hot"],a:"b"},
-          {q:"Balanced forces mean:",options:["Object accelerates","Object stays still or moves at constant speed","Object changes direction","Object disappears"],a:"b"}
-        ],
-        intermediate: [
-          {q:"A ball rolls on grass and stops because of:",options:["Gravity only","Friction opposing motion","Air pushing","Running out of energy"],a:"b"},
-          {q:"Tyres have treads to:",options:["Look nice","Increase friction on wet surfaces","Decrease weight","Increase speed"],a:"b"},
-          {q:"On a trampoline, elastic force:",options:["Pulls you down","Pushes you back up","Does nothing","Changes your weight"],a:"b"},
-          {q:"If you push a box with 10N and friction is 10N, the box will:",options:["Speed up","Slow down","Move at constant speed or stay still","Change direction"],a:"c"},
-          {q:"Which surface has MOST friction?",options:["Ice","Glass","Carpet","Polished wood"],a:"c"},
-          {q:"Magnetic force can:",options:["Only attract","Only repel","Attract or repel depending on poles","Only work on Earth"],a:"c"},
-          {q:"In Singapore's rain, wet tiles are slippery because:",options:["Gravity is stronger","Water reduces friction","Tiles become magnetic","Air pressure changes"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why it's harder to cycle uphill. Use 'gravity'. (CER)",type:"cer",keyword:"gravity"},
-          {q:"A car at constant speed on straight road has:",options:["Only engine force","Engine force > friction","Engine force = friction","Only friction"],a:"c"},
-          {q:"Racing cars use smooth tyres on dry tracks because:",options:["They're lighter","Less friction allows faster speeds","They look better","They're cheaper"],a:"b"},
-          {q:"In tug-of-war, rope doesn't move when:",options:["No one pulls","Forces are balanced","One team is stronger","It's raining"],a:"b"},
-          {q:"Describe how friction can be useful AND a disadvantage when walking. (CER)",type:"cer",keyword:"friction"},
-          {q:"As you stretch a spring further, elastic force:",options:["Decreases","Stays same","Increases","Disappears"],a:"c"},
-          {q:"Astronauts float in orbit because:",options:["No gravity","Gravity is weak far from Earth, they're in freefall","Space has no air","They're weightless"],a:"b"},
-          {q:"A magnet attracts paperclip without touching, showing:",options:["Magnetic force needs contact","Magnetic force can act at a distance","Paperclip is magic","Both b and c"],a:"d"},
-          {q:"Explain how a parachute slows a skydiver. Use 'air resistance' and 'gravity'. (CER)",type:"cer",keyword:"air resistance"},
-          {q:"Understanding forces helps engineers design:",options:["Only bridges","Safer vehicles, buildings, and products in Singapore","Only toys","Only sports equipment"],a:"b"}
-        ]
-      },
-      foodweb: {
-        beginner: [
-          {q:"In a food chain, arrows show:",options:["Who eats whom","Flow of energy","Size of animals","Number of organisms"],a:"b"},
-          {q:"Producers are usually:",options:["Animals","Plants/algae","Fungi","Bacteria"],a:"b"},
-          {q:"Herbivores eat:",options:["Meat","Plants","Everything","Nothing"],a:"b"},
-          {q:"Decomposers:",options:["Make food from sun","Eat living plants","Break down dead matter","Hunt animals"],a:"c"},
-          {q:"A food web is:",options:["One food chain","Multiple interconnected food chains","Only about plants","Only about animals"],a:"b"}
-        ],
-        intermediate: [
-          {q:"If grass decreases in a food web, rabbits may:",options:["Increase","Decrease","Stay same","Become carnivores"],a:"b"},
-          {q:"Primary consumers are:",options:["Producers","Herbivores","Carnivores that eat herbivores","Decomposers"],a:"b"},
-          {q:"Energy transfer between levels is about:",options:["90%","50%","10%","100%"],a:"c"},
-          {q:"In Singapore parks, a simple food chain could be:",options:["Grass → Grasshopper → Mynah","Mynah → Grasshopper → Grass","Grass → Mynah → Grasshopper","Sun → Grass → Grasshopper"],a:"a"},
-          {q:"If a predator is removed, prey may initially:",options:["Decrease","Increase","Stay same","Become producers"],a:"b"},
-          {q:"Biodiversity helps ecosystems by:",options:["Making them simpler","Making them more stable and resilient","Reducing competition","Stopping evolution"],a:"b"},
-          {q:"NParks conserves habitats to:",options:["Only look nice","Maintain food web balance and native species","Remove all animals","Import exotic species"],a:"b"}
-        ],
-        advanced: [
-          {q:"Explain why top predators are usually fewer in number. Use 'energy transfer'. (CER)",type:"cer",keyword:"energy"},
-          {q:"Invasive species can disrupt food webs by:",options:["Adding biodiversity","Outcompeting natives or having no natural predators","Always helping ecosystems","Only affecting plants"],a:"b"},
-          {q:"If a disease kills many plants in a food web:",options:["Only herbivores affected","Effects can ripple through multiple levels","Only decomposers affected","Nothing changes"],a:"b"},
-          {q:"Decomposers are essential because they:",options:["Only eat dead things","Recycle nutrients back to producers","Are the top predators","Make sunlight"],a:"b"},
-          {q:"Describe how protecting one species (e.g., a pollinator) can benefit an entire ecosystem. (CER)",type:"cer",keyword:"interdependence"},
-          {q:"In a stable ecosystem, populations tend to:",options:["Grow forever","Oscillate around a balance","Disappear","Become equal"],a:"b"},
-          {q:"Urban development can affect food webs by:",options:["Only adding buildings","Reducing habitats and fragmenting populations","Always improving biodiversity","Only affecting water"],a:"b"},
-          {q:"Climate change may shift food webs by:",options:["Changing timing of life cycles (phenology)","Stopping photosynthesis","Making all species extinct","Only affecting oceans"],a:"a"},
-          {q:"Explain why conservation efforts consider entire ecosystems, not just single species. (CER)",type:"cer",keyword:"interconnected"},
-          {q:"Singapore's green corridors help wildlife by:",options:["Only looking pretty","Connecting habitats so species can move and maintain food webs","Removing all predators","Importing foreign species"],a:"b"}
-        ]
-      }
-    };
-
-    // Quiz Answers for Learn Tab
-    const learnAnswers = {
-      magnets: { mcq: { mag1: 'b', mag2: 'b' }, cer: "magnetic field" },
-      digestive: { mcq: { dig1: 'b', dig2: 'b' } },
-      lifecycle: { mcq: { lc1: 'c', lc2: 'b' } },
-      matter: { mcq: { mat1: 'c', mat2: 'b' } },
-      watercycle: { mcq: { wc1: 'b' }, cer: "evaporation" },
-      electricity: { mcq: { elec1: 'c', elec2: 'b' } },
-      forces: { mcq: { f1: 'c', f2: 'b' }, cer: "friction" },
-      foodweb: { mcq: { fw1: 'b', fw2: 'c' } }
-    };
-
-    // Select Level
-    function selectLevel(level) {
-      selectedLevel = level;
-      document.querySelectorAll('.level-btn').forEach(btn => {
-        btn.classList.remove('selected');
-        if (btn.textContent.includes(level)) btn.classList.add('selected');
-      });
-      const startBtn = document.getElementById('start-btn');
-      startBtn.classList.remove('disabled');
-      startBtn.innerHTML = `<span>🚀</span> Start Learning ${level}`;
+    function selectLevel(lvl, el) {
+      selectedLevel = lvl;
+      document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      const btn = document.getElementById('start-btn');
+      btn.classList.remove('disabled');
+      btn.innerText = `🚀 Start ${lvl}`;
     }
 
-    // ✅ UPDATED: Go to App - Show ALL buttons, but ONLY ONE topic card visible
     function goToApp() {
-      if (!selectedLevel) { alert("🎓 Please select your Primary level first!"); return; }
-      
-      document.getElementById('display-level').textContent = `Level: ${selectedLevel}`;
-      
-      // Show ALL topic buttons, highlight recommended ones
-      document.querySelectorAll('.topic-btn').forEach(btn => {
-        btn.style.display = 'inline-flex'; 
-        const topicLevel = btn.getAttribute('data-level');
-        if (topicLevel === selectedLevel) {
-          btn.classList.add('recommended');
-        } else {
-          btn.classList.remove('recommended');
-        }
-      });
-      
-      // Ensure ONLY the active topic card is visible
-      const firstTopic = document.querySelector('.topic-btn.active')?.getAttribute('onclick').match(/'([^']+)'/)?.[1] || 'magnets';
-      document.querySelectorAll('.card').forEach(card => {
-        if (card.id === firstTopic) {
-          card.classList.add('visible');
-        } else {
-          card.classList.remove('visible');
-        }
-      });
-      
+      if(!selectedLevel) return alert("Pick a level first!");
       document.getElementById('home-view').style.display = 'none';
       document.getElementById('app-view').style.display = 'block';
-      currentTopic = firstTopic;
-      updateProgressDisplay();
-      window.scrollTo(0, 0);
+      document.getElementById('user-badge').innerText = selectedLevel;
+      
+      // Highlight recommended topics
+      document.querySelectorAll('.topic-chip').forEach(chip => {
+        if(chip.dataset.level === selectedLevel) chip.classList.add('recommended');
+        else chip.classList.remove('recommended');
+      });
+      window.scrollTo(0,0);
     }
 
-    // Go Home
     function goHome() {
       document.getElementById('app-view').style.display = 'none';
-      document.getElementById('home-view').style.display = 'flex';
-      window.scrollTo(0, 0);
+      document.getElementById('home-view').style.display = 'block';
+      document.body.style.paddingBottom = '0';
     }
 
-    // Tab Navigation
-    function showTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById('learn-tab').style.display = tab === 'learn' ? 'block' : 'none';
-      document.getElementById('practice-tab').style.display = tab === 'practice' ? 'block' : 'none';
-    }
-
-    // Show Practice Zone
-    function showPracticeZone() {
-      showTab('practice');
-      updateProgressDisplay();
-    }
-
-    // Toggle Challenge Mode
-    function toggleChallengeMode() {
-      challengeMode = !challengeMode;
-      const btn = document.getElementById('challenge-btn');
-      const advCard = document.getElementById('adv-card');
+    function showTopic(id, el) {
+      document.querySelectorAll('.content-card').forEach(c => c.style.display = 'none');
+      document.querySelectorAll('.topic-chip').forEach(c => c.classList.remove('active'));
       
-      if (challengeMode) {
-        btn.classList.add('active');
-        btn.innerHTML = "🏆 Challenge Mode ON";
-        advCard.classList.remove('locked');
-        alert("🏆 Challenge Mode ON! Advanced questions unlocked for all topics. Remember to use CER structure!");
+      document.getElementById(id).style.display = 'block';
+      el.classList.add('active');
+      
+      // Smooth scroll to content
+      document.getElementById('content-area').scrollIntoView({behavior: 'smooth'});
+    }
+
+    function checkQuiz(topic, qName, ans) {
+      const sel = document.querySelector(`input[name="${qName}"]:checked`);
+      const fb = document.getElementById(`fb-${topic}`);
+      if(!sel) return alert("Choose an option!");
+      
+      if(sel.value === ans) {
+        fb.className = "feedback correct";
+        fb.innerText = "✅ Correct! Great job!";
       } else {
-        btn.classList.remove('active');
-        btn.innerHTML = "🏆 Challenge Mode OFF";
-        if (selectedLevel !== 'P6') {
-          advCard.classList.add('locked');
+        fb.className = "feedback wrong";
+        fb.innerText = "❌ Try again!";
+      }
+    }
+
+    function switchTab(tab, el) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+      if(tab === 'practice') alert("Practice Zone coming soon! For now, use the quizzes in the Learn tab.");
+    }
+
+    // --- CHATBOT LOGIC ---
+    function toggleChat() {
+      document.body.classList.toggle('show-chat');
+    }
+
+    const botData = [
+      { keys: ["magnet", "north", "south"], ans: "Magnets have North & South poles. Like poles repel!" },
+      { keys: ["food", "digest", "stomach"], ans: "Digestion breaks food down in the stomach and intestines." },
+      { keys: ["butterfly", "cycle", "egg"], ans: "Butterflies have 4 stages: Egg, Larva, Pupa, Adult." },
+      { keys: ["solid", "liquid", "gas"], ans: "Solids keep shape. Liquids flow. Gases fill space." },
+      { keys: ["water", "rain", "cycle"], ans: "Water cycle: Evaporation → Condensation → Rain!" },
+      { keys: ["electric", "circuit", "bulb"], ans: "Circuits need a battery and complete path. Copper conducts electricity." },
+      { keys: ["force", "push", "pull", "gravity"], ans: "Forces are pushes or pulls. Gravity pulls us down." },
+      { keys: ["hi", "hello"], ans: "Hello young scientist! 👋 What do you want to learn?" }
+    ];
+
+    function handleChat() {
+      const input = document.getElementById('chat-input');
+      const msg = input.value.trim().toLowerCase();
+      if(!msg) return;
+
+      const box = document.getElementById('chatbox');
+      box.innerHTML += `<li class="chat outgoing"><span>${input.value}</span></li>`;
+      input.value = "";
+      box.scrollTop = box.scrollHeight;
+
+      setTimeout(() => {
+        let reply = "I'm not sure. Try asking about 'magnets' or 'forces'! 🤔";
+        for(let item of botData) {
+          if(item.keys.some(k => msg.includes(k))) {
+            reply = item.ans;
+            break;
+          }
         }
-        alert("Challenge Mode OFF. Advanced questions restricted to P6 or Challenge Mode.");
-      }
+        box.innerHTML += `<li class="chat incoming"><span>${reply}</span></li>`;
+        box.scrollTop = box.scrollHeight;
+      }, 600);
     }
-
-    // REMOVED filterTopics FUNCTION
-
-    // ✅ UPDATED: Show Topic - STRICTLY ONE AT A TIME
-    function showTopic(topicId) {
-      // 1. Hide ALL cards
-      document.querySelectorAll('.card').forEach(card => {
-        card.classList.remove('visible');
-      });
-      
-      // 2. Remove ACTIVE class from ALL buttons
-      document.querySelectorAll('.topic-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      
-      // 3. Show ONLY the selected card
-      document.getElementById(topicId).classList.add('visible');
-      
-      // 4. Set the clicked button to ACTIVE
-      event.target.classList.add('active');
-      
-      // 5. Clear feedback
-      document.querySelectorAll('.feedback').forEach(fb => { 
-        fb.className = 'feedback'; 
-        fb.textContent = ''; 
-      });
-      
-      currentTopic = topicId;
-      if (document.getElementById('practice-tab')?.style.display === 'block') {
-        updateProgressDisplay();
-      }
-      // Scroll to top of content smoothly
-      document.getElementById(topicId).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // Check Quiz Answers (Learn Tab)
-    function checkQuiz(topic) {
-      const answers = learnAnswers[topic];
-      if (!answers) { alert("Quiz not ready for this topic yet!"); return; }
-      let correctCount = 0, totalQuestions = 0, feedbackMsg = "";
-
-      if (answers.mcq) {
-        Object.keys(answers.mcq).forEach(key => {
-          totalQuestions++;
-          const selected = document.querySelector(`input[name="${key}"]:checked`);
-          if (selected?.value === answers.mcq[key]) correctCount++;
-        });
-      }
-      if (answers.cer) {
-        totalQuestions++;
-        const cerInput = document.querySelector('.cer-answer');
-        if (cerInput?.value.toLowerCase().includes(answers.cer)) {
-          correctCount++; feedbackMsg += "✅ CER: Good use of scientific terms! ";
-        } else if (cerInput?.value.trim().length > 30) {
-          correctCount++; feedbackMsg += `👍 CER: Good attempt! Try to include "${answers.cer}". `;
-        } else {
-          feedbackMsg += `📝 CER: Remember to use "${answers.cer}" and Claim-Evidence-Reasoning. `;
-        }
-      }
-
-      const feedbackEl = document.getElementById(`feedback-${topic}`);
-      if (correctCount === totalQuestions) {
-        feedbackEl.className = 'feedback correct';
-        feedbackEl.textContent = `🎉 Excellent! ${correctCount}/${totalQuestions} correct! Ready for assessment! ⭐`;
-      } else if (correctCount > 0) {
-        feedbackEl.className = 'feedback wrong';
-        feedbackEl.textContent = `${feedbackMsg}👍 ${correctCount}/${totalQuestions} correct. Review and retry! 💪`;
-      } else {
-        feedbackEl.className = 'feedback wrong';
-        feedbackEl.textContent = `🤔 Let's review! Read the lesson again, then try the questions. 🌱`;
-      }
-      feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // Start Practice Quiz
-    function startPractice(topic, skill) {
-      if (skill === 'advanced' && !challengeMode && selectedLevel !== 'P6') {
-        alert("🔒 Advanced mode is locked. Select P6 or turn on Challenge Mode!");
-        return;
-      }
-
-      if (!practiceQuestions[topic]?.[skill]) { alert("Practice questions not ready for this topic yet!"); return; }
-      currentSkill = skill;
-      document.getElementById('practice-quiz').style.display = 'block';
-      document.getElementById('practice-title').textContent = `🎯 ${topic.toUpperCase()} - ${skill.toUpperCase()} Practice`;
-      document.getElementById('practice-instructions').textContent = 
-        skill === 'beginner' ? "Answer the MCQs. No CER questions." :
-        skill === 'intermediate' ? "Answer MCQs. Think about real-world applications." :
-        "MCQs + CER questions. PSLE-style! Use Claim-Evidence-Reasoning.";
-      
-      const questions = practiceQuestions[topic][skill];
-      let html = '';
-      questions.forEach((q, i) => {
-        if (q.type === 'cer') {
-          html += `<div class="question cer"><p>${i+1}. ${q.q} <span class="cer-badge">CER</span></p>
-            <div class="cer-hint"><strong>Hint:</strong> Include the keyword: <em>${q.keyword}</em></div>
-            <textarea class="cer-answer practice-cer" data-q="${i}" placeholder="Type your answer..."></textarea></div>`;
-        } else {
-          html += `<div class="question mcq"><p>${i+1}. ${q.q} <span class="cer-badge">MCQ</span></p><div class="options">
-            ${q.options.map((opt, j) => `<label><input type="radio" name="pq${i}" value="${String.fromCharCode(97+j)}"> ${opt}</label>`).join('')}
-          </div></div>`;
-        }
-      });
-      document.getElementById('practice-questions').innerHTML = html;
-      document.getElementById('practice-feedback').style.display = 'none';
-      document.getElementById('retry-btn').style.display = 'none';
-      window.scrollTo(0, 400);
-    }
-
-    // Submit Practice Answers
-    function submitPractice() {
-      if (!currentSkill || !practiceQuestions[currentTopic]?.[currentSkill]) { alert("Select a practice level first!"); return; }
-      const questions = practiceQuestions[currentTopic][currentSkill];
-      let correctCount = 0, feedbackMsg = "";
-
-      questions.forEach((q, i) => {
-        if (q.type === 'cer') {
-          const answer = document.querySelector(`.practice-cer[data-q="${i}"]`)?.value.toLowerCase() || "";
-          if (answer.includes(q.keyword)) { correctCount++; feedbackMsg += `✅ Q${i+1}: Good use of "${q.keyword}"!\n`; }
-          else if (answer.trim().length > 30) { correctCount++; feedbackMsg += `👍 Q${i+1}: Good effort! Try to include "${q.keyword}".\n`; }
-          else { feedbackMsg += `📝 Q${i+1}: Remember to use "${q.keyword}" and CER structure.\n`; }
-        } else {
-          const selected = document.querySelector(`input[name="pq${i}"]:checked`)?.value;
-          if (selected === q.a) { correctCount++; feedbackMsg += `✅ Q${i+1}: Correct!\n`; }
-          else { feedbackMsg += `❌ Q${i+1}: Review this concept.\n`; }
-        }
-      });
-
-      const percent = Math.round((correctCount / questions.length) * 100);
-      const feedbackEl = document.getElementById('practice-feedback');
-      feedbackEl.className = 'feedback ' + (percent >= 70 ? 'correct' : 'wrong');
-      feedbackEl.style.display = 'block';
-      feedbackEl.textContent = `📊 Score: ${correctCount}/${questions.length} (${percent}%)\n\n${feedbackMsg}`;
-      
-      if (percent >= 70) {
-        if (!progress[currentTopic]) progress[currentTopic] = {};
-        if (!progress[currentTopic][currentSkill]) {
-          progress[currentTopic][currentSkill] = true;
-          localStorage.setItem('scienceProgress', JSON.stringify(progress));
-          updateProgressDisplay();
-          feedbackEl.textContent += `\n🎉 Level Up! You've mastered ${currentSkill} ${currentTopic}!`;
-        }
-      }
-      document.getElementById('retry-btn').style.display = 'inline-block';
-      feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // Retry Practice
-    function retryPractice() { startPractice(currentTopic, currentSkill); }
-
-    // Update Progress Display
-    function updateProgressDisplay() {
-      const topicProgress = progress[currentTopic] || {};
-      const completed = Object.values(topicProgress).filter(v => v).length;
-      const total = 3;
-      const percent = (completed / total) * 100;
-      document.getElementById('progress-fill').style.width = `${percent}%`;
-      document.getElementById('progress-text').textContent = `${completed}/${total} levels completed`;
-      ['beginner', 'intermediate', 'advanced'].forEach(level => {
-        document.getElementById(`badge-${level}`).style.opacity = topicProgress[level] ? '1' : '0.5';
-      });
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => { 
-      updateProgressDisplay();
-      if (selectedLevel !== 'P6') {
-        document.getElementById('adv-card').classList.add('locked');
-      }
-    });
   </script>
 </body>
 </html>
